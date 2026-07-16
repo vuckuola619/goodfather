@@ -483,6 +483,8 @@ document.addEventListener("DOMContentLoaded", () => {
       renderDashboard();
     } else if (viewName === "guides") {
       renderGuides();
+    } else if (viewName === "madrasah") {
+      renderMadrasahView();
     } else if (viewName === "journal") {
       renderJournalLogs();
     } else if (viewName === "progress") {
@@ -558,7 +560,9 @@ document.addEventListener("DOMContentLoaded", () => {
       { id: "amanah", title: "Aman & Hadir", icon: "heart", unlocked: false, progress: 0, target: 3, unit: "misi", desc: "Hadir secara utuh dengan menyelesaikan 3 misi kategori Koneksi/Bonding.", ref: "Membangun rasa aman anak (Harvard Center: Serve & Return; Teladan Rasulullah memeluk cucu-cucunya)." },
       { id: "fitrah", title: "Tameng Fitrah", icon: "shield", unlocked: false, progress: 0, target: 3, unit: "misi", desc: "Melindungi fitrah digital anak dengan menyelesaikan 3 misi kategori Digital & AI Safety.", ref: "Menjaga amanah teknologi dan batasan sehat sesuai dengan WHO Guidelines dan prinsip moral Islam." },
       { id: "luqman", title: "Luqman Al-Hakim", icon: "book-open", unlocked: false, progress: 0, target: 3, unit: "misi", desc: "Menanamkan pondasi iman dan adab dengan menyelesaikan 3 misi kategori Iman & Adab.", ref: "Nasihat Luqmanul Hakim mendidik tauhid dan adab santun kepada anaknya (QS. Luqman: 13-19)." },
-      { id: "rahmah", title: "Rahmah & Sabar", icon: "smile", unlocked: false, progress: 0, target: 3, unit: "misi", desc: "Mengendalikan amarah dan memimpin dengan kasih sayang dengan menyelesaikan 3 misi kategori Regulasi Diri/Sabar.", ref: "Orang kuat adalah yang mampu menahan dirinya ketika marah (Sahih al-Bukhari; Model regulasi emosi)." }
+      { id: "rahmah", title: "Rahmah & Sabar", icon: "smile", unlocked: false, progress: 0, target: 3, unit: "misi", desc: "Mengendalikan amarah dan memimpin dengan kasih sayang dengan menyelesaikan 3 misi kategori Regulasi Diri/Sabar.", ref: "Orang kuat adalah yang mampu menahan dirinya ketika marah (Sahih al-Bukhari; Model regulasi emosi)." },
+      { id: "hafizh_doa", title: "Hafizh Doa", icon: "book-open", unlocked: false, progress: 0, target: 5, unit: "doa", desc: "Melafalkan dan mengajarkan 5 doa harian kepada anak sesuai Sunnah.", ref: "Sebaik-baik kalian adalah yang mempelajari Al-Qur'an dan mengajarkannya, serta menanamkan doa harian." },
+      { id: "muallim_hijaiyah", title: "Muallim Hijaiyah", icon: "book", unlocked: false, progress: 0, target: 10, unit: "huruf", desc: "Mempelajari dan mengenalkan 10 huruf Hijaiyah kepada anak untuk dasar membaca Al-Qur'an.", ref: "Mengajarkan satu huruf Hijaiyah mendatangkan kebaikan, pilar dasar cinta Al-Qur'an sejak dini." }
     ];
   }
 
@@ -569,12 +573,31 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!profile.streakStats) {
       profile.streakStats = { currentStreak: 0, lastCompletionDate: "", longestStreak: 0 };
     }
+    if (!profile.completedDuas) {
+      profile.completedDuas = [];
+    }
+    if (!profile.completedLetters) {
+      profile.completedLetters = [];
+    }
     if (!profile.badges || profile.badges.length === 0) {
       profile.badges = getDefaultBadges();
     }
-    // Upgrading logic for old badge formats
-    if (profile.badges && profile.badges.length > 0 && !profile.badges[0].icon) {
-      profile.badges = getDefaultBadges();
+    // Upgrading logic for old badge formats or missing new badges
+    if (profile.badges && profile.badges.length > 0) {
+      if (!profile.badges[0].icon) {
+        profile.badges = getDefaultBadges();
+      } else {
+        const hasDoa = profile.badges.some(b => b.id === "hafizh_doa");
+        const hasHijaiyah = profile.badges.some(b => b.id === "muallim_hijaiyah");
+        if (!hasDoa || !hasHijaiyah) {
+          const defaults = getDefaultBadges();
+          defaults.forEach(defBadge => {
+            if (!profile.badges.some(b => b.id === defBadge.id)) {
+              profile.badges.push(defBadge);
+            }
+          });
+        }
+      }
     }
     return profile;
   }
@@ -2694,6 +2717,309 @@ document.addEventListener("DOMContentLoaded", () => {
         openArticleReader(doaArticle);
       }
     });
+  }
+
+  // -----------------------------------------
+  // Madrasah Ayah Logic & Rendering
+  // -----------------------------------------
+  let selectedHijaiyahLetter = null;
+  let activeHarakat = "fathah";
+
+  function renderMadrasahView() {
+    // 1. Setup Sub-Tab Filter Listeners
+    const madrasahFilters = document.getElementById("madrasah-filters-container");
+    if (madrasahFilters) {
+      const filterBtns = madrasahFilters.querySelectorAll(".filter-btn");
+      filterBtns.forEach(btn => {
+        if (!btn.dataset.listenerAdded) {
+          btn.addEventListener("click", () => {
+            filterBtns.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            
+            const subviewName = btn.getAttribute("data-subview");
+            // Hide all subviews
+            document.querySelectorAll(".madrasah-subview").forEach(sv => sv.classList.remove("active"));
+            // Show targeted subview
+            const targetSubview = document.getElementById(`madrasah-subview-${subviewName}`);
+            if (targetSubview) targetSubview.classList.add("active");
+          });
+          btn.dataset.listenerAdded = "true";
+        }
+      });
+    }
+
+    // 2. Render sub-sections
+    renderDailyDuas();
+    renderHijaiyahBoard();
+    renderMadrasahParentingArticle();
+  }
+
+  function renderDailyDuas() {
+    const activeProfile = childProfiles.find(p => p.id === activeChildId);
+    const container = document.getElementById("dua-timeline-container");
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    if (!activeProfile) {
+      container.innerHTML = `
+        <div style="text-align: center; padding: 48px; border: 1px dashed var(--border-color); border-radius: var(--radius-lg);">
+          <p>Silakan buat profil anak terlebih dahulu di Peta Ayah untuk memantau kemajuan doa.</p>
+        </div>
+      `;
+      return;
+    }
+
+    // Ensure completedDuas array exists
+    if (!activeProfile.completedDuas) {
+      activeProfile.completedDuas = [];
+    }
+
+    const duas = GOODFATHER_CONTENT.madrasah.dailyDuas;
+
+    duas.forEach(dua => {
+      const isCompleted = activeProfile.completedDuas.includes(dua.id);
+      const card = document.createElement("div");
+      card.className = `dua-card ${isCompleted ? 'completed' : ''}`;
+      card.innerHTML = `
+        <div class="dua-card-header">
+          <div class="dua-meta-left">
+            <span class="dua-time-badge">${dua.time}</span>
+            <span class="dua-title-text">${dua.title}</span>
+          </div>
+          <div class="dua-checkbox-wrap" data-dua-id="${dua.id}">
+            <input type="checkbox" class="dua-checkbox" id="chk-${dua.id}" ${isCompleted ? 'checked' : ''}>
+            <label class="dua-checkbox-label" for="chk-${dua.id}">Diajarkan</label>
+          </div>
+        </div>
+        <div class="dua-arabic-text">${dua.arabic}</div>
+        <p class="dua-latin-text">${dua.latin}</p>
+        <p class="dua-trans-text">${dua.translation}</p>
+        <div class="dua-teaching-tip">
+          <strong>Sunnah & Tips Ayah:</strong> ${dua.sunnahTips}
+        </div>
+      `;
+
+      const chkWrap = card.querySelector(".dua-checkbox-wrap");
+      const chk = card.querySelector(".dua-checkbox");
+      
+      const toggleHandler = (e) => {
+        if (e.target !== chk) {
+          chk.checked = !chk.checked;
+        }
+
+        const checked = chk.checked;
+        if (checked) {
+          if (!activeProfile.completedDuas.includes(dua.id)) {
+            activeProfile.completedDuas.push(dua.id);
+          }
+          card.classList.add("completed");
+        } else {
+          activeProfile.completedDuas = activeProfile.completedDuas.filter(id => id !== dua.id);
+          card.classList.remove("completed");
+        }
+
+        // Update progress badge
+        const badge = activeProfile.badges.find(b => b.id === "hafizh_doa");
+        if (badge) {
+          badge.progress = activeProfile.completedDuas.length;
+          if (badge.progress >= badge.target) {
+            if (!badge.unlocked) {
+              badge.unlocked = true;
+              badge.unlockedAt = new Date().toISOString();
+            }
+          } else {
+            badge.unlocked = false;
+          }
+        }
+
+        saveLocalProfiles();
+      };
+
+      chkWrap.addEventListener("click", toggleHandler);
+      container.appendChild(card);
+    });
+  }
+
+  function renderHijaiyahBoard() {
+    const activeProfile = childProfiles.find(p => p.id === activeChildId);
+    const gridContainer = document.getElementById("hijaiyah-grid-container");
+    if (!gridContainer) return;
+
+    gridContainer.innerHTML = "";
+
+    if (!activeProfile) {
+      gridContainer.innerHTML = `
+        <div style="text-align: center; padding: 48px; border: 1px dashed var(--border-color); border-radius: var(--radius-lg); grid-column: 1 / -1;">
+          <p>Silakan buat profil anak terlebih dahulu di Peta Ayah.</p>
+        </div>
+      `;
+      return;
+    }
+
+    if (!activeProfile.completedLetters) {
+      activeProfile.completedLetters = [];
+    }
+
+    const letters = GOODFATHER_CONTENT.madrasah.hijaiyah;
+
+    letters.forEach(letObj => {
+      const card = document.createElement("div");
+      const isIntroduced = activeProfile.completedLetters.includes(letObj.name);
+      
+      card.className = `hijaiyah-letter-card ${selectedHijaiyahLetter && selectedHijaiyahLetter.name === letObj.name ? 'active' : ''}`;
+      card.innerHTML = `
+        <span class="arabic-letter">${letObj.letter}</span>
+        <span class="letter-name">${letObj.name}</span>
+        ${isIntroduced ? `
+          <div class="introduced-dot" style="position: absolute; top: 6px; right: 6px; width: 6px; height: 6px; background: var(--color-mint); border-radius: 50%;" title="Sudah dikenalkan"></div>
+        ` : ''}
+      `;
+
+      card.addEventListener("click", () => {
+        selectedHijaiyahLetter = letObj;
+        activeHarakat = "fathah";
+        
+        renderHijaiyahBoard();
+        renderHijaiyahDetailPanel(letObj);
+      });
+
+      gridContainer.appendChild(card);
+    });
+
+    if (selectedHijaiyahLetter) {
+      renderHijaiyahDetailPanel(selectedHijaiyahLetter);
+    } else {
+      document.getElementById("hijaiyah-empty-state").style.display = "block";
+      document.getElementById("hijaiyah-detail-content").style.display = "none";
+    }
+  }
+
+  function renderHijaiyahDetailPanel(letObj) {
+    const activeProfile = childProfiles.find(p => p.id === activeChildId);
+    if (!activeProfile) return;
+
+    document.getElementById("hijaiyah-empty-state").style.display = "none";
+    const detailContent = document.getElementById("hijaiyah-detail-content");
+    detailContent.style.display = "block";
+
+    const giantDisplay = document.getElementById("hijaiyah-giant-char");
+    const nameDisplay = document.getElementById("hijaiyah-char-name");
+    const pronDisplay = document.getElementById("hijaiyah-char-pronunciation");
+    const makhrajDisplay = document.getElementById("hijaiyah-char-makhraj");
+    const tipDisplay = document.getElementById("hijaiyah-char-tip");
+    const learnBtn = document.getElementById("btn-learn-hijaiyah-char");
+
+    const harakatBtns = document.querySelectorAll(".harakat-btn");
+    harakatBtns.forEach(btn => {
+      if (btn.getAttribute("data-harakat") === activeHarakat) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+      
+      if (!btn.dataset.listenerAdded) {
+        btn.addEventListener("click", () => {
+          activeHarakat = btn.getAttribute("data-harakat");
+          renderHijaiyahDetailPanel(selectedHijaiyahLetter);
+        });
+        btn.dataset.listenerAdded = "true";
+      }
+    });
+
+    let charVisual = letObj.letter;
+    let pronunciationVal = "";
+
+    if (activeHarakat === "fathah") {
+      charVisual = letObj.letter + "\u064E";
+      pronunciationVal = `Dibaca: ${letObj.fathah}`;
+    } else if (activeHarakat === "kasrah") {
+      charVisual = letObj.letter + "\u0650";
+      pronunciationVal = `Dibaca: ${letObj.kasrah}`;
+    } else if (activeHarakat === "dammah") {
+      charVisual = letObj.letter + "\u064F";
+      pronunciationVal = `Dibaca: ${letObj.dammah}`;
+    }
+
+    giantDisplay.textContent = charVisual;
+    nameDisplay.textContent = letObj.name;
+    pronDisplay.textContent = pronunciationVal;
+    makhrajDisplay.textContent = letObj.makhraj;
+    tipDisplay.textContent = letObj.tip;
+
+    const isLearned = activeProfile.completedLetters.includes(letObj.name);
+    if (isLearned) {
+      learnBtn.innerHTML = `<i data-lucide="check-circle"></i> Sudah Dikenalkan (Ulangi)`;
+      learnBtn.classList.remove("btn-primary");
+      learnBtn.classList.add("btn-outline");
+    } else {
+      learnBtn.innerHTML = `<i data-lucide="check-circle"></i> Kenalkan ke Anak`;
+      learnBtn.classList.add("btn-primary");
+      learnBtn.classList.remove("btn-outline");
+    }
+
+    if (!learnBtn.dataset.listenerAdded) {
+      learnBtn.addEventListener("click", () => {
+        if (!selectedHijaiyahLetter) return;
+        
+        if (!activeProfile.completedLetters.includes(selectedHijaiyahLetter.name)) {
+          activeProfile.completedLetters.push(selectedHijaiyahLetter.name);
+        }
+
+        // Update badge progress
+        const badge = activeProfile.badges.find(b => b.id === "muallim_hijaiyah");
+        if (badge) {
+          badge.progress = activeProfile.completedLetters.length;
+          if (badge.progress >= badge.target) {
+            if (!badge.unlocked) {
+              badge.unlocked = true;
+              badge.unlockedAt = new Date().toISOString();
+            }
+          } else {
+            badge.unlocked = false;
+          }
+        }
+
+        saveLocalProfiles();
+        renderHijaiyahBoard();
+        renderHijaiyahDetailPanel(selectedHijaiyahLetter);
+      });
+      learnBtn.dataset.listenerAdded = "true";
+    }
+
+    lucide.createIcons();
+  }
+
+  function renderMadrasahParentingArticle() {
+    const container = document.getElementById("madrasah-parenting-grid");
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    const art = GOODFATHER_CONTENT.articles.find(a => a.id === "parenting-genz-muslim");
+    if (!art) return;
+
+    const card = document.createElement("div");
+    card.className = "article-card";
+    card.style.gridColumn = "1 / -1";
+    card.innerHTML = `
+      <div class="article-meta">
+        <span>${art.category}</span>
+        <span>${art.age}</span>
+      </div>
+      <h3>${art.title}</h3>
+      <p style="font-size: 0.9rem; line-height: 1.5; color: var(--text-muted); margin-bottom: 16px;">${art.content.quickAnswer}</p>
+      <div style="font-size: 0.8rem; font-weight: 600; color: var(--color-olive); display: flex; align-items: center; gap: 4px; margin-top: auto;">
+        <i data-lucide="book-open" style="width: 14px; height: 14px;"></i> Baca Panduan Lengkap (${art.readTime})
+      </div>
+    `;
+
+    card.addEventListener("click", () => {
+      openArticleReader(art);
+    });
+
+    container.appendChild(card);
+    lucide.createIcons();
   }
 
 });

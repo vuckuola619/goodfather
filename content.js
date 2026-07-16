@@ -647,8 +647,181 @@ const GOODFATHER_CONTENT = {
         redFlags: "Bila ayah sering lepas kendali secara verbal hingga melaknat atau mendoakan keburukan bagi anak saat marah, segeralah beristighfar dan latih teknik regulasi emosi 'Rahmah Mode'.",
         references: ["QS. Ibrahim: 40", "QS. Al-Furqan: 74", "Sahih al-Bukhari 3371", "HR. Abu Dawud 1536"]
       }
+    },
+    {
+      id: "parenting-genz-muslim",
+      title: "Fatherhood 101: Cara Ayah Muda & Gen-Z Menanamkan Tarbiyah di Era AI",
+      category: "Foundation",
+      age: "Semua Usia",
+      readTime: "4 Menit",
+      content: {
+        quickAnswer: "Mendidik anak di era digital bagi ayah muda/Gen-Z membutuhkan keseimbangan antara keteladanan nyata (Qudwah Hasanah), pengawasan berbasis kesadaran Ilahi (Muraqabah), dan kehadiran penuh tanpa layar.",
+        whyImportant: "Gen-Z dan milenial tumbuh bersama teknologi, namun anak-anak membutuhkan koneksi emosional nyata yang tidak bisa digantikan oleh layar atau AI. Menyelaraskan ilmu pengasuhan modern dengan Sunnah adalah kunci menjaga fitrah anak.",
+        childLens: "Aku butuh melihat Ayah sebagai contoh nyata yang tenang dan penuh kasih, bukan cuma polisi aturan yang matanya selalu tertuju pada layar HP.",
+        customLens: "Mendidik adalah menjaga amanah fitrah anak agar tumbuh selamat dunia akhirat.",
+        islamicLens: "'Setiap kalian adalah pemimpin dan setiap kalian akan dimintai pertanggungjawaban atas kepemimpinannya.' (Sahih al-Bukhari). Rasulullah ﷺ mencontohkan kelembutan luar biasa dengan mencium cucu-cucunya dan membiarkan mereka naik ke punggung beliau saat sujud shalat.",
+        whatToDo: [
+          "<strong>1. Qudwah Hasanah (Teladan Nyata)</strong>: Jadilah contoh visual. Matikan HP saat shalat, membaca Al-Qur'an, dan saat makan bersama anak.",
+          "<strong>2. Muraqabah Digital</strong>: Latih pemahaman anak bahwa Allah selalu mengawasi segala sesuatu. Ini kompas moral utama anak saat berselancar di internet kelak.",
+          "<strong>3. 10 Menit Koneksi Utuh</strong>: Sediakan waktu khusus minimal 10 menit tanpa HP sama sekali untuk bermain, mengobrol, dan mendengarkan cerita anak.",
+          "<strong>4. Ajaran Bertahap Sesuai Usia</strong>: Terapkan rumus 7x3 Ali bin Abi Thalib: usia 0-7 bermain bersama, usia 8-14 disiplin & tanggung jawab, usia 15-21 bersahabat & bertukar pikiran."
+        ],
+        fatherPhrases: "Abi letakkan HP di sini dulu ya. Sekarang Abi sepenuhnya milikmu, mari kita selesaikan petualangan lego kita hari ini.",
+        donts: [
+          "Menggantikan kehadiran ayah dengan memberikan screen-time / gadget agar anak diam.",
+          "Menuntut anak rajin beribadah atau membaca Al-Qur'an sementara ayah sibuk bermain HP di depan mereka.",
+          "Membentak atau mendisiplinkan anak dengan kekerasan fisik yang memicu trauma psikologis."
+        ],
+        dailyMission: "Hari ini, luangkan waktu 10 menit sepulang kerja untuk mendengarkan cerita anak dengan kontak mata sejajar tanpa melirik HP sama sekali.",
+        redFlags: "Bila anak mulai mengasingkan diri, meniru perilaku kasar orang dewasa, atau cemas berlebihan saat dipisahkan dari gadget.",
+        references: ["Sahih al-Bukhari 7138", "WHO Nurturing Care Framework", "QS. Luqman: 13"]
+      }
     }
-  ]
+  ],
+
+  madrasah: {
+    dailyDuas: [
+      {
+        id: "bangun-tidur",
+        title: "Doa Bangun Tidur",
+        time: "Pagi - Bangun Tidur",
+        arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
+        latin: "Alhamdulillahil-ladhi ahyana ba'da ma amatana wa ilaihin-nushur",
+        translation: "Segala puji bagi Allah yang telah menghidupkan kami setelah mematikan kami, dan hanya kepada-Nya kami kembali.",
+        sunnahTips: "Biasakan mengusap wajah secara lembut saat bangun tidur untuk menghilangkan kantuk sesuai sunnah, lalu lafalkan doa ini bersama anak."
+      },
+      {
+        id: "masuk-toilet",
+        title: "Doa Masuk Kamar Mandi",
+        time: "Rutin Harian",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ",
+        latin: "Allahumma inni a'udhu bika minal-khubutsi wal-khaba'its",
+        translation: "Ya Allah, sesungguhnya aku berlindung kepada-Mu dari setan laki-laki dan setan perempuan.",
+        sunnahTips: "Tuntun anak melangkah dengan kaki kiri terlebih dahulu. Pasang poster visual doa ini di luar pintu toilet."
+      },
+      {
+        id: "keluar-toilet",
+        title: "Doa Keluar Kamar Mandi",
+        time: "Rutin Harian",
+        arabic: "غُفْرَانَكَ",
+        latin: "Ghufranak",
+        translation: "Aku memohon ampunan-Mu.",
+        sunnahTips: "Tuntun anak melangkah keluar dengan kaki kanan. Jelaskan secara ringkas bahwa kita minta ampun karena sempat tidak berdzikir di dalam toilet."
+      },
+      {
+        id: "memakai-pakaian",
+        title: "Doa Memakai Pakaian",
+        time: "Rutin Harian",
+        arabic: "الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَذَا الثَّوْبَ وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ",
+        latin: "Alhamdulillahil-ladhi kasani hadhat-tsauba wa razaqanihi min ghairi haulin minni wa la quwwatin",
+        translation: "Segala puji bagi Allah yang telah memakaikan pakaian ini kepadaku dan memberikan rezeki ini tanpa daya dan kekuatan dariku.",
+        sunnahTips: "Biasakan mendahulukan anggota tubuh sebelah kanan (lengan/kaki kanan) dan ingatkan bahwa pakaian adalah nikmat pelindung aurat."
+      },
+      {
+        id: "sebelum-makan",
+        title: "Doa Sebelum Makan",
+        time: "Rutin Harian",
+        arabic: "بِسْمِ اللَّهِ",
+        latin: "Bismillah",
+        translation: "Dengan menyebut nama Allah.",
+        sunnahTips: "Ajak anak makan menggunakan tangan kanan sambil duduk tegak. Jika lupa melafalkan di awal, ajarkan membaca: 'Bismillahi fi awwalihi wa akhirihi'."
+      },
+      {
+        id: "setelah-makan",
+        title: "Doa Setelah Makan",
+        time: "Rutin Harian",
+        arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِينَ",
+        latin: "Alhamdulillahil-ladhi at'amana wa saqana wa ja'alana muslimin",
+        translation: "Segala puji bagi Allah yang telah memberi kami makan dan minum, serta menjadikan kami orang-orang muslim.",
+        sunnahTips: "Ajak anak merapikan piring makannya sendiri ke tempat cucian sebagai pembiasaan kemandirian (adab setelah makan)."
+      },
+      {
+        id: "keluar-rumah",
+        title: "Doa Keluar Rumah",
+        time: "Rutin Harian",
+        arabic: "بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
+        latin: "Bismillahi tawakkaltu 'alallah, wa la haula wa la quwwata illa billah",
+        translation: "Dengan nama Allah, aku bertawakal kepada Allah, tiada daya dan kekuatan kecuali dengan pertolongan Allah.",
+        sunnahTips: "Sebelum melangkah keluar pintu rumah, ajak anak berdiri tegak dan melafalkan doa ini agar Allah menunjukinya, melindunginya, dan mencukupinya."
+      },
+      {
+        id: "masuk-masjid",
+        title: "Doa Masuk Masjid",
+        time: "Rutin Harian",
+        arabic: "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ",
+        latin: "Allahummaftah li abwaba rahmatik",
+        translation: "Ya Allah, bukakanlah bagiku pintu-pintu rahmat-Mu.",
+        sunnahTips: "Ajak anak melangkah masuk dengan kaki kanan. Beritahukan dia bahwa masjid adalah tempat yang mulia di mana Allah melimpahkan kasih sayang-Nya."
+      },
+      {
+        id: "keluar-masjid",
+        title: "Doa Keluar Masjid",
+        time: "Rutin Harian",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ",
+        latin: "Allahumma inni as'aluka min fadlik",
+        translation: "Ya Allah, sesungguhnya aku memohon keutamaan/karunia dari-Mu.",
+        sunnahTips: "Melangkah keluar dengan kaki kiri. Ajarkan anak bahwa setelah beribadah, kita kembali mencari rezeki dan karunia Allah di muka bumi."
+      },
+      {
+        id: "sebelum-belajar",
+        title: "Doa Sebelum Belajar / Membaca",
+        time: "Rutin Harian",
+        arabic: "رَبِّ زِدْنِي عِلْمًا وَارْزُقْنِي فَهْمًا",
+        latin: "Rabbi zidni 'ilman warzuqni fahman",
+        translation: "Ya Tuhanku, tambahkanlah ilmu kepadaku dan karuniakanlah pemahaman kepadaku.",
+        sunnahTips: "Setiap kali memulai membaca buku cerita atau belajar apa pun, pimpin doa ini agar anak menanamkan keyakinan bahwa kecerdasan bersumber dari Allah."
+      },
+      {
+        id: "sore-hari",
+        title: "Dzikir Sore Tameng Bahaya",
+        time: "Sore Hari",
+        arabic: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ",
+        latin: "Bismillahi-lladhi la yadurru ma'asmihi shai'un fil-ardi wa la fis-sama'i wa huwas-sami'ul-'alim",
+        translation: "Dengan nama Allah yang bila disebut, segala sesuatu di bumi dan langit tidak akan berbahaya, Dia Maha Mendengar lagi Maha Mengetahui.",
+        sunnahTips: "Baca 3 kali menjelang maghrib. Ajari anak bahwa doa ini adalah perisai pelindung yang menjaganya dari bahaya fisik dan non-fisik."
+      },
+      {
+        id: "sebelum-tidur",
+        title: "Doa Sebelum Tidur",
+        time: "Malam - Sebelum Tidur",
+        arabic: "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+        latin: "Bismika allahumma amutu wa ahya",
+        translation: "Dengan nama-Mu ya Allah, aku mati dan aku hidup.",
+        sunnahTips: "Ajak anak berwudhu ringan, bersihkan kasur bersama, lalu berbaring menghadap kanan sambil membisikkan doa ini di dekat telinganya."
+      }
+    ],
+
+    hijaiyah: [
+      { letter: "ا", name: "Alif", makhraj: "Al-Jauf (Rongga Mulut)", fathah: "A", kasrah: "I", dammah: "U", tip: "Membuka mulut secara wajar tanpa memoncongkannya." },
+      { letter: "ب", name: "Ba", makhraj: "Asy-Syafataan (Dua Bibir)", fathah: "Ba", kasrah: "Bi", dammah: "Bu", tip: "Rapatkan bibir atas dan bawah, lalu lepaskan dengan suara mantap (memantul)." },
+      { letter: "ت", name: "Ta", makhraj: "Ujung Lidah & Gusi Gigi Seri Atas", fathah: "Ta", kasrah: "Ti", dammah: "Tu", tip: "Sentuhkan ujung lidah ke pangkal gigi depan atas, keluarkan sedikit napas halus (hams)." },
+      { letter: "ث", name: "Tsa", makhraj: "Ujung Lidah & Ujung Gigi Seri Atas", fathah: "Tsa", kasrah: "Tsi", dammah: "Tsu", tip: "Sentuhkan ujung lidah ke ujung gigi depan atas. Ucapkan dengan desis tipis bertekstur lembut." },
+      { letter: "ج", name: "Jim", makhraj: "Tengah Lidah & Langit-langit", fathah: "Ja", kasrah: "Ji", dammah: "Ju", tip: "Tekan tengah lidah ke langit-langit mulut. Suara harus terdengar tegas dan tidak berdesis." },
+      { letter: "ح", name: "Ha", makhraj: "Wasthul Halq (Tengah Tenggorokan)", fathah: "Ha", kasrah: "Hi", dammah: "Hu", tip: "Suara napas bersih mengalir dari tenggorokan tengah. Rasakan seperti menghela napas hangat." },
+      { letter: "خ", name: "Kho", makhraj: "Adnal Halq (Tenggorokan Atas)", fathah: "Kho", kasrah: "Khi", dammah: "Khu", tip: "Suara berkarakter tebal seperti suara mendengkur halus." },
+      { letter: "د", name: "Dal", makhraj: "Ujung Lidah & Gusi Gigi Seri Atas", fathah: "Da", kasrah: "Di", dammah: "Du", tip: "Ujung lidah menekan pangkal gigi atas. Bersuara tegas dan memantul (qalqalah) saat sukun." },
+      { letter: "ذ", name: "Dzal", makhraj: "Ujung Lidah & Ujung Gigi Seri Atas", fathah: "Dza", kasrah: "Dzi", dammah: "Dzu", tip: "Sentuhkan ujung lidah ke ujung gigi atas, ucapkan lembut tanpa pantulan." },
+      { letter: "ر", name: "Ro", makhraj: "Ujung Lidah & Langit-langit Depan", fathah: "Ro", kasrah: "Ri", dammah: "Ru", tip: "Ujung lidah digetarkan dekat gusi atas secara wajar (2-3 getaran saja)." },
+      { letter: "ز", name: "Zai", makhraj: "Ujung Lidah & Gigi Seri Bawah", fathah: "Za", kasrah: "Zi", dammah: "Zu", tip: "Ucapkan dengan suara tajam mendengung yang menyerupai lebah." },
+      { letter: "س", name: "Sin", makhraj: "Ujung Lidah & Gigi Seri Bawah", fathah: "Sa", kasrah: "Si", dammah: "Su", tip: "Suara desis tipis mendatar yang bersih, mengalir bebas tanpa hambatan." },
+      { letter: "ش", name: "Syin", makhraj: "Tengah Lidah & Langit-langit", fathah: "Sya", kasrah: "Syi", dammah: "Syu", tip: "Udara menyebar luas di dalam rongga mulut (tafasysyi) saat diucapkan." },
+      { letter: "ص", name: "Shod", makhraj: "Ujung Lidah & Gigi Seri Bawah", fathah: "Sho", kasrah: "Shi", dammah: "Shu", tip: "Lidah diangkat mendekati langit-langit mulut untuk menghasilkan suara tebal berdesis." },
+      { letter: "ض", name: "Dhod", makhraj: "Sisi Lidah & Gigi Geraham Atas", fathah: "Dho", kasrah: "Dhi", dammah: "Dhu", tip: "Tekankan sisi samping lidah ke gigi geraham atas. Huruf terunik dalam bahasa Arab." },
+      { letter: "ط", name: "Tho", makhraj: "Ujung Lidah & Gusi Gigi Seri Atas", fathah: "Tho", kasrah: "Thi", dammah: "Thu", tip: "Tekan ujung lidah dengan kuat ke pangkal gigi atas, suaranya tebal dan memantul kuat." },
+      { letter: "ظ", name: "Zho", makhraj: "Ujung Lidah & Ujung Gigi Seri Atas", fathah: "Zho", kasrah: "Zhi", dammah: "Zhu", tip: "Sentuhkan ujung lidah ke ujung gigi depan atas. Ucapkan secara tebal." },
+      { letter: "ع", name: "‘Ain", makhraj: "Wasthul Halq (Tengah Tenggorokan)", fathah: "‘A", kasrah: "‘I", dammah: "‘U", tip: "Tekan sedikit tenggorokan tengah agar keluar suara serak bersih yang khas." },
+      { letter: "غ", name: "Ghoin", makhraj: "Adnal Halq (Tenggorokan Atas)", fathah: "Gho", kasrah: "Ghi", dammah: "Ghu", tip: "Suara tebal mengalir tanpa hambatan kasar di tenggorokan atas." },
+      { letter: "ف", name: "Fa", makhraj: "Ujung Gigi Atas & Bibir Bawah Dalam", fathah: "Fa", kasrah: "Fi", dammah: "Fu", tip: "Sentuhkan gigi depan atas ke bagian dalam bibir bawah, tiupkan napas halus." },
+      { letter: "ق", name: "Qof", makhraj: "Pangkal Lidah & Langit-langit Lunak", fathah: "Qo", kasrah: "Qi", dammah: "Qu", tip: "Tekankan bagian paling belakang lidah ke langit-langit atas. Memantul tebal." },
+      { letter: "ك", name: "Kaf", makhraj: "Pangkal Lidah & Langit-langit Keras", fathah: "Ka", kasrah: "Ki", dammah: "Ku", tip: "Sedikit ke depan dari Qof. Ringan, ada sedikit desisan napas tipis di akhir." },
+      { letter: "ل", name: "Lam", makhraj: "Ujung Sisi Lidah & Gusi Atas", fathah: "La", kasrah: "Li", dammah: "Lu", tip: "Sentuhkan ujung samping lidah ke gusi atas, suara mengalir sedang." },
+      { letter: "م", name: "Mim", makhraj: "Asy-Syafataan (Dua Bibir)", fathah: "Ma", kasrah: "Mi", dammah: "Mu", tip: "Rapatkan bibir atas dan bawah dengan suara berdengung dari rongga hidung." },
+      { letter: "ن", name: "Nun", makhraj: "Ujung Lidah & Gusi Gigi Seri Atas", fathah: "Na", kasrah: "Ni", dammah: "Nu", tip: "Ujung lidah menempel gusi atas dengan suara dengung mengalir lewat hidung." },
+      { letter: "و", name: "Wawu", makhraj: "Asy-Syafataan (Membulat)", fathah: "Wa", kasrah: "Wi", dammah: "Wu", tip: "Bulatkan/moncongkan kedua bibir ke depan dengan sempurna sebelum membukanya." },
+      { letter: "ه", name: "Ha (Besar)", makhraj: "Aqshal Halq (Pangkal Tenggorokan)", fathah: "Ha", kasrah: "Hi", dammah: "Hu", tip: "Ucapkan napas dalam dan longgar yang berasal langsung dari rongga dada bawah." },
+      { letter: "ي", name: "Ya", makhraj: "Tengah Lidah & Langit-langit", fathah: "Ya", kasrah: "Yi", dammah: "Yu", tip: "Tengah lidah mendekat ke langit-langit, diucapkan tipis dan mengalir lembut." }
+    ]
+  }
 };
 
 // Expose globally for browser environment

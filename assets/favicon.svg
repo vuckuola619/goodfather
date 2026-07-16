@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" stroke="#25283b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+  <!-- Hand-drawn wobbly circular border -->
+  <path d="M16 3 C22.5 3 28.5 7.5 28.5 16 C28.5 24.5 22.5 29 16 29 C9.5 29 3.5 24.5 3.5 16 C3.5 7.5 9.5 3 16 3 Z" stroke-width="1.8" />
+  <path d="M16 4.5 C21.5 4.5 26.5 8.5 26.5 16 C26.5 23.5 21.5 27.5 16 27.5 C10.5 27.5 5.5 23.5 5.5 16 C5.5 8.5 10.5 4.5 16 4.5" stroke-width="1" opacity="0.3" stroke-dasharray="1.5 1.5" />
+  
+  <!-- Father Peci (tilted doodle) -->
+  <path d="M8 11.5 L19 9.5 C19.5 7.5 18.5 6.5 17.5 6.5 L7.5 8.5 C6.8 8.5 6.8 9.5 8 11.5 Z" fill="#25283b" fill-opacity="0.15" stroke-width="1.8" />
+  <!-- Father Face/Head -->
+  <path d="M8 11.5 C7 16 9 21.5 14 21.5 C18.5 21.5 19.5 16.5 19 11.5" stroke-width="1.8" />
+  <!-- Father Happy Closed Eyes -->
+  <path d="M10 14 C11 13 12 13 13 14" stroke-width="1.5" />
+  <path d="M15 14 C16 13 17 13 18 14" stroke-width="1.5" />
+  <!-- Father Smiling Mouth -->
+  <path d="M11.5 17.5 C13 19 15.5 19 16.5 17.5" stroke-width="1.5" fill="#25283b" fill-opacity="0.1" />
+  
+  <!-- Child peeking from right -->
+  <!-- Child Head -->
+  <path d="M19 17.5 C19.5 21.5 24 21.5 25 17.5 C25.5 14.5 22.5 13.5 19.5 14.5" stroke-width="1.5" />
+  <!-- Child Hair Loop -->
+  <path d="M21.5 14.5 C22.5 12 23.5 12 23.5 14" stroke-width="1.2" />
+  <!-- Child Eyes -->
+  <path d="M20.5 17 C21 16.5 21.5 16.5 22 17" stroke-width="1.2" />
+  <path d="M23 17 C23.5 16.5 24 16.5 24.5 17" stroke-width="1.2" />
+  <!-- Child Smile -->
+  <path d="M21.5 19 Q22.5 20 23.5 19" stroke-width="1.2" />
+
+  <!-- Cute Floating Heart (fatherly love) -->
+  <path d="M25 7 C24.2 7 23.8 7.3 23.5 7.7 C23.2 7.3 22.8 7 22 7 C21 7 20.5 7.8 21 8.8 L23.5 11.5 L26 8.8 C26.5 7.8 26 7 25 7 Z" fill="#e07a5f" stroke="#e07a5f" stroke-width="1" />
+</svg>

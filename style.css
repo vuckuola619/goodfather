@@ -235,6 +235,14 @@ header {
   color: var(--color-gold);
 }
 
+.logo .doodle-logo-icon {
+  transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.logo:hover .doodle-logo-icon {
+  transform: rotate(8deg) scale(1.15) !important;
+}
+
 .nav-links {
   display: flex;
   align-items: center;
@@ -2229,3 +2237,281 @@ footer p {
     transform: none !important;
   }
 }
+
+/* ==========================================================================
+   MADRASAH AYAH VIEW SPECIFIC STYLES
+   ========================================================================== */
+
+.madrasah-subview {
+  display: none;
+}
+
+.madrasah-subview.active {
+  display: block;
+  animation: madrasahFadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes madrasahFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Sub-Tab Navigation Filters */
+#madrasah-filters-container .filter-btn {
+  font-family: var(--font-hand);
+  font-weight: 600;
+}
+
+/* Section B: Hijaiyah Layout Grid */
+.hijaiyah-layout-grid {
+  display: grid;
+  grid-template-columns: 1.8fr 1.2fr;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (max-width: 992px) {
+  .hijaiyah-layout-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+/* Hijaiyah Letters Board */
+.hijaiyah-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+  gap: 12px;
+}
+
+.hijaiyah-letter-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  aspect-ratio: 1;
+  cursor: pointer;
+  box-shadow: var(--shadow-soft);
+  transition: var(--transition-normal);
+  user-select: none;
+  position: relative;
+}
+
+.hijaiyah-letter-card .arabic-letter {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-main);
+  font-family: system-ui, sans-serif;
+  line-height: 1.1;
+  transition: transform 0.2s ease;
+}
+
+.hijaiyah-letter-card .letter-name {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* Subtle hand-drawn wiggle on hover */
+.hijaiyah-letter-card:hover {
+  transform: translateY(-4px) rotate(-1.5deg);
+  border-color: var(--color-olive);
+  box-shadow: 0 8px 24px var(--shadow-color);
+}
+
+.hijaiyah-letter-card:active {
+  transform: scale(0.95);
+}
+
+.hijaiyah-letter-card.active {
+  background: var(--bg-accent);
+  border-color: var(--color-olive);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.hijaiyah-letter-card.active .arabic-letter {
+  color: var(--color-olive);
+  transform: scale(1.1);
+}
+
+.hijaiyah-letter-card.active .letter-name {
+  color: var(--text-main);
+}
+
+/* Sidebar & Harakat Styling Details */
+.harakat-btn:hover {
+  background: var(--bg-accent) !important;
+  border-color: var(--color-olive) !important;
+}
+
+.harakat-btn.active {
+  background: var(--color-olive) !important;
+  color: white !important;
+  border-color: var(--color-olive) !important;
+}
+
+/* Daily Doas Vertical Timeline */
+.dua-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+  padding-left: 28px;
+  border-left: 2px dashed var(--border-color);
+  margin-left: 14px;
+  margin-top: 24px;
+}
+
+.dua-card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-soft);
+  position: relative;
+  transition: var(--transition-normal);
+}
+
+.dua-card:hover {
+  transform: translateX(6px);
+  box-shadow: 0 10px 28px var(--shadow-color);
+}
+
+/* Bullet tracker on dashed line */
+.dua-card::before {
+  content: '';
+  position: absolute;
+  left: -40px;
+  top: 28px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--bg-app);
+  border: 3.5px solid var(--color-olive);
+  z-index: 2;
+  transition: var(--transition-normal);
+}
+
+.dua-card.completed {
+  border-color: var(--color-mint);
+}
+
+.dua-card.completed::before {
+  background: var(--color-mint);
+  border-color: var(--color-mint);
+  box-shadow: 0 0 10px rgba(98, 25, 38, 0.15);
+}
+
+.dua-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1.5px dashed var(--border-color);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.dua-meta-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dua-time-badge {
+  background: var(--bg-accent);
+  color: var(--color-olive);
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.dua-title-text {
+  font-family: var(--font-hand);
+  font-size: 1.25rem;
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.dua-checkbox-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-accent);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.dua-checkbox-wrap:hover {
+  background: var(--border-color);
+}
+
+.dua-checkbox-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-main);
+  cursor: pointer;
+  user-select: none;
+}
+
+.dua-checkbox {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 1.5px solid var(--text-muted);
+  cursor: pointer;
+  accent-color: var(--color-olive);
+  margin: 0;
+}
+
+.dua-arabic-text {
+  font-size: 2.3rem;
+  line-height: 1.8;
+  color: var(--text-main);
+  text-align: right;
+  direction: rtl;
+  margin: 16px 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  letter-spacing: normal;
+}
+
+.dua-latin-text {
+  font-style: italic;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.dua-trans-text {
+  font-size: 0.92rem;
+  color: var(--text-main);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.dua-teaching-tip {
+  background: var(--bg-accent);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-left: 4px solid var(--color-gold);
+  line-height: 1.5;
+}
+
+.dua-teaching-tip strong {
+  color: var(--text-main);
+}
+
