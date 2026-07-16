@@ -788,6 +788,51 @@ const GOODFATHER_CONTENT = {
         latin: "Bismika allahumma amutu wa ahya",
         translation: "Dengan nama-Mu ya Allah, aku mati dan aku hidup.",
         sunnahTips: "Ajak anak berwudhu ringan, bersihkan kasur bersama, lalu berbaring menghadap kanan sambil membisikkan doa ini di dekat telinganya."
+      },
+      {
+        id: "dzikir-pagi",
+        title: "Dzikir Pagi (Pelindung Harian)",
+        time: "Pagi - Setelah Subuh",
+        arabic: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ",
+        latin: "Ashbahnaa wa ashbahal-mulku lillah, wal-hamdulillaah, laa ilaaha illallaah wahdahu laa syariika lah",
+        translation: "Kami memasuki pagi hari dan kerajaan hanya milik Allah, segala puji bagi Allah. Tidak ada sembahan yang berhak disembah selain Allah semata, tidak ada sekutu bagi-Nya.",
+        sunnahTips: "Ajak anak duduk bersama setelah subuh untuk membiasakan dzikir pagi sejak dini guna memohon kelancaran rezeki dan perlindungan."
+      },
+      {
+        id: "naik-kendaraan",
+        title: "Doa Naik Kendaraan (Safar)",
+        time: "Perjalanan - Berangkat",
+        arabic: "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ",
+        latin: "Subhaanal-ladzii sakh-khoro lanaa haadzaa wa maa kunnaa lahu muqriniin, wa innaa ilaa robbinaa lamunqolibuun",
+        translation: "Maha Suci Allah yang telah menundukkan semua ini bagi kami padahal kami sebelumnya tidak mampu menguasainya, dan sesungguhnya kami akan kembali kepada Tuhan kami.",
+        sunnahTips: "Biasakan tidak menyalakan mesin kendaraan sebelum seluruh keluarga siap di dalam kabin dan ayah memimpin doa naik kendaraan ini secara lantang."
+      },
+      {
+        id: "mendengar-petir",
+        title: "Doa Mendengar Petir",
+        time: "Kondisi Alam - Petir",
+        arabic: "سُبْحَانَ الَّذِي يُسَبِّحُ الرَّعْدُ بِحَمْدِهِ وَالْمَلَائِكَةُ مِنْ خِيفَتِهِ",
+        latin: "Subhaanal-ladzii yusabbihur-ro‘du bi hamdihii wal-malaa-ikatu min khiifatih",
+        translation: "Maha Suci Allah yang petir bertasbih dengan memuji-Nya, begitu juga para malaikat karena takut kepada-Nya.",
+        sunnahTips: "Saat petir berbunyi keras dan anak menunjukkan rasa takut, dekap anak dengan hangat, lalu bimbing ia melafalkan doa ini untuk menanamkan tauhid."
+      },
+      {
+        id: "jalan-menanjak",
+        title: "Zikir Jalan Menanjak (Tanjakan)",
+        time: "Perjalanan - Tanjakan",
+        arabic: "اللَّهُ أَكْبَرُ",
+        latin: "Allahu Akbar",
+        translation: "Allah Maha Besar.",
+        sunnahTips: "Sunnah bertakbir saat jalanan menanjak naik. Jadikan ini permainan edukasi yang seru saat menyetir bersama anak di perbukitan."
+      },
+      {
+        id: "jalan-menurun",
+        title: "Zikir Jalan Menurun (Turunan)",
+        time: "Perjalanan - Turunan",
+        arabic: "سُبْحَانَ اللَّهِ",
+        latin: "Subhaanallah",
+        translation: "Maha Suci Allah.",
+        sunnahTips: "Sunnah bertasbih saat melewati jalanan menurun / lembah. Ingatkan anak bahwa saat di titik rendah, kita menyucikan nama Allah."
       }
     ],
 
@@ -863,7 +908,11 @@ const GOODFATHER_CONTENT = {
           { id: "iq1-1", arabic: "دَرَسَ", latin: "Da-Ra-Sa", speller: ["دَ", "رَ", "سَ"], spellerLatin: ["Da", "Ra", "Sa"], tajweedTip: "Harakat Fathah tunggal. Lafalkan masing-masing suku kata dengan ketukan pendek dan konstan." },
           { id: "iq1-2", arabic: "خَلَقَ", latin: "Kho-La-Qo", speller: ["خَ", "لَ", "قَ"], spellerLatin: ["Kho", "La", "Qo"], tajweedTip: "Huruf Kho (خ) dan Qof (ق) adalah huruf tebal (Tafkhim). Ucapkan tebal dengan mengangkat pangkal lidah." },
           { id: "iq1-3", arabic: "سَجَدَ", latin: "Sa-Ja-Da", speller: ["سَ", "جَ", "دَ"], spellerLatin: ["Sa", "Ja", "Da"], tajweedTip: "Huruf Sin (س) dibaca tipis dengan desis mendatar yang bersih, tidak memantul." },
-          { id: "iq1-4", arabic: "كَتَبَ", latin: "Ka-Ta-Ba", speller: ["كَ", "تَ", "بَ"], spellerLatin: ["Ka", "Ta", "Ba"], tajweedTip: "Huruf Ta (ت) memiliki sifat Hams, ada sedikit hembusan napas halus saat diucapkan." }
+          { id: "iq1-4", arabic: "كَتَبَ", latin: "Ka-Ta-Ba", speller: ["كَ", "تَ", "بَ"], spellerLatin: ["Ka", "Ta", "Ba"], tajweedTip: "Huruf Ta (ت) memiliki sifat Hams, ada sedikit hembusan napas halus saat diucapkan." },
+          { id: "iq1-5", arabic: "عَبَدَ", latin: "‘A-Ba-Da", speller: ["عَ", "بَ", "دَ"], spellerLatin: ["‘A", "Ba", "Da"], tajweedTip: "Makhraj ‘Ain (ع) berada di tengah tenggorokan. Lafalkan pendek dan bersih." },
+          { id: "iq1-6", arabic: "حَسَنَ", latin: "Ha-Sa-Na", speller: ["حَ", "سَ", "نَ"], spellerLatin: ["Ha", "Sa", "Na"], tajweedTip: "Suara 'Ha' bersih mengalir dari tenggorokan tengah (Wasthul Halq)." },
+          { id: "iq1-7", arabic: "رَزَقَ", latin: "Ro-Za-Qo", speller: ["رَ", "زَ", "قَ"], spellerLatin: ["Ro", "Za", "Qo"], tajweedTip: "Huruf Ro (ر) dan Qof (ق) dibaca tebal, sedangkan Zai (ز) tajam mendengung seperti lebah." },
+          { id: "iq1-8", arabic: "فَتَحَ", latin: "Fa-Ta-Ha", speller: ["فَ", "تَ", "حَ"], spellerLatin: ["Fa", "Ta", "Ha"], tajweedTip: "Ucapkan hembusan napas halus pada huruf Fa (ف) dan Ta (ت) tanpa memantul." }
         ]
       },
       {
@@ -875,7 +924,11 @@ const GOODFATHER_CONTENT = {
           { id: "iq2-1", arabic: "كَتَبَ", latin: "Ka-Ta-Ba", speller: ["كَـ", "ـتَـ", "ـبَ"], spellerLatin: ["Ka", "Ta", "Ba"], tajweedTip: "Transformasi kata sambung penuh. Perhatikan bentuk Kaf di awal, Ta di tengah, dan Ba di akhir." },
           { id: "iq2-2", arabic: "بَتَا", latin: "Ba-Taa", speller: ["بَـ", "ـتَا"], spellerLatin: ["Ba", "Taa"], tajweedTip: "Huruf Ta diikuti Alif di akhir kata. Wajib dibaca panjang 2 harakat (ayunan lembut)." },
           { id: "iq2-3", arabic: "جَعَلَ", latin: "Ja-‘A-La", speller: ["جَـ", "ـعَـ", "ـلَ"], spellerLatin: ["Ja", "‘A", "La"], tajweedTip: "Huruf sambung mengalir. Pastikan huruf ‘Ain (ع) di tengah dilafalkan bersih dari tenggorokan tengah." },
-          { id: "iq2-4", arabic: "صَبَرَ", latin: "Sho-Bo-Ro", speller: ["صَـ", "ـبَـ", "ـرَ"], spellerLatin: ["Sho", "Bo", "Ro"], tajweedTip: "Huruf Shod (ص) di awal kata disambung dengan Ba dan Ro. Shod dibaca tebal berdesis." }
+          { id: "iq2-4", arabic: "صَبَرَ", latin: "Sho-Bo-Ro", speller: ["صَـ", "ـبَـ", "ـرَ"], spellerLatin: ["Sho", "Bo", "Ro"], tajweedTip: "Huruf Shod (ص) di awal kata disambung dengan Ba dan Ro. Shod dibaca tebal berdesis." },
+          { id: "iq2-5", arabic: "قَامَ", latin: "Qoo-Ma", speller: ["قَا", "مَ"], spellerLatin: ["Qoo", "Ma"], tajweedTip: "Huruf Qof diikuti Alif, dibaca panjang 2 harakat (Qoo), diikuti Ma yang dibaca pendek." },
+          { id: "iq2-6", arabic: "بَارَكَ", latin: "Baa-Ro-Ka", speller: ["بَا", "رَ", "كَ"], spellerLatin: ["Baa", "Ro", "Ka"], tajweedTip: "Mad Asli pada suku kata pertama (Ba). Suku kata selanjutnya dibaca pendek secara mengalir." },
+          { id: "iq2-7", arabic: "ذَهَبَ", latin: "Dza-Ha-Ba", speller: ["ذَ", "هَـ", "ـبَ"], spellerLatin: ["Dza", "Ha", "Ba"], tajweedTip: "Huruf sambung. Sentuhkan ujung lidah ke ujung gigi seri depan atas untuk mengucapkan Dza." },
+          { id: "iq2-8", arabic: "عَادَ", latin: "‘Aad-Da", speller: ["عَا", "دَ"], spellerLatin: ["‘Aad", "Da"], tajweedTip: "Mad Asli ‘Ain Fathah bertemu Alif. Ayunkan panjang sepanjang 2 ketukan secara halus." }
         ]
       },
       {
@@ -887,7 +940,11 @@ const GOODFATHER_CONTENT = {
           { id: "iq3-1", arabic: "كُتِبَ", latin: "Ku-Ti-Ba", speller: ["كُـ", "ـتِـ", "ـبَ"], spellerLatin: ["Ku", "Ti", "Ba"], tajweedTip: "Perubahan harakat dari Dammah (u) ke Kasrah (i) lalu Fathah (a). Dilafalkan pendek." },
           { id: "iq3-2", arabic: "يَقُوْلُ", latin: "Ya-Qoo-Lu", speller: ["يَـ", "ـقُوْ", "ـلُ"], spellerLatin: ["Ya", "Qoo", "Lu"], tajweedTip: "Mad Asli Dammah bertemu Wawu Sukun pada kata 'Qoo'. Ayunkan panjang sepanjang 2 ketukan secara konstan." },
           { id: "iq3-3", arabic: "سَمِيْعُ", latin: "Sa-Mee-‘U", speller: ["سَـ", "ـمِيْـ", "ـعُ"], spellerLatin: ["Sa", "Mee", "‘U"], tajweedTip: "Mad Asli Kasrah bertemu Ya Sukun pada kata 'Mee'. Dilafalkan panjang 2 harakat." },
-          { id: "iq3-4", arabic: "عَلِيْمُ", latin: "‘A-Lee-Mu", speller: ["عَـ", "ـلِيْـ", "ـمُ"], spellerLatin: ["‘A", "Lee", "Mu"], tajweedTip: "Mad Asli Kasrah bertemu Ya Sukun. Pastikan ejaan lam kasrah disambung dengan ya mati dibaca halus." }
+          { id: "iq3-4", arabic: "عَلِيْمُ", latin: "‘A-Lee-Mu", speller: ["عَـ", "ـلِيْـ", "ـمُ"], spellerLatin: ["‘A", "Lee", "Mu"], tajweedTip: "Mad Asli Kasrah bertemu Ya Sukun. Pastikan ejaan lam kasrah disambung dengan ya mati dibaca halus." },
+          { id: "iq3-5", arabic: "رَحِيْمُ", latin: "Ro-Hee-Mu", speller: ["رَ", "حِيْـ", "ـمُ"], spellerLatin: ["Ro", "Hee", "Mu"], tajweedTip: "Mad Asli Kasrah bertemu Ya Sukun pada kata 'Hee'. Dibaca panjang 2 harakat secara lembut." },
+          { id: "iq3-6", arabic: "شَكُوْرُ", latin: "Sya-Koo-Ru", speller: ["شَـ", "ـكُوْ", "ـرُ"], spellerLatin: ["Sya", "Koo", "Ru"], tajweedTip: "Mad Asli Dammah bertemu Wawu Sukun pada kata 'Koo'. Moncongkan bibir dan ayunkan panjang 2 harakat." },
+          { id: "iq3-7", arabic: "غَفُوْرُ", latin: "Gho-Foo-Ru", speller: ["غَـ", "ـفُوْ", "ـرُ"], spellerLatin: ["Gho", "Foo", "Ru"], tajweedTip: "Mad Asli Dammah bertemu Wawu Sukun. Pastikan huruf Ghoin (غ) dibaca tebal dan tidak memantul." },
+          { id: "iq3-8", arabic: "حَمِيْدُ", latin: "Ha-Mee-Du", speller: ["حَـ", "ـمِيْـ", "ـدُ"], spellerLatin: ["Ha", "Mee", "Du"], tajweedTip: "Mad Asli Kasrah bertemu Ya Sukun. Ucapkan Ha bersih dan tipis mengalir panjang 2 harakat." }
         ]
       },
       {
@@ -899,7 +956,11 @@ const GOODFATHER_CONTENT = {
           { id: "iq4-1", arabic: "كِتَابًا", latin: "Ki-Taa-Ban", speller: ["كِـ", "ـتَا", "بًا"], spellerLatin: ["Ki", "Taa", "Ban"], tajweedTip: "Tanwin Fathatain (an) di akhir kata. Alif di belakangnya tidak dibaca panjang kecuali di-waqaf-kan." },
           { id: "iq4-2", arabic: "يَعْلَمُ", latin: "Ya‘-La-Mu", speller: ["يَعْـ", "ـلَـ", "ـمُ"], spellerLatin: ["Ya‘", "La", "Mu"], tajweedTip: "Sukun pada huruf ‘Ain (ع). Ucapkan mati dengan sedikit penekanan di tenggorokan tengah (tidak boleh memantul)." },
           { id: "iq4-3", arabic: "يَقْطَعُ", latin: "Yaq-Tho-‘U", speller: ["يَقْـ", "ـطَـ", "ـعُ"], spellerLatin: ["Yaq", "Tho", "‘U"], tajweedTip: "Qalqalah Sughra pada Qof (قْ). Pantulkan suara qof secara memantul bersih dan tebal di tengah kata." },
-          { id: "iq4-4", arabic: "خَلَقْنَا", latin: "Kho-Laq-Naa", speller: ["خَـ", "ـلَقْـ", "ـنَا"], spellerLatin: ["Kho", "Laq", "Naa"], tajweedTip: "Qalqalah Sughra pada Qof (قْ) diikuti Mad Asli (nā) 2 harakat." }
+          { id: "iq4-4", arabic: "خَلَقْنَا", latin: "Kho-Laq-Naa", speller: ["خَـ", "ـلَقْـ", "ـنَا"], spellerLatin: ["Kho", "Laq", "Naa"], tajweedTip: "Qalqalah Sughra pada Qof (قْ) diikuti Mad Asli (nā) 2 harakat." },
+          { id: "iq4-5", arabic: "عَلِيْمٌ", latin: "‘A-Lee-Mun", speller: ["عَـ", "ـلِيْـ", "ـمٌ"], spellerLatin: ["‘A", "Lee", "Mun"], tajweedTip: "Tanwin Dammahtain (un) di akhir kata. Lafalkan dengan suara 'un' yang jelas dan bersih." },
+          { id: "iq4-6", arabic: "يَجْعَلُ", latin: "Yaj-‘A-Lu", speller: ["يَجْـ", "ـعَـ", "ـلُ"], spellerLatin: ["Yaj", "‘A", "Lu"], tajweedTip: "Qalqalah Sughra pada Jim mati (جْ). Pantulkan suara jim secara memantul ringan di dalam kata." },
+          { id: "iq4-7", arabic: "فَتْحٌ", latin: "Fat-Hun", speller: ["فَتْـ", "ـحٌ"], spellerLatin: ["Fat", "Hun"], tajweedTip: "Sukun pada Ta (تْ). Keluarkan sedikit desis napas halus (sifat Hams) pada huruf Ta mati, jangan memantul." },
+          { id: "iq4-8", arabic: "أَبْصَارُ", latin: "Ab-shoor-Ru", speller: ["أَبْـ", "ـصَا", "رُ"], spellerLatin: ["Ab", "Shoo", "Ru"], tajweedTip: "Qalqalah Sughra pada Ba mati (بْ) dipadu dengan Mad Asli tebal (Shoo) sepanjang 2 harakat." }
         ]
       },
       {
@@ -911,7 +972,11 @@ const GOODFATHER_CONTENT = {
           { id: "iq5-1", arabic: "رَبِّ", latin: "Rab-bi", speller: ["رَبْـ", "ـبِ"], spellerLatin: ["Rab", "Bi"], tajweedTip: "Tasydid pada huruf Ba. Tekan dan tahan sejenak suara aliran Ba sebelum masuk ke harakat kasrah." },
           { id: "iq5-2", arabic: "إِنَّ", latin: "In-na", speller: ["إِنْـ", "ـنَّ"], spellerLatin: ["In", "Na"], tajweedTip: "Gunnah Musyaddadah pada Nun Tasydid. Wajib didengungkan ke rongga hidung dan ditahan selama 2 ketukan." },
           { id: "iq5-3", arabic: "الْقَمَرُ", latin: "Al-Qo-Ma-Ru", speller: ["الْـ", "ـقَـ", "ـمَـ", "ـرُ"], spellerLatin: ["Al", "Qo", "Ma", "Ru"], tajweedTip: "Alif Lam Qomariyah. Huruf lam sukun harus dibaca jelas (Izhar Qomariyah) sebelum masuk ke huruf Qof." },
-          { id: "iq5-4", arabic: "الشَّمْسُ", latin: "Asy-Syam-Su", speller: ["الشَّـ", "ـمْـ", "ـسُ"], spellerLatin: ["Asy", "Syam", "Su"], tajweedTip: "Alif Lam Syamsiyah. Huruf lam melebur sepenuhnya ke dalam huruf Syin (idgham) sehingga lam tidak berbunyi." }
+          { id: "iq5-4", arabic: "الشَّمْسُ", latin: "Asy-Syam-Su", speller: ["الشَّـ", "ـمْـ", "ـسُ"], spellerLatin: ["Asy", "Syam", "Su"], tajweedTip: "Alif Lam Syamsiyah. Huruf lam melebur sepenuhnya ke dalam huruf Syin (idgham) sehingga lam tidak berbunyi." },
+          { id: "iq5-5", arabic: "ثُمَّ", latin: "Tsum-ma", speller: ["ثُمْـ", "ـمَّ"], spellerLatin: ["Tsum", "Ma"], tajweedTip: "Gunnah Musyaddadah pada Mim Tasydid. Tahan dan dengungkan ke rongga hidung selama 2 ketukan penuh." },
+          { id: "iq5-6", arabic: "اللَّهُ", latin: "Al-la-hu", speller: ["اللَّـ", "ـهُ"], spellerLatin: ["Al-la", "Hu"], tajweedTip: "Lafadz Jalalah dibaca tebal (Tafkhim) karena didahului harakat Fathah. Tekan huruf Lam dengan mantap." },
+          { id: "iq5-7", arabic: "الْكِتَابُ", latin: "Al-Ki-Taa-Bu", speller: ["الْـ", "ـكِـ", "ـتَا", "بُ"], spellerLatin: ["Al", "Ki", "Taa", "Bu"], tajweedTip: "Alif Lam Qomariyah (dibaca jelas pada Lam sukun) dilanjutkan dengan Mad Asli (Taa) 2 harakat." },
+          { id: "iq5-8", arabic: "النَّاسُ", latin: "An-Naa-Su", speller: ["النَّـ", "ـاسُ"], spellerLatin: ["An-Naa", "Su"], tajweedTip: "Alif Lam Syamsiyah melebur ke Nun Tasydid. Gunakan suara dengung Gunnah yang ditahan." }
         ]
       },
       {
@@ -923,7 +988,11 @@ const GOODFATHER_CONTENT = {
           { id: "iq6-1", arabic: "مِنْ قَبْلِ", latin: "Min Qob-li", speller: ["مِنْ", "قَبْـ", "ـلِ"], spellerLatin: ["Min", "Qob", "li"], tajweedTip: "Ikhfa Haqiqi. Samarkan suara Nun mati saat bertemu huruf Qof (ق) disertai dengung tebal yang ditahan 2 harakat." },
           { id: "iq6-2", arabic: "أَحَدٌ", latin: "A-Ha-Dun", speller: ["أَ", "حَـ", "ـدٌ"], spellerLatin: ["A", "Ha", "Dun"], tajweedTip: "Waqaf (Berhenti). Jika berhenti di kata ini, tanwin dammah mati, dan huruf Dal dibaca memantul kuat (Qalqalah Kubra: 'A-had')." },
           { id: "iq6-3", arabic: "مَنْ يَقُوْلُ", latin: "May-Ya-Qoo-Lu", speller: ["مَنْ", "يَـ", "ـقُوْ", "ـلُ"], spellerLatin: ["May", "Ya", "Qoo", "Lu"], tajweedTip: "Idgham Bighunnah. Leburkan suara Nun mati langsung ke dalam huruf Ya (ي) disertai dengung hidung dan ditahan." },
-          { id: "iq6-4", arabic: "فِيْ دِيْنِ اللَّهِ", latin: "Fee Dee-nil-lah", speller: ["فِيْ", "دِيْـ", "ـنِ اللهِ"], spellerLatin: ["Fee", "Dee", "nil-lah"], tajweedTip: "Tarqiq. Lafadz jalalah 'Allah' dibaca tipis (lah, bukan loh) karena didahului oleh huruf berharakat kasrah." }
+          { id: "iq6-4", arabic: "فِيْ دِيْنِ اللَّهِ", latin: "Fee Dee-nil-lah", speller: ["فِيْ", "دِيْـ", "ـنِ اللهِ"], spellerLatin: ["Fee", "Dee", "nil-lah"], tajweedTip: "Tarqiq. Lafadz jalalah 'Allah' dibaca tipis (lah, bukan loh) karena didahului oleh huruf berharakat kasrah." },
+          { id: "iq6-5", arabic: "مِنْ مَّاءٍ", latin: "Mim-maaa-in", speller: ["مِنْ", "مَّاءٍ"], spellerLatin: ["Mim", "Maaa-in"], tajweedTip: "Idgham Mimi (Mutamatsilain). Leburkan Mim mati langsung ke Mim Tasydid di depannya dengan dengung yang ditahan." },
+          { id: "iq6-6", arabic: "مِنْ بَعْدِ", latin: "Mim-ba‘-di", speller: ["مِنْ", "بَعْـ", "ـدِ"], spellerLatin: ["Mim", "ba‘", "di"], tajweedTip: "Iqlab. Suara Nun mati berubah sepenuhnya menjadi suara Mim (m) karena bertemu huruf Ba (ب)." },
+          { id: "iq6-7", arabic: "مِنْ خَوْفٍ", latin: "Min Khowf", speller: ["مِنْ", "خَوْفٍ"], spellerLatin: ["Min", "Khowf"], tajweedTip: "Izhar Halqi. Lafalkan Nun mati secara jelas, terang, dan tanpa dengung karena bertemu huruf tenggorokan Kho (خ)." },
+          { id: "iq6-8", arabic: "فَمَنْ يَعْمَلْ", latin: "Fa-may-ya‘-mal", speller: ["فَـ", "ـمَنْ", "يَعْـ", "ـمَلْ"], spellerLatin: ["Fa", "May", "ya‘", "mal"], tajweedTip: "Idgham Bighunnah (Nun mati bertemu Ya) dikombinasikan dengan matinya huruf Lam di akhir kata." }
         ]
       }
     ]
