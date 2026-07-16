@@ -1,0 +1,26 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments and Credentials
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Python test caches
+.pytest_cache/
+
+# Local data cache/database dumps
+goodfather_backup.json
+
+# Operating System Files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# IDE configurations
+.vscode/
+.idea/

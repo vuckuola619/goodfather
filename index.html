@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoodFather — Fatherhood OS for Muslim Fathers in the AI Era</title>
+  <meta name="description" content="GoodFather membantu ayah Muslim memahami fase anak, membangun adab, menjaga fitrah, dan menyiapkan mereka menghadapi era AI tanpa kehilangan arah akhirat.">
+  <link rel="stylesheet" href="style.css">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <!-- Soft Father-Child Background Ornament -->
+  <div class="bg-ornament"></div>
+
+  <!-- Ambient Moving Glow Lights -->
+  <div class="ambient-glow-container">
+    <div class="ambient-light ambient-light-1"></div>
+    <div class="ambient-light ambient-light-2"></div>
+  </div>
+
+  <!-- Top Navigation Header -->
+  <header>
+    <div class="nav-container">
+      <a href="#" class="logo" id="nav-logo">
+        <svg class="doodle-logo-icon" viewBox="0 0 32 32" width="32" height="32" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" style="transform: rotate(-4deg); vertical-align: middle;">
+          <!-- Outer circle doodle -->
+          <path d="M16 3 C23.5 3 29 8.5 29 16 C29 23.5 23.5 29 16 29 C8.5 29 3 23.5 3 16 C3 8.5 8.5 3 16 3 Z" />
+          <!-- Inner offset path for hand-drawn look -->
+          <path d="M16 5.5 C21.8 5.5 26.5 10.2 26.5 16 C26.5 21.8 21.8 26.5 16 26.5 C10.2 26.5 5.5 21.8 5.5 16 C5.5 10.2 10.2 5.5 16 5.5" opacity="0.4" stroke-dasharray="1.5 1.5" />
+          <!-- Compass needle in center -->
+          <path d="M16 9 L19 16 L16 23 L13 16 Z" fill="currentColor" opacity="0.15" />
+          <path d="M16 9 L19 16 L16 23 L13 16 Z" />
+          <path d="M9 16 L16 13 L23 16 L16 19 Z" />
+          <!-- Small heart doodle -->
+          <path d="M25 8.5 C24.5 8.5 24.2 8.7 24 9 C23.8 8.7 23.5 8.5 23 8.5 C22.2 8.5 22 9.2 22.5 10.2 L24 12 L25.5 10.2 C26 9.2 25.8 8.5 25 8.5 Z" fill="var(--color-gold)" stroke="var(--color-gold)" stroke-width="0.5" />
+        </svg>
+        Good<span>Father</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#" class="nav-link active" id="link-home">Home</a></li>
+        <li><a href="#" class="nav-link" id="link-dashboard">Peta Ayah</a></li>
+        <li><a href="#" class="nav-link" id="link-guides">Panduan</a></li>
+        <li><a href="#" class="nav-link" id="link-journal">Refleksi</a></li>
+        <li><a href="#" class="nav-link" id="link-progress">Progres</a></li>
+        <li><a href="#" class="nav-link" id="link-references">Referensi</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="btn btn-outline" id="btn-backup-sync" title="Cadangkan Data ke Server">
+          <i data-lucide="cloud-lightning"></i> <span>Sync</span>
+        </button>
+        <div class="theme-selector-container" id="theme-selector-container">
+          <button class="theme-dropdown-btn" id="theme-dropdown-btn" title="Pilih Tema">
+            <i data-lucide="palette"></i>
+          </button>
+          <div class="theme-dropdown-menu" id="theme-dropdown-menu">
+            <button class="theme-menu-item active" data-theme-val="cream">
+              <span class="theme-dot" style="background: oklch(0.985 0.012 80); border: 1.5px solid oklch(0.62 0.16 38)"></span>
+              <span>Kertas Krem</span>
+            </button>
+            <button class="theme-menu-item" data-theme-val="sunset">
+              <span class="theme-dot" style="background: oklch(0.97 0.03 30); border: 1.5px solid oklch(0.65 0.22 15)"></span>
+              <span>Senja Hangat</span>
+            </button>
+            <button class="theme-menu-item" data-theme-val="ocean">
+              <span class="theme-dot" style="background: oklch(0.97 0.02 220); border: 1.5px solid oklch(0.58 0.14 230)"></span>
+              <span>Samudra Tenang</span>
+            </button>
+            <button class="theme-menu-item" data-theme-val="forest">
+              <span class="theme-dot" style="background: oklch(0.97 0.02 130); border: 1.5px solid oklch(0.52 0.13 155)"></span>
+              <span>Hutan Syahdu</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main View Container -->
+  <main id="main-content">
+
+    <!-- ----------------------------------------- -->
+    <!-- VIEW A: LANDING PAGE                      -->
+    <!-- ----------------------------------------- -->
+    <div id="view-home" class="page-view active">
+      <section class="container hero-container-grid">
+        <div class="hero-content-left">
+          <h1 id="landing-hero-title">
+            <span class="split-parent"><span class="split-child">Belajar jadi ayah</span></span>
+            <span class="split-parent"><span class="split-child">yang hadir, bukan cuma</span></span>
+            <span class="split-parent"><span class="split-child">ayah yang bekerja.</span></span>
+          </h1>
+          <p>GoodFather membantu ayah memahami fase tumbuh anak, membangun adab, menjaga fitrah, dan menyiapkan mereka menghadapi dunia modern tanpa kehilangan arah akhirat.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-lg" id="cta-start-assessment">
+              <i data-lucide="compass"></i> Mulai Peta Ayah
+            </button>
+            <button class="btn btn-outline btn-lg" id="cta-view-guides">
+              Lihat Panduan Ayah
+            </button>
+          </div>
+        </div>
+        <div class="hero-illustration-right">
+          <div class="hero-mockup-wrapper" id="hero-mockup">
+            <div class="mockup-bg-glow"></div>
+            
+            <!-- Main Mockup Card -->
+            <div class="mockup-card main-mockup">
+              <div class="mockup-header">
+                <div class="mockup-dots"><span></span><span></span><span></span></div>
+                <div class="mockup-title">Peta Ayah Hasan (Golden Age)</div>
+              </div>
+              <div class="mockup-body">
+                <div class="mockup-dim">
+                  <div class="mockup-dim-info"><span>Koneksi Emosional</span><span>4.2 / 5.0</span></div>
+                  <div class="mockup-dim-bar"><div class="mockup-dim-fill" style="background: var(--color-sky);" data-width="84"></div></div>
+                </div>
+                <div class="mockup-dim">
+                  <div class="mockup-dim-info"><span>Regulasi Amarah</span><span>3.5 / 5.0</span></div>
+                  <div class="mockup-dim-bar"><div class="mockup-dim-fill" style="background: var(--color-coral);" data-width="70"></div></div>
+                </div>
+                <div class="mockup-dim">
+                  <div class="mockup-dim-info"><span>Keteladanan Iman</span><span>4.0 / 5.0</span></div>
+                  <div class="mockup-dim-bar"><div class="mockup-dim-fill" style="background: var(--color-gold);" data-width="80"></div></div>
+                </div>
+              </div>
+            </div>
+          
+            <!-- Floating Card 1: Daily Mission -->
+            <div class="mockup-card floating-card mission-card-float" data-depth="0.15">
+              <div class="float-icon"><i data-lucide="compass"></i></div>
+              <div class="float-content">
+                <div class="float-label">Misi Hari 1</div>
+                <div class="float-title">Hadir Tanpa HP 10m</div>
+              </div>
+              <div class="float-check"><i data-lucide="check-circle-2"></i></div>
+            </div>
+          
+            <!-- Floating Card 2: Offline Mode -->
+            <div class="mockup-card floating-card offline-card-float" data-depth="0.25">
+              <div class="float-icon-large"><i data-lucide="timer"></i></div>
+              <div class="float-content">
+                <div class="float-label">Offline Mode</div>
+                <div class="float-timer">20:00</div>
+              </div>
+            </div>
+          
+            <!-- Floating Card 3: Compliant Badge -->
+            <div class="mockup-card floating-card badge-card-float" data-depth="0.1">
+              <div class="badge-ring">
+                <div class="badge-inner"><i data-lucide="heart"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pain Points Section -->
+      <section class="container" style="background-color: var(--bg-accent); border-radius: var(--radius-xl); padding: 48px 24px;">
+        <h2 style="text-align: center; margin-bottom: 12px;">Keresahan Kita Sesama Ayah</h2>
+        <p style="text-align: center; margin: 0 auto 32px; max-width: 600px;">Banyak ayah merasa lelah bekerja dan bingung harus berbuat apa saat pulang ke rumah.</p>
+        <div class="pain-grid">
+          <div class="pain-card">
+            <div class="pain-quote">“Gue sayang anak, tapi sering keburu marah pas dia rewel...”</div>
+            <p>Tuntutan kerja tinggi bikin capek emosional saat tiba di rumah.</p>
+          </div>
+          <div class="pain-card">
+            <div class="pain-quote">“Anak makin hari makin sulit lepas dari gadget...”</div>
+            <p>Bingung membatasi screen-time tanpa membuat suasana rumah jadi perang.</p>
+          </div>
+          <div class="pain-card">
+            <div class="pain-quote">“Pengen ngajarin agama tapi takut caranya kaku/bikin trauma...”</div>
+            <p>Butuh framework islami yang hangat dan sesuai tahapan tumbuh kembang.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Doodle Divider -->
+      <div class="doodle-divider">
+        <svg viewBox="0 0 1200 20" preserveAspectRatio="none" style="width: 100%; height: 20px; fill: none; stroke-width: 2.5; stroke-linecap: round;">
+          <path d="M0,10 Q150,18 300,10 T600,10 T900,10 T1200,10" />
+        </svg>
+      </div>
+
+      <!-- How It Works Section -->
+      <section class="container">
+        <h2 style="text-align: center; margin-bottom: 32px;">Langkah Sederhana GoodFather</h2>
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-num">01</div>
+            <h3 style="font-size: 1.15rem; font-weight: 700;">Isi Asesmen 3 Menit</h3>
+            <p>Evaluasi kondisi relasi ayah-anak dan tantangan gadget saat ini.</p>
+          </div>
+          <div class="step-item">
+            <div class="step-num">02</div>
+            <h3 style="font-size: 1.15rem; font-weight: 700;">Dapatkan Peta Ayah</h3>
+            <p>Pahami fase perkembangan anak dan prioritas perbaikan diri ayah.</p>
+          </div>
+          <div class="step-item">
+            <div class="step-num">03</div>
+            <h3 style="font-size: 1.15rem; font-weight: 700;">Jalankan 7-Day Quest</h3>
+            <p>Quest kecil harian bebas HP untuk membangun kedekatan emosional.</p>
+          </div>
+          <div class="step-item">
+            <div class="step-num">04</div>
+            <h3 style="font-size: 1.15rem; font-weight: 700;">Refleksi di Jurnal</h3>
+            <p>Catat kemenangan kecil harian untuk membentuk habit ayah sabar.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Doodle Divider -->
+      <div class="doodle-divider">
+        <svg viewBox="0 0 1200 20" preserveAspectRatio="none" style="width: 100%; height: 20px; fill: none; stroke-width: 2.5; stroke-linecap: round;">
+          <path d="M0,10 Q150,2 300,10 T600,10 T900,10 T1200,10" />
+        </svg>
+      </div>
+
+      <!-- Pillars Section -->
+      <section class="container">
+        <h2 style="text-align: center; margin-bottom: 12px;">8 Pilar Konten GoodFather</h2>
+        <p style="text-align: center; margin: 0 auto 32px;">Framework lengkap yang mengombinasikan Syariah, Psikologi, dan Literasi Global.</p>
+        <div class="pillar-grid">
+          <div class="pillar-card">
+            <div class="pillar-icon" style="background-color: var(--color-gold);"><i data-lucide="heart"></i></div>
+            <h3 style="font-size: 1.15rem; font-weight: 700;">Tauhid & Akhirat</h3>
+            <p>Mengenalkan Allah lewat rasa cinta dan menciptakan suasana ibadah rumah yang hangat.</p>
+          </div>
+          <div class="pillar-card">
+            <div class="pillar-icon" style="background-color: var(--color-coral);"><i data-lucide="shield-check"></i></div>
+            <h3 style="font-size: 1.15rem; font-weight: 700;">Rahmah & Safety</h3>
+            <p>Membangun rasa aman emosional dan melatih regulasi amarah ayah.</p>
+          </div>
+          <div class="pillar-card">
+            <div class="pillar-icon" style="background-color: var(--color-sky);"><i data-lucide="sparkles"></i></div>
+            <h3 style="font-size: 1.15rem; font-weight: 700;">Golden Age</h3>
+            <p>Memahami fase tumbuh kembang anak agar tidak membebani anak di luar usianya.</p>
+          </div>
+          <div class="pillar-card">
+            <div class="pillar-icon" style="background-color: var(--color-mint);"><i data-lucide="smartphone"></i></div>
+            <h3 style="font-size: 1.15rem; font-weight: 700;">Digital & AI Safety</h3>
+            <p>Membuat aturan layar, membatasi AI, serta mendampingi anak secara kritis.</p>
+          </div>
+          <div class="pillar-card">
+            <div class="pillar-icon" style="background-color: var(--color-lavender);"><i data-lucide="book-open"></i></div>
+            <h3 style="font-size: 1.15rem; font-weight: 700;">Adab & Karakter</h3>
+            <p>Membangun karakter mulia anak melalui keteladanan harian dan kisah inspiratif.</p>
+          </div>
+          <div class="pillar-card">
+            <div class="pillar-icon" style="background-color: var(--color-olive);"><i data-lucide="scale"></i></div>
+            <h3 style="font-size: 1.15rem; font-weight: 700;">Disiplin Positif</h3>
+            <p>Menerapkan konsekuensi logis dan batasan tegas tanpa kekerasan verbal maupun fisik.</p>
+          </div>
+          <div class="pillar-card">
+            <div class="pillar-icon" style="background-color: var(--color-gold);"><i data-lucide="globe"></i></div>
+            <h3 style="font-size: 1.15rem; font-weight: 700;">Future-Ready Skills</h3>
+            <p>Menyiapkan anak menghadapi era global dengan daya pikir kritis dan pemecahan masalah.</p>
+          </div>
+          <div class="pillar-card">
+            <div class="pillar-icon" style="background-color: var(--color-coral);"><i data-lucide="user"></i></div>
+            <h3 style="font-size: 1.15rem; font-weight: 700;">Refleksi Diri Ayah</h3>
+            <p>Mengenali emosi diri sendiri, menyembuhkan luka pengasuhan lama, dan berani meminta maaf.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Safety Disclaimer Bottom -->
+      <section class="container">
+        <div class="alert-box alert-info">
+          <h4 style="margin-bottom: 8px; font-weight: 700; color: #2e78c2;"><i data-lucide="info" style="vertical-align: middle;"></i> PENTING DIKETAHUI</h4>
+          <p style="font-size: 0.9rem; color: #4b6b8f;">GoodFather adalah platform edukasi dan refleksi harian. Kami bukan pengganti dokter anak, psikolog anak, konselor keluarga, atau ustadz. Asesmen ini bukan diagnosis klinis. Bila ada kekhawatiran perkembangan berat, kekerasan, atau kondisi darurat, carilah bantuan profesional terdekat.</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- ----------------------------------------- -->
+    <!-- VIEW B: DASHBOARD / PETA AYAH             -->
+    <!-- ----------------------------------------- -->
+    <div id="view-dashboard" class="page-view">
+      <div class="container">
+        <!-- Child Profile Bar -->
+        <div class="child-selector-wrapper">
+          <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+            <span style="font-weight: 700;"><i data-lucide="users"></i> Profil Anak:</span>
+            <div class="profile-chips" id="dashboard-profile-chips">
+              <!-- Chips injected by app.js -->
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-outline btn-sm" id="btn-edit-profile" title="Ubah Nama/Kelompok Usia Profil Anak Aktif" style="display: none;">
+              <i data-lucide="edit-3"></i> Edit
+            </button>
+            <button class="btn btn-outline btn-sm" id="btn-delete-profile" title="Hapus Profil Anak Aktif" style="color: var(--color-coral); border-color: rgba(200, 106, 94, 0.3); display: none;">
+              <i data-lucide="trash-2"></i> Hapus
+            </button>
+            <button class="btn btn-outline btn-sm" id="btn-add-profile">
+              <i data-lucide="plus"></i> Tambah Profil
+            </button>
+          </div>
+        </div>
+
+        <div id="dashboard-content-area" class="dashboard-grid">
+          <!-- Left Column: Peta Ayah & Quest -->
+          <div style="display: flex; flex-direction: column; gap: 32px;">
+            <!-- Father Map Card -->
+            <div class="map-card" id="father-map-card">
+              <div class="map-header">
+                <div>
+                  <h3 id="map-child-name" style="margin-bottom: 4px;">Nama Anak</h3>
+                  <p id="map-child-phase" style="font-size: 0.95rem; font-weight: 500; color: var(--color-olive);">Fase Usia</p>
+                </div>
+                <span class="map-badge" id="map-result-type">Hasil Asesmen</span>
+              </div>
+
+              <!-- Bar Charts -->
+              <div class="dimensions-list" id="map-dimensions-list">
+                <!-- Bar components injected dynamically -->
+              </div>
+
+              <div class="focus-card">
+                <h4 style="margin-bottom: 4px; font-weight: 700; color: var(--color-olive); font-size: 1rem;"><i data-lucide="compass"></i> Prioritas Ayah Minggu Ini</h4>
+                <p id="map-focus-description" style="font-size: 0.9rem;"></p>
+              </div>
+            </div>
+
+            <!-- Gender Guide Card -->
+            <div class="map-card" id="gender-guide-card" style="display: none;">
+              <div class="map-header" style="border-bottom: 1px solid var(--border-color); padding-bottom: 12px; margin-bottom: 16px;">
+                <div>
+                  <h3 id="gender-guide-title" style="display: flex; align-items: center; gap: 8px; margin: 0;">
+                    <i data-lucide="sparkles" style="color: var(--color-gold);"></i> Panduan Gender
+                  </h3>
+                </div>
+              </div>
+              <p id="gender-guide-role" style="font-size: 0.95rem; line-height: 1.6; margin-bottom: 16px; color: var(--text-muted);"></p>
+              
+              <div style="margin-bottom: 16px;">
+                <h4 style="color: var(--color-gold); font-weight: 700; margin-bottom: 8px; font-size: 1rem;"><i data-lucide="compass" style="width: 14px; height: 14px; vertical-align: middle; margin-right: 4px;"></i> Fokus Mendidik Fitrah</h4>
+                <ul id="gender-guide-focus" style="padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 0.9rem; color: var(--text-muted);">
+                  <!-- Injected via JS -->
+                </ul>
+              </div>
+
+              <div class="mission-phrase-box" style="background-color: rgba(216, 168, 78, 0.03); border-color: rgba(216, 168, 78, 0.2); margin-bottom: 16px; padding: 12px; border-radius: var(--radius-md);">
+                <span style="font-weight: 700; color: var(--color-gold); display: block; margin-bottom: 4px; font-size: 0.85rem;"><i data-lucide="message-circle" style="width: 12px; height: 12px; vertical-align: middle; margin-right: 4px;"></i> Contoh Kalimat Ayah:</span>
+                <p id="gender-guide-phrase" style="font-style: italic; font-size: 0.95rem; margin: 0; color: var(--text-main);"></p>
+              </div>
+
+              <div>
+                <h4 style="color: var(--color-olive); font-weight: 700; margin-bottom: 8px; font-size: 1rem;"><i data-lucide="award" style="width: 14px; height: 14px; vertical-align: middle; margin-right: 4px;"></i> Alternatif Misi Harian</h4>
+                <ul id="gender-guide-missions" style="padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 0.9rem; color: var(--text-muted);">
+                  <!-- Injected via JS -->
+                </ul>
+              </div>
+            </div>
+
+            <!-- 7-Day Quest Timeline -->
+            <div class="map-card">
+              <h3 style="display: flex; align-items: center; gap: 10px;"><i data-lucide="milestone" style="color: var(--color-olive);"></i> 7-Day Ayah Hadir Quest</h3>
+              <p style="font-size: 0.9rem;">Satu tantangan kecil setiap hari untuk menumbuhkan rasa hadir di rumah.</p>
+              
+              <div class="quest-timeline" id="dashboard-timeline">
+                <!-- Timeline items injected dynamically -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Today's Mission & Journal Shortcut -->
+          <div style="display: flex; flex-direction: column; gap: 32px;">
+            <!-- Daily Mission Card -->
+            <div class="mission-card" id="dashboard-mission-card">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: 700; color: var(--color-gold); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em;"><i data-lucide="moon"></i> Misi Hari Ini</span>
+                <span class="map-badge" id="mission-status-badge" style="background-color: rgba(255,255,255,0.1); color: #fff;">Belum Selesai</span>
+              </div>
+              <h3 id="mission-title" style="margin-top: 8px;">Misi Harian</h3>
+              <p id="mission-description"></p>
+              <div class="mission-phrase-box" id="mission-phrase-area">
+                <span style="font-weight: 700; display: block; margin-bottom: 4px; color: var(--color-gold);">Kalimat Ayah:</span>
+                <span id="mission-phrase-content"></span>
+              </div>
+              <div style="display: flex; gap: 12px; margin-top: 12px;">
+                <button class="btn btn-accent" id="btn-complete-mission" style="flex-grow: 1;">
+                  <i data-lucide="check"></i> Selesai
+                </button>
+                <button class="btn btn-outline" id="btn-start-focus" style="color: #fff; border-color: rgba(255,255,255,0.3);" title="Mulai Ayah Offline Mode">
+                  <i data-lucide="timer"></i> Offline Mode
+                </button>
+              </div>
+            </div>
+
+            <!-- Recommended Reading -->
+            <div class="map-card">
+              <h4 style="border-bottom: 2px solid var(--border-color); padding-bottom: 12px;"><i data-lucide="book-open"></i> Rekomendasi Bacaan</h4>
+              <div id="dashboard-readings" style="display: flex; flex-direction: column; gap: 16px; margin-top: 16px;">
+                <!-- Reading recommendations injected dynamically -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- No Profile Empty State -->
+        <div id="dashboard-empty-state" class="map-card" style="text-align: center; align-items: center; display: none; padding: 48px 24px; gap: 16px;">
+          <img src="assets/empty_state.png" alt="Mulai Peta Ayah" style="max-width: 280px; width: 100%; height: auto; border-radius: var(--radius-lg); margin-bottom: 12px; border: 2px solid var(--border-color); box-shadow: var(--shadow-soft);">
+          <h3>Peta Ayah Belum Dibuat</h3>
+          <p style="margin: 0 auto 16px; max-width: 480px;">Silakan buat profil anak pertama Anda dan isi asesmen singkat untuk mendapatkan peta prioritas dan misi harian.</p>
+          <button class="btn btn-primary" id="btn-empty-add-profile"><i data-lucide="plus"></i> Buat Profil Anak</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ----------------------------------------- -->
+    <!-- VIEW C: PANDUAN / CONTENT LIBRARY         -->
+    <!-- ----------------------------------------- -->
+    <div id="view-guides" class="page-view">
+      <div class="container">
+        <h2>Perpustakaan Panduan Ayah</h2>
+        <p style="margin-bottom: 24px;">Cari dan pelajari artikel berdasarkan kategori pilar dan fase tumbuh kembang anak.</p>
+        
+        <!-- Search bar -->
+        <div class="search-box-wrapper">
+          <input type="text" id="guide-search-input" class="input-text" placeholder="Cari panduan... (contoh: tantrum, gadget, shalat, rahmah)">
+        </div>
+
+        <!-- Category Filters -->
+        <div class="library-filters" id="library-filters-container">
+          <button class="filter-btn active" data-category="all">Semua Artikel</button>
+          <button class="filter-btn" data-category="Foundation">Foundation</button>
+          <button class="filter-btn" data-category="Iman & Adab">Iman & Adab</button>
+          <button class="filter-btn" data-category="Digital & AI">Digital & AI</button>
+          <button class="filter-btn" data-category="Father Self-Work">Self-Work</button>
+        </div>
+
+        <div class="article-grid" id="library-article-grid">
+          <!-- Articles injected dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ----------------------------------------- -->
+    <!-- VIEW D: JURNAL & REFLEKSI                 -->
+    <!-- ----------------------------------------- -->
+    <div id="view-journal" class="page-view">
+      <div class="container">
+        <div class="dashboard-grid">
+          <!-- Journal Form -->
+          <div class="map-card">
+            <h3>Jurnal Harian Ayah</h3>
+            <p id="journal-child-name-indicator" style="font-size: 0.9rem; margin-bottom: 16px; color: var(--text-muted);">Tuliskan satu refleksi singkat sebelum beristirahat malam ini.</p>
+            
+            <div id="journal-form">
+              <div class="journal-row" style="margin-bottom: 16px;">
+                <label class="journal-row-label" for="journal-q-presence" style="margin-bottom: 6px;">1. Hari ini gue sempat hadir sepenuhnya bersama anak saat...</label>
+                <textarea id="journal-q-presence" class="input-text" rows="2" placeholder="Tulis kejadian sederhana (contoh: main lego sore tadi)"></textarea>
+              </div>
+
+              <div class="journal-row" style="margin-bottom: 16px;">
+                <label class="journal-row-label" for="journal-q-anger" style="margin-bottom: 6px;">2. Momen ketika gue hampir terpicu amarah...</label>
+                <textarea id="journal-q-anger" class="input-text" rows="2" placeholder="Apa triggernya dan bagaimana respon ayah?"></textarea>
+              </div>
+
+              <div class="journal-row" style="margin-bottom: 16px;">
+                <label class="journal-row-label" for="journal-q-need" style="margin-bottom: 6px;">3. Hari ini anak gue sebenarnya butuh...</label>
+                <textarea id="journal-q-need" class="input-text" rows="2" placeholder="Rasa aman, didengar, pelukan, atau batas aturan?"></textarea>
+              </div>
+
+              <div class="journal-row" style="margin-bottom: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <label class="journal-row-label" for="journal-q-prayer" style="margin: 0;">4. Doa harian ayah untuk anak hari ini...</label>
+                  <a href="#" id="link-helper-doa" style="font-size: 0.8rem; color: var(--color-gold); text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 4px;"><i data-lucide="book-open" style="width: 12px; height: 12px;"></i> Inspirasi Doa Shahih</a>
+                </div>
+                <textarea id="journal-q-prayer" class="input-text" rows="2" placeholder="Ya Allah, jadikan ia anak yang lembut hatinya..."></textarea>
+              </div>
+
+              <button class="btn btn-primary" id="btn-save-journal" style="width: 100%;">
+                <i data-lucide="save"></i> Simpan Catatan Refleksi
+              </button>
+            </div>
+          </div>
+
+          <!-- Journal Logs History -->
+          <div class="map-card">
+            <h3>Log Catatan Ayah</h3>
+            <p style="font-size: 0.9rem; margin-bottom: 16px;">Sejarah refleksi yang tersimpan di perangkat lokal Anda.</p>
+            
+            <div class="journal-log-grid" id="journal-logs-container">
+              <!-- Logs injected dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ----------------------------------------- -->
+    <!-- VIEW D2: PROGRES & BADGES (PROGRESS)      -->
+    <!-- ----------------------------------------- -->
+    <div id="view-progress" class="page-view">
+      <div class="container">
+        <h2 style="margin-bottom: 8px;">Progres Istiqamah Ayah</h2>
+        <p id="progress-profile-indicator" style="font-size: 0.95rem; margin-bottom: 24px; color: var(--text-muted);">
+          Memantau konsistensi dan lencana pengasuhan untuk anak Anda.
+        </p>
+
+        <div class="dashboard-grid" style="grid-template-columns: 1.2fr 1fr; gap: 32px;">
+          <!-- Left Panel: Stats and Badges -->
+          <div style="display: flex; flex-direction: column; gap: 32px;">
+            <!-- Stats Panel -->
+            <div class="map-card" style="padding: 24px;">
+              <h3 style="margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                <i data-lucide="bar-chart-3" style="color: var(--color-olive);"></i> Statistik Kehadiran
+              </h3>
+              <div class="stats-row-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+                <div class="stat-box">
+                  <span style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 4px;">Streak Saat Ini</span>
+                  <div class="stat-value-gold">
+                    <div class="streak-flame-wrapper">
+                      <svg class="flame-svg" viewBox="0 0 24 24" width="24" height="24">
+                        <defs>
+                          <linearGradient id="flameGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                            <stop offset="0%" stop-color="var(--color-gold)" />
+                            <stop offset="50%" stop-color="var(--color-coral)" />
+                            <stop offset="100%" stop-color="var(--color-cream)" />
+                          </linearGradient>
+                        </defs>
+                        <!-- Outer flame -->
+                        <path class="flame-outer" d="M12 2C12 2 17 6.5 17 10.5C17 13.5 14.5 16 11.5 16C8.5 16 6 13.5 6 10.5C6 9.5 6.5 8 7.5 7C5 9 4 12 4 14C4 18 7.5 21 12 21C16.5 21 20 18 20 14C20 9.5 12 2 12 2Z" fill="url(#flameGrad)" />
+                        <!-- Inner flame core -->
+                        <path class="flame-inner" d="M12 7C12 7 15 10 15 12.5C15 14.4 13.7 16 12 16C10.3 16 9 14.4 9 12.5C9 11.8 9.3 10.8 10 10.2C8.3 11.5 8 13.5 8 14.5C8 17.5 10 19.5 12.5 19.5C15 19.5 17 17.5 17 14.5C17 12 12 7 12 7Z" fill="var(--color-cream)" opacity="0.8" />
+                      </svg>
+                    </div>
+                    <span id="stat-current-streak">0</span>
+                  </div>
+                  <span class="stat-label-bottom">Hari Aktif</span>
+                </div>
+                
+                <div class="stat-box">
+                  <span style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 4px;">Streak Terlama</span>
+                  <div class="stat-value-main">
+                    <i data-lucide="award" style="width: 24px; height: 24px; color: var(--text-main);"></i>
+                    <span id="stat-longest-streak">0</span>
+                  </div>
+                  <span class="stat-label-bottom">Rekor Terbaik</span>
+                </div>
+
+                <div class="stat-box">
+                  <span style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 4px;">Misi Selesai</span>
+                  <div class="stat-value-mint">
+                    <i data-lucide="check-circle" style="width: 24px; height: 24px; color: var(--color-mint);"></i>
+                    <span id="stat-total-missions">0</span>
+                  </div>
+                  <span class="stat-label-bottom">Total Selesai</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Badges Panel -->
+            <div class="map-card" style="padding: 24px;">
+              <h3 style="margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                <i data-lucide="shield-check" style="color: var(--color-gold);"></i> Lencana Ayah (Achievements)
+              </h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">Dapatkan lencana pengasuhan berdasarkan misi yang diselesaikan.</p>
+              
+              <div class="badges-list-grid" id="progress-badges-container" style="display: flex; flex-direction: column; gap: 16px;">
+                <!-- Badges injected dynamically -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Panel: Chronological History Log -->
+          <div class="map-card" style="display: flex; flex-direction: column; padding: 24px; max-height: calc(100vh - 200px);">
+            <h3 style="margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+              <i data-lucide="history" style="color: var(--color-coral);"></i> Riwayat & Jurnal Misi
+            </h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">Catatan refleksi harian dan dalil referensi misi yang diselesaikan.</p>
+            
+            <div style="overflow-y: auto; flex-grow: 1; padding-right: 8px;" id="progress-history-container">
+              <!-- Chronological history items injected dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ----------------------------------------- -->
+    <!-- VIEW E: REFERENSI PERPUSTAKAAN            -->
+    <!-- ----------------------------------------- -->
+    <div id="view-references" class="page-view">
+      <div class="container">
+        <h2>Daftar Referensi Ilmiah & Syariah</h2>
+        <p style="margin-bottom: 32px;">GoodFather berkomitmen menyajikan konten berbasis data ilmiah yang valid serta bersumber dari riwayat syariat islam yang sahih.</p>
+        
+        <div class="pillar-grid">
+          <div class="pillar-card">
+            <div class="pillar-icon" style="background-color: var(--color-gold);"><i data-lucide="book"></i></div>
+            <h4>Rujukan Syariah & Fikih</h4>
+            <p style="font-size: 0.9rem; margin-bottom: 8px;">Kutipan hadits dan tafsir bersumber dari kitab hadits utama (Kutubus Sittah) dengan status kehati-hatian:</p>
+            <ul style="padding-left: 20px; font-size: 0.85rem; color: var(--text-muted);">
+              <li>Sahih al-Bukhari & Sahih Muslim</li>
+              <li>Sunan Abi Dawud & Sunan at-Tirmidzi</li>
+              <li>Tafsir Ibnu Katsir (terkait Luqman)</li>
+            </ul>
+          </div>
+
+          <div class="pillar-card">
+            <div class="pillar-icon" style="background-color: var(--color-sky);"><i data-lucide="graduation-cap"></i></div>
+            <h4>Rujukan Psikologi Anak</h4>
+            <p style="font-size: 0.9rem; margin-bottom: 8px;">Penjelasan medis perkembangan anak, regulasi otak stres, dan milestones harian bersumber dari:</p>
+            <ul style="padding-left: 20px; font-size: 0.85rem; color: var(--text-muted);">
+              <li>WHO Nurturing Care Framework</li>
+              <li>UNICEF Early Childhood Development</li>
+              <li>CDC Developmental Milestones (Act Early)</li>
+              <li>Harvard Center on the Developing Child</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ----------------------------------------- -->
+  <!-- MODAL: ASESMEN MULTI-STEP                 -->
+  <!-- ----------------------------------------- -->
+  <div class="modal-overlay" id="assessment-modal">
+    <div class="assessment-container">
+      <div class="assessment-header">
+        <h4 style="font-weight: 700;">Buat Peta Ayah</h4>
+        <div class="assessment-progress-wrapper">
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="assessment-progress-fill"></div>
+          </div>
+        </div>
+        <button class="close-assessment" id="close-assessment-modal">&times;</button>
+      </div>
+
+      <div class="assessment-body">
+        <form id="assessment-form">
+          
+          <!-- STEP 1: Profil Anak -->
+          <div class="assessment-step active" data-step="1">
+            <h3 class="question-title">Siapa nama panggilan anak Anda?</h3>
+            <input type="text" id="child-name-input" class="input-text" placeholder="Masukkan nama panggilan (contoh: Hasan, Alya)" required>
+            
+            <h3 class="question-title" style="margin-top: 24px;">Pilih gender anak:</h3>
+            <div class="options-grid">
+              <button type="button" class="option-btn" data-field="gender" data-val="Laki-laki">
+                <i data-lucide="user"></i> Laki-laki
+              </button>
+              <button type="button" class="option-btn" data-field="gender" data-val="Perempuan">
+                <i data-lucide="user-check"></i> Perempuan
+              </button>
+            </div>
+
+            <h3 class="question-title" style="margin-top: 24px;">Pilih kelompok usia anak:</h3>
+            <div class="options-grid">
+              <button type="button" class="option-btn" data-field="age" data-val="0–2 Tahun">0–2 Tahun</button>
+              <button type="button" class="option-btn" data-field="age" data-val="3–5 tahun">3–5 Tahun (Golden Age)</button>
+              <button type="button" class="option-btn" data-field="age" data-val="6–9 tahun">6–9 Tahun</button>
+              <button type="button" class="option-btn" data-field="age" data-val="10–12 tahun">10–12 Tahun</button>
+              <button type="button" class="option-btn" data-field="age" data-val="13–17 tahun">13–17 Tahun</button>
+            </div>
+          </div>
+
+          <!-- STEP 2: Concern Utama (Kondisi Anak Saat Ini) -->
+          <div class="assessment-step" data-step="2">
+            <h3 class="question-title">Kondisi yang sedang dihadapi anak (pilih maksimal 3):</h3>
+            <div class="options-grid" id="concerns-multiselect">
+              <button type="button" class="option-btn" data-val="tantrum / ledakan emosi">Tantrum / Ledakan Emosi</button>
+              <button type="button" class="option-btn" data-val="terlalu lengket gadget">Terlalu Lengket Gadget</button>
+              <button type="button" class="option-btn" data-val="susah shalat / ibadah">Susah Shalat / Ibadah</button>
+              <button type="button" class="option-btn" data-val="sering melawan">Sering Melawan / Menentang</button>
+              <button type="button" class="option-btn" data-val="mudah bohong">Suka Berbohong</button>
+              <button type="button" class="option-btn" data-val="sibling rivalry">Bertengkar dengan Saudara</button>
+              <button type="button" class="option-btn" data-val="belum ada masalah spesifik">Belum Ada Masalah Spesifik</button>
+            </div>
+          </div>
+
+          <!-- STEP 3: Screen & AI Exposure -->
+          <div class="assessment-step" data-step="3">
+            <h3 class="question-title">Berapa lama rata-rata anak bermain layar (screen-time) per hari?</h3>
+            <div class="options-grid">
+              <button type="button" class="option-btn" data-field="c1" data-val="< 30 menit">&lt; 30 Menit</button>
+              <button type="button" class="option-btn" data-field="c1" data-val="30–60 menit">30–60 Menit</button>
+              <button type="button" class="option-btn" data-field="c1" data-val="1–2 jam">1–2 Jam</button>
+              <button type="button" class="option-btn" data-field="c1" data-val="2–4 jam">2–4 Jam</button>
+              <button type="button" class="option-btn" data-field="c1" data-val="> 4 jam">&gt; 4 Jam</button>
+            </div>
+
+            <h3 class="question-title" style="margin-top: 24px;">Apakah ada aturan bebas layar (screen-free) di rumah?</h3>
+            <div class="options-grid">
+              <button type="button" class="option-btn" data-field="c3" data-val="sudah konsisten">Sudah Konsisten Teratur</button>
+              <button type="button" class="option-btn" data-field="c3" data-val="kadang">Kadang-kadang</button>
+              <button type="button" class="option-btn" data-field="c3" data-val="belum">Belum Ada Aturan</button>
+            </div>
+
+            <h3 class="question-title" style="margin-top: 24px;">Apakah anak pernah menggunakan AI/Chatbot (misal: ChatGPT)?</h3>
+            <div class="options-grid">
+              <button type="button" class="option-btn" data-field="c4" data-val="belum">Belum Pernah</button>
+              <button type="button" class="option-btn" data-field="c4" data-val="pernah didampingi">Pernah Didampingi Ayah/Ibu</button>
+              <button type="button" class="option-btn" data-field="c4" data-val="pernah sendiri">Pernah Menggunakan Sendiri</button>
+              <button type="button" class="option-btn" data-field="c4" data-val="tidak tahu">Tidak Tahu</button>
+            </div>
+          </div>
+
+          <!-- STEP 4: Relasi Ayah-Anak -->
+          <div class="assessment-step" data-step="4">
+            <h3 class="question-title">Relasi Ayah & Anak (Skala 1 - 5)</h3>
+            <div class="scale-container">
+              <div class="scale-row" data-field="d1">
+                <span class="scale-row-title">Saya punya waktu hadir penuh minimal 10 menit per hari tanpa megang HP</span>
+                <div class="scale-options">
+                  <div class="scale-btn" data-val="1">1</div>
+                  <div class="scale-btn" data-val="2">2</div>
+                  <div class="scale-btn" data-val="3">3</div>
+                  <div class="scale-btn" data-val="4">4</div>
+                  <div class="scale-btn" data-val="5">5</div>
+                </div>
+                <div class="scale-labels"><span>Jarang sekali</span><span>Sangat Konsisten</span></div>
+              </div>
+
+              <div class="scale-row" data-field="d2">
+                <span class="scale-row-title">Anak nyaman bercerita kepada saya tentang apa saja</span>
+                <div class="scale-options">
+                  <div class="scale-btn" data-val="1">1</div>
+                  <div class="scale-btn" data-val="2">2</div>
+                  <div class="scale-btn" data-val="3">3</div>
+                  <div class="scale-btn" data-val="4">4</div>
+                  <div class="scale-btn" data-val="5">5</div>
+                </div>
+                <div class="scale-labels"><span>Tertutup</span><span>Sangat Nyaman</span></div>
+              </div>
+
+              <div class="scale-row" data-field="d4">
+                <span class="scale-row-title">Saya gampang terpancing emosi/marah saat anak tidak patuh</span>
+                <div class="scale-options">
+                  <div class="scale-btn" data-val="1">1</div>
+                  <div class="scale-btn" data-val="2">2</div>
+                  <div class="scale-btn" data-val="3">3</div>
+                  <div class="scale-btn" data-val="4">4</div>
+                  <div class="scale-btn" data-val="5">5</div>
+                </div>
+                <div class="scale-labels"><span>Sabar</span><span>Sangat Sering Marah</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 5: Pendidikan Iman & Adab -->
+          <div class="assessment-step" data-step="5">
+            <h3 class="question-title">Pendidikan Iman & Adab (Skala 1 - 5)</h3>
+            <div class="scale-container">
+              <div class="scale-row" data-field="e1">
+                <span class="scale-row-title">Anak melihat ayah melakukan ibadah/shalat secara langsung</span>
+                <div class="scale-options">
+                  <div class="scale-btn" data-val="1">1</div>
+                  <div class="scale-btn" data-val="2">2</div>
+                  <div class="scale-btn" data-val="3">3</div>
+                  <div class="scale-btn" data-val="4">4</div>
+                  <div class="scale-btn" data-val="5">5</div>
+                </div>
+                <div class="scale-labels"><span>Hampir tidak pernah</span><span>Setiap hari</span></div>
+              </div>
+
+              <div class="scale-row" data-field="e2">
+                <span class="scale-row-title">Saya mengajarkan agama/adab dengan suasana yang hangat dan seru</span>
+                <div class="scale-options">
+                  <div class="scale-btn" data-val="1">1</div>
+                  <div class="scale-btn" data-val="2">2</div>
+                  <div class="scale-btn" data-val="3">3</div>
+                  <div class="scale-btn" data-val="4">4</div>
+                  <div class="scale-btn" data-val="5">5</div>
+                </div>
+                <div class="scale-labels"><span>Kaku/Terpaksa</span><span>Sangat Hangat & Seru</span></div>
+              </div>
+
+              <div class="scale-row" data-field="e5">
+                <span class="scale-row-title">Saya lebih sering menceramahi anak daripada mencontohkan perilakunya</span>
+                <div class="scale-options">
+                  <div class="scale-btn" data-val="1">1</div>
+                  <div class="scale-btn" data-val="2">2</div>
+                  <div class="scale-btn" data-val="3">3</div>
+                  <div class="scale-btn" data-val="4">4</div>
+                  <div class="scale-btn" data-val="5">5</div>
+                </div>
+                <div class="scale-labels"><span>Selalu Beri Contoh</span><span>Hanya Ceramah</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 6: Kondisi Ayah -->
+          <div class="assessment-step" data-step="6">
+            <h3 class="question-title">Kondisi Ayah yang sedang dirasakan (pilih maksimal 3):</h3>
+            <div class="options-grid" id="challenges-multiselect">
+              <button type="button" class="option-btn" data-val="capek kerja">Lelah Fisik & Pikiran Kerja</button>
+              <button type="button" class="option-btn" data-val="mudah marah">Sering Kehilangan Sabar</button>
+              <button type="button" class="option-btn" data-val="jarang hadir">Sulit Meluangkan Waktu</button>
+              <button type="button" class="option-btn" data-val="bingung mulai dari mana">Bingung Mulai Parenting Dari Mana</button>
+              <button type="button" class="option-btn" data-val="beda pola asuh dengan pasangan">Beda Pendapat Asuh dengan Istri</button>
+              <button type="button" class="option-btn" data-val="trauma dengan pola asuh lama">Ingin Memutus Rantai Pola Asuh Keras Orangtua Dulu</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <div class="assessment-footer">
+        <button class="btn btn-outline" id="btn-prev-step" style="visibility: hidden;">Kembali</button>
+        <button class="btn btn-primary" id="btn-next-step">Lanjut</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ----------------------------------------- -->
+  <!-- MODAL: CRISIS MODE DETAIL (LAGI PANIK?)   -->
+  <!-- ----------------------------------------- -->
+  <div class="modal-overlay" id="crisis-modal">
+    <div class="assessment-container" style="max-width: 800px;">
+      <div class="assessment-header" style="border-bottom: 1px solid rgba(255,138,101,0.2); background-color: rgba(255,138,101,0.05);">
+        <h3 style="color: var(--color-coral); display: flex; align-items: center; gap: 8px;"><i data-lucide="shield-alert"></i> PETA DARURAT AYAH</h3>
+        <button class="close-assessment" id="close-crisis-modal">&times;</button>
+      </div>
+      <div class="assessment-body">
+        
+        <!-- Breathing calibration box -->
+        <div style="background-color: var(--bg-app); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 16px; margin-bottom: 24px; text-align: center;">
+          <h4 style="margin-bottom: 4px; color: var(--color-olive); font-size: 1rem;">Sebelum Ayah Bersuara: Latihan Tenang 3 Detik</h4>
+          <p style="font-size: 0.85rem; margin-bottom: 8px;">Tarik napas perlahan... Tahan... Lepaskan...</p>
+          <div style="width: 24px; height: 24px; border-radius: 50%; background-color: var(--color-coral); margin: 0 auto; animation: pulse-coral 2s infinite;"></div>
+        </div>
+
+        <div class="crisis-panel">
+          <div class="crisis-menu" id="crisis-menu-list">
+            <!-- Crisis buttons injected dynamically -->
+          </div>
+          <div class="crisis-content" id="crisis-content-details">
+            <!-- Crisis text details injected dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ----------------------------------------- -->
+  <!-- MODAL: ARTICLE FULL READER                -->
+  <!-- ----------------------------------------- -->
+  <div class="modal-overlay" id="article-modal">
+    <div class="assessment-container" style="max-width: 700px;">
+      <div class="assessment-header">
+        <h4 id="article-reader-category" style="color: var(--color-gold); font-size: 0.85rem; text-transform: uppercase;">KATEGORI</h4>
+        <button class="close-assessment" id="close-article-modal">&times;</button>
+      </div>
+      <div class="assessment-body" id="article-reader-body">
+        <!-- Article structured fields injected dynamically -->
+      </div>
+      <div class="assessment-footer">
+        <button class="btn btn-primary" id="btn-accept-article-mission" style="width: 100%;">
+          Jalankan Misi Harian Artikel Ini
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ----------------------------------------- -->
+  <!-- MODAL: MISSION COMPLETION WITH REFLECTION -->
+  <!-- ----------------------------------------- -->
+  <div class="modal-overlay" id="mission-complete-modal">
+    <div class="assessment-container" style="max-width: 600px;">
+      <div class="assessment-header">
+        <h3 id="mc-modal-title" style="margin: 0; font-size: 1.25rem; font-weight: 700; color: var(--color-gold); display: flex; align-items: center; gap: 8px;">
+          <i data-lucide="award"></i> Selesaikan Misi
+        </h3>
+        <button class="close-assessment" id="close-mc-modal">&times;</button>
+      </div>
+      <div class="assessment-body">
+        <div style="margin-bottom: 20px;">
+          <h4 id="mc-mission-name" style="margin-bottom: 6px; color: var(--text-main); font-size: 1.1rem;"></h4>
+          <p id="mc-mission-desc" style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;"></p>
+        </div>
+
+        <!-- Verification / Reference Box -->
+        <div style="background-color: color-mix(in oklab, var(--bg-app) 40%, transparent); border: 1.5px solid var(--border-color); border-radius: 12px; padding: 16px; margin-bottom: 20px;">
+          <span style="font-weight: 700; display: block; margin-bottom: 8px; color: var(--color-gold); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em;">
+            <i data-lucide="shield-check" style="width: 14px; height: 14px; vertical-align: middle;"></i> Validasi Syariat & Riset
+          </span>
+          <div style="margin-bottom: 10px;">
+            <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-olive); display: block; margin-bottom: 2px;">Dalil Shahih (Syariat):</span>
+            <p id="mc-ref-islamic" style="font-size: 0.8rem; font-style: italic; color: var(--text-main); margin: 0; line-height: 1.4;"></p>
+          </div>
+          <div>
+            <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-coral); display: block; margin-bottom: 2px;">Riset Ilmiah (Psikologi Anak):</span>
+            <p id="mc-ref-research" style="font-size: 0.8rem; font-style: italic; color: var(--text-main); margin: 0; line-height: 1.4;"></p>
+          </div>
+        </div>
+
+        <!-- Reflection Textarea -->
+        <div class="journal-row" style="margin-bottom: 8px;">
+          <label class="journal-row-label" for="mc-reflection-text" style="margin-bottom: 8px; font-weight: 700; font-size: 0.9rem;">
+            Tuliskan Catatan Refleksi Singkat Ayah (Opsional):
+          </label>
+          <textarea id="mc-reflection-text" class="input-text" rows="3" placeholder="Tuliskan 1-2 kalimat pengalaman menjalankan misi ini..."></textarea>
+        </div>
+      </div>
+      <div class="assessment-footer" style="display: flex; gap: 12px;">
+        <button class="btn btn-outline" id="btn-cancel-mc" style="width: 40%;">
+          Batal
+        </button>
+        <button class="btn btn-primary" id="btn-submit-mc" style="width: 60%;">
+          <i data-lucide="check"></i> Simpan & Selesaikan
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ----------------------------------------- -->
+  <!-- BREATHING OVERLAY: AYAH OFFLINE MODE      -->
+  <!-- ----------------------------------------- -->
+  <div class="breathing-overlay" id="focus-overlay">
+    <img src="assets/offline_breathing.png" alt="Offline Mode Calming Leaf" style="max-width: 140px; border-radius: 50%; border: 2px solid rgba(255,244,227,0.15); margin-bottom: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.35);">
+    <div class="timer-display" id="focus-timer">20:00</div>
+    
+    <div class="breathing-container">
+      <div class="breathing-circle-outer" id="focus-breathing-outer"></div>
+      <div class="breathing-circle-inner">
+        <span id="focus-circle-text">Bismillah</span>
+      </div>
+    </div>
+
+    <div class="breathing-instruction" id="focus-instruction">Beri perhatian penuh ke anak Anda sekarang.</div>
+    <p class="breathing-subtitle">Letakkan HP Anda dalam posisi terbalik di atas meja.</p>
+    <button class="btn btn-outline" id="btn-cancel-focus">
+      Keluar Offline Mode
+    </button>
+  </div>
+
+  <!-- Floating Emergency Crisis Trigger -->
+  <button class="crisis-trigger" id="floating-crisis-btn" aria-label="Lagi Mumet">
+    <i data-lucide="wind"></i> <span>Lagi Mumet?</span>
+  </button>
+
+  <!-- Footer Footer -->
+  <footer>
+    <div style="max-width: 600px; margin: 0 auto;">
+      <p style="font-weight: 700; color: var(--color-cream); font-size: 1.1rem; margin-bottom: 8px;">GoodFather</p>
+      <p>Menjadi ayah bukan soal sempurna. Tapi soal hadir, belajar, dan pulang dengan sadar.</p>
+      <p style="font-size: 0.75rem; color: rgba(255, 244, 227, 0.7); margin-top: 24px;">&copy; 2026 GoodFather. Dibuat dengan cinta untuk generasi masa depan anak Muslim.</p>
+    </div>
+  </footer>
+
+  <!-- Animation and Logic Scripts -->
+  <!-- GSAP Core + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- Motion vanilla JS -->
+  <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.min.js"></script>
+  
+  <!-- App scripts -->
+  <script src="content.js"></script>
+  <script src="app.js"></script>
+  <!-- Celebration Confetti Canvas overlay -->
+  <canvas id="celebration-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999;"></canvas>
+
+</body>
+</html>
