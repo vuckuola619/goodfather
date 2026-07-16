@@ -1,6 +1,8 @@
 // GoodFather Single Page Application Logic
 document.addEventListener("DOMContentLoaded", () => {
 
+  const API_BASE_URL = "";
+
   // -----------------------------------------
   // Confetti Particle Engine
   // -----------------------------------------
@@ -424,6 +426,20 @@ document.addEventListener("DOMContentLoaded", () => {
     switchView("guides");
   });
 
+  // Bottom Sheet Close and Backdrop click
+  const closeSheetBtn = document.getElementById("btn-close-bottom-sheet");
+  const sheetBackdrop = document.getElementById("hijaiyah-sheet-backdrop");
+  if (closeSheetBtn) {
+    closeSheetBtn.addEventListener("click", () => {
+      closeBottomSheet();
+    });
+  }
+  if (sheetBackdrop) {
+    sheetBackdrop.addEventListener("click", () => {
+      closeBottomSheet();
+    });
+  }
+
   // Edit Profile Button Click
   const editProfileBtn = document.getElementById("btn-edit-profile");
   if (editProfileBtn) {
@@ -656,7 +672,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnSpan = backupBtn.querySelector("span");
     btnSpan.textContent = "Syncing...";
     
-    fetch("/api/backup", {
+    fetch(API_BASE_URL + "/api/backup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ profiles: childProfiles })
@@ -680,7 +696,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function syncBackupFromServer() {
-    fetch("/api/backup")
+    fetch(API_BASE_URL + "/api/backup")
     .then(res => res.json())
     .then(data => {
       if (data && data.profiles && data.profiles.length > 0) {
@@ -1181,7 +1197,7 @@ document.addEventListener("DOMContentLoaded", () => {
     nextStepBtn.textContent = "Memproses...";
 
     // POST answers to server to get computed scores
-    fetch("/api/score", {
+    fetch(API_BASE_URL + "/api/score", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -2820,6 +2836,27 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       `;
 
+      card.addEventListener("mouseenter", () => {
+        gsap.to(card, {
+          scale: 1.02,
+          rotate: (Math.random() * 1) - 0.5,
+          x: 6,
+          borderColor: "var(--color-olive)",
+          duration: 0.3,
+          ease: "power2.out"
+        });
+      });
+      card.addEventListener("mouseleave", () => {
+        gsap.to(card, {
+          scale: 1,
+          rotate: 0,
+          x: 0,
+          borderColor: "var(--border-color)",
+          duration: 0.3,
+          ease: "power2.out"
+        });
+      });
+
       const chkWrap = card.querySelector(".dua-checkbox-wrap");
       const chk = card.querySelector(".dua-checkbox");
       
@@ -2938,6 +2975,26 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="introduced-dot" style="position: absolute; top: 6px; right: 6px; width: 6px; height: 6px; background: var(--color-mint); border-radius: 50%;" title="Sudah dikenalkan"></div>
         ` : ''}
       `;
+      
+      card.addEventListener("mouseenter", () => {
+        gsap.to(card, {
+          scale: 1.05,
+          rotate: (Math.random() * 2) - 1,
+          borderColor: "var(--color-olive)",
+          duration: 0.3,
+          ease: "power2.out"
+        });
+      });
+      card.addEventListener("mouseleave", () => {
+        gsap.to(card, {
+          scale: 1,
+          rotate: 0,
+          borderColor: selectedHijaiyahLetter && selectedHijaiyahLetter.name === letObj.name ? "var(--color-olive)" : "var(--border-color)",
+          duration: 0.3,
+          ease: "power2.out"
+        });
+      });
+
       card.addEventListener("click", () => {
         selectedHijaiyahLetter = letObj;
         selectedIqraWord = null;
@@ -2965,6 +3022,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("iqra-word-detail-content").style.display = "none";
     const detailContent = document.getElementById("hijaiyah-detail-content");
     detailContent.style.display = "block";
+
+    if (window.innerWidth < 768) {
+      openBottomSheet();
+    }
 
     const giantDisplay = document.getElementById("hijaiyah-giant-char");
     const nameDisplay = document.getElementById("hijaiyah-char-name");
@@ -3099,6 +3160,25 @@ document.addEventListener("DOMContentLoaded", () => {
         <span class="word-translation">${wordObj.latin}</span>
       `;
       
+      card.addEventListener("mouseenter", () => {
+        gsap.to(card, {
+          scale: 1.05,
+          rotate: (Math.random() * 2) - 1,
+          borderColor: "var(--color-olive)",
+          duration: 0.3,
+          ease: "power2.out"
+        });
+      });
+      card.addEventListener("mouseleave", () => {
+        gsap.to(card, {
+          scale: 1,
+          rotate: 0,
+          borderColor: selectedIqraWord && selectedIqraWord.id === wordObj.id ? "var(--color-olive)" : "var(--border-color)",
+          duration: 0.3,
+          ease: "power2.out"
+        });
+      });
+
       card.addEventListener("click", () => {
         selectedIqraWord = wordObj;
         selectedHijaiyahLetter = null;
@@ -3127,6 +3207,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("hijaiyah-detail-content").style.display = "none";
     const wordDetailContent = document.getElementById("iqra-word-detail-content");
     wordDetailContent.style.display = "block";
+
+    if (window.innerWidth < 768) {
+      openBottomSheet();
+    }
 
     const giantWord = document.getElementById("iqra-giant-word");
     const latinWord = document.getElementById("iqra-word-latin");
@@ -3257,6 +3341,192 @@ document.addEventListener("DOMContentLoaded", () => {
 
     container.appendChild(card);
     lucide.createIcons();
+  }
+
+  function openBottomSheet() {
+    const panel = document.getElementById("hijaiyah-detail-panel");
+    const backdrop = document.getElementById("hijaiyah-sheet-backdrop");
+    if (!panel || !backdrop) return;
+    
+    backdrop.classList.add("active");
+    
+    gsap.killTweensOf(panel);
+    gsap.to(panel, {
+      y: "0%",
+      duration: 0.4,
+      ease: "power2.out"
+    });
+  }
+
+  function closeBottomSheet() {
+    const panel = document.getElementById("hijaiyah-detail-panel");
+    const backdrop = document.getElementById("hijaiyah-sheet-backdrop");
+    if (!panel || !backdrop) return;
+    
+    gsap.killTweensOf(panel);
+    gsap.to(panel, {
+      y: "100%",
+      duration: 0.3,
+      ease: "power2.in",
+      onComplete: () => {
+        backdrop.classList.remove("active");
+        
+        selectedHijaiyahLetter = null;
+        selectedIqraWord = null;
+        
+        // Render back the board empty states
+        if (activeIqraView === "hijaiyah") {
+          renderHijaiyahBoard();
+        } else if (activeIqraView.startsWith("level-")) {
+          const levelNum = parseInt(activeIqraView.replace("level-", ""));
+          const levelData = GOODFATHER_CONTENT.madrasah.iqraLevels.find(l => l.level === levelNum);
+          if (levelData) renderIqraLevelWords(levelData);
+        }
+      }
+    });
+  }
+
+  // -----------------------------------------
+  // Google SSO Auth & Configuration
+  // -----------------------------------------
+  
+  // Load configuration and init Google SSO
+  initGoogleSSO();
+  setupGoogleSettingsListeners();
+
+  function initGoogleSSO() {
+    const savedClientId = localStorage.getItem("goodfather_google_client_id");
+    const clientInput = document.getElementById("input-google-client-id");
+    
+    // Pre-populate setting input if it exists
+    if (clientInput && savedClientId) {
+      clientInput.value = savedClientId;
+    }
+
+    // Render profile card if user is logged in
+    const savedUserProfile = localStorage.getItem("goodfather_user_profile");
+    if (savedUserProfile) {
+      showSSOProfile(JSON.parse(savedUserProfile));
+    } else if (savedClientId) {
+      // Initialize Google GIS SDK and render Login button
+      try {
+        if (typeof google !== "undefined" && google.accounts && google.accounts.id) {
+          google.accounts.id.initialize({
+            client_id: savedClientId,
+            callback: handleCredentialResponse
+          });
+          
+          google.accounts.id.renderButton(
+            document.getElementById("google-login-btn-wrapper"),
+            { theme: "outline", size: "medium", shape: "pill", text: "signin_with" }
+          );
+        }
+      } catch (err) {
+        console.error("Failed to initialize Google SSO SDK:", err);
+      }
+    } else {
+      // If no client ID set, show placeholder button/indicator
+      const wrapper = document.getElementById("google-login-btn-wrapper");
+      if (wrapper) {
+        wrapper.innerHTML = `
+          <button class="btn btn-outline btn-sm" id="btn-prompt-sso" title="Setup Google SSO di tab Referensi" style="padding: 6px 12px; font-size: 0.75rem;">
+            <i data-lucide="key" style="width: 12px; height: 12px; margin-right: 4px;"></i> Login
+          </button>
+        `;
+        document.getElementById("btn-prompt-sso").addEventListener("click", (e) => {
+          e.preventDefault();
+          // Switch to Referensi tab
+          const refLink = document.getElementById("link-references");
+          if (refLink) refLink.click();
+          alert("Silakan masukkan Google OAuth Client ID Anda di bagian bawah halaman Referensi & Pengaturan.");
+        });
+      }
+    }
+  }
+
+  function handleCredentialResponse(response) {
+    const token = response.credential;
+    const userData = decodeJwt(token);
+    
+    if (userData) {
+      // Save user data to localStorage
+      localStorage.setItem("goodfather_user_profile", JSON.stringify({
+        name: userData.name,
+        email: userData.email,
+        picture: userData.picture
+      }));
+      
+      // Update UI
+      showSSOProfile(userData);
+      
+      // Attempt to sync from server since user is now logged in
+      syncBackupFromServer();
+      
+      // Confetti celebration
+      if (typeof confettiEngine !== "undefined") {
+        confettiEngine.spawn();
+      }
+    }
+  }
+
+  function decodeJwt(token) {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(jsonPayload);
+    } catch (e) {
+      console.error("JWT decoding failed:", e);
+      return null;
+    }
+  }
+
+  function showSSOProfile(userData) {
+    const loginWrapper = document.getElementById("google-login-btn-wrapper");
+    const profileWidget = document.getElementById("user-sso-profile");
+    const avatarImg = document.getElementById("user-sso-avatar");
+    const nameSpan = document.getElementById("user-sso-name");
+    
+    if (loginWrapper) loginWrapper.style.display = "none";
+    if (profileWidget) profileWidget.style.display = "flex";
+    if (avatarImg && userData.picture) avatarImg.src = userData.picture;
+    if (nameSpan && userData.name) nameSpan.textContent = userData.name.split(" ")[0];
+    
+    // Add logout listener
+    const logoutBtn = document.getElementById("btn-sso-logout");
+    if (logoutBtn && !logoutBtn.dataset.listenerAdded) {
+      logoutBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        localStorage.removeItem("goodfather_user_profile");
+        
+        if (loginWrapper) loginWrapper.style.display = "flex";
+        if (profileWidget) profileWidget.style.display = "none";
+        
+        initGoogleSSO();
+      });
+      logoutBtn.dataset.listenerAdded = "true";
+    }
+  }
+
+  function setupGoogleSettingsListeners() {
+    const saveBtn = document.getElementById("btn-save-google-client-id");
+    const clientInput = document.getElementById("input-google-client-id");
+    
+    if (saveBtn && clientInput) {
+      saveBtn.addEventListener("click", () => {
+        const val = clientInput.value.trim();
+        if (!val) {
+          alert("Silakan masukkan Google Client ID yang valid.");
+          return;
+        }
+        
+        localStorage.setItem("goodfather_google_client_id", val);
+        alert("Google Client ID berhasil disimpan. Halaman akan dimuat ulang untuk menerapkan seting.");
+        window.location.reload();
+      });
+    }
   }
 
 });

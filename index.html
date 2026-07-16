@@ -8,7 +8,9 @@
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <!-- Lucide Icons CDN -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@latest" defer></script>
+  <!-- Google SSO (Google Identity Services) -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
   <!-- Soft Father-Child Background Ornament -->
@@ -65,6 +67,18 @@
         <li><a href="#" class="nav-link" id="link-references">Referensi</a></li>
       </ul>
       <div class="nav-actions">
+        <!-- Google SSO Profile Widget -->
+        <div class="user-sso-container" id="user-sso-container" style="display: flex; align-items: center; gap: 8px;">
+          <div id="google-login-btn-wrapper" style="min-height: 40px; display: flex; align-items: center;"></div>
+          <div class="user-sso-profile" id="user-sso-profile" style="display: none; align-items: center; gap: 8px;">
+            <img class="user-avatar" id="user-sso-avatar" src="" alt="Avatar" style="width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--border-color); object-fit: cover;">
+            <div style="display: flex; flex-direction: column; line-height: 1.1; text-align: left;">
+              <span id="user-sso-name" style="font-size: 0.8rem; font-weight: 700; color: var(--text-main); max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Ayah</span>
+              <a href="#" id="btn-sso-logout" style="font-size: 0.65rem; color: var(--color-coral); text-decoration: none; font-weight: 600;">Keluar</a>
+            </div>
+          </div>
+        </div>
+
         <button class="btn btn-outline" id="btn-backup-sync" title="Cadangkan Data ke Server">
           <i data-lucide="cloud-lightning"></i> <span>Sync</span>
         </button>
@@ -420,7 +434,7 @@
 
         <!-- No Profile Empty State -->
         <div id="dashboard-empty-state" class="map-card" style="text-align: center; align-items: center; display: none; padding: 48px 24px; gap: 16px;">
-          <img src="assets/empty_state.png" alt="Mulai Peta Ayah" style="max-width: 280px; width: 100%; height: auto; border-radius: var(--radius-lg); margin-bottom: 12px; border: 2px solid var(--border-color); box-shadow: var(--shadow-soft);">
+          <img src="assets/empty_state.webp" alt="Mulai Peta Ayah" width="280" height="280" style="max-width: 280px; width: 100%; height: auto; aspect-ratio: 1 / 1; border-radius: var(--radius-lg); margin-bottom: 12px; border: 2px solid var(--border-color); box-shadow: var(--shadow-soft);">
           <h3>Peta Ayah Belum Dibuat</h3>
           <p style="margin: 0 auto 16px; max-width: 480px;">Silakan buat profil anak pertama Anda dan isi asesmen singkat untuk mendapatkan peta prioritas dan misi harian.</p>
           <button class="btn btn-primary" id="btn-empty-add-profile"><i data-lucide="plus"></i> Buat Profil Anak</button>
@@ -462,8 +476,16 @@
     <!-- ----------------------------------------- -->
     <div id="view-madrasah" class="page-view">
       <div class="container">
-        <h2>Madrasah Ayah: Al-Qur'an & Doa</h2>
-        <p style="margin-bottom: 24px;">Pusat belajar interaktif bagi ayah untuk melafalkan doa harian dan dasar membaca Al-Qur'an sebelum diajarkan kepada anak.</p>
+        <!-- Madrasah Hero Banner (Gaya AG-Trah) -->
+        <div class="madrasah-hero-card">
+          <div class="madrasah-hero-content">
+            <h2>Madrasah Ayah: Al-Qur'an & Doa</h2>
+            <p>Pusat belajar interaktif bagi ayah untuk melafalkan doa harian dan dasar membaca Al-Qur'an sebelum diajarkan kepada anak.</p>
+          </div>
+          <div class="madrasah-hero-image-wrapper">
+            <img src="assets/madrasah_hero.webp" alt="Ilustrasi Madrasah Ayah" width="320" height="240" class="madrasah-hero-img">
+          </div>
+        </div>
         
         <!-- Madrasah Sub-Tabs -->
         <div class="library-filters" id="madrasah-filters-container" style="margin-bottom: 24px;">
@@ -512,6 +534,8 @@
 
           <!-- MAIN LAYOUT GRID -->
           <div class="hijaiyah-layout-grid">
+            <!-- Backdrop for Mobile Bottom Sheet -->
+            <div class="bottom-sheet-backdrop" id="hijaiyah-sheet-backdrop"></div>
             
             <!-- LEFT PANEL: GRID / TABLE CONTENT -->
             <div class="hijaiyah-grid-wrapper">
@@ -559,6 +583,13 @@
             <!-- RIGHT PANEL: SIDEBAR DETAILS -->
             <div class="hijaiyah-detail-sidebar">
               <div class="mockup-card" id="hijaiyah-detail-panel" style="padding: 24px; position: sticky; top: 88px; background: var(--bg-card); border: 1.5px solid var(--border-color); border-radius: var(--radius-lg); box-shadow: var(--shadow-soft);">
+                <!-- Bottom Sheet Drag Handle & Close Button for Mobile -->
+                <div class="bottom-sheet-header">
+                  <div class="bottom-sheet-drag-handle"></div>
+                  <button type="button" class="bottom-sheet-close" id="btn-close-bottom-sheet" aria-label="Tutup Detail">
+                    <i data-lucide="x"></i>
+                  </button>
+                </div>
                 
                 <!-- 1. EMPTY STATE -->
                 <div class="hijaiyah-empty-state" id="hijaiyah-empty-state">
@@ -836,6 +867,18 @@
             </ul>
           </div>
         </div>
+
+        <h2 style="margin-top: 48px; font-family: var(--font-hand); color: var(--text-main);">Pengaturan Integrasi Google SSO</h2>
+        <p style="margin-bottom: 24px; color: var(--text-muted); font-size: 0.95rem;">Hubungkan aplikasi dengan Google Console Anda untuk mengaktifkan login autentikasi aman di domain produksi Anda.</p>
+        <div class="mockup-card" style="padding: 24px; background: var(--bg-card); border: 1.5px solid var(--border-color); border-radius: var(--radius-lg); box-shadow: var(--shadow-soft); max-width: 600px;">
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <label for="input-google-client-id" style="font-size: 0.9rem; font-weight: 700; color: var(--text-main);">Google OAuth Client ID:</label>
+            <input type="text" id="input-google-client-id" placeholder="Masukkan Google Client ID Anda di sini..." style="padding: 12px; border: 1.5px solid var(--border-color); border-radius: var(--radius-md); font-family: var(--font-sans); background: var(--bg-accent); color: var(--text-main); font-size: 0.9rem; width: 100%;">
+            <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.4; margin: 0;">Client ID akan disimpan langsung di LocalStorage browser Anda secara aman dan digunakan untuk merender tombol login Google.</p>
+            <button class="btn btn-primary" id="btn-save-google-client-id" style="align-self: flex-start; padding: 12px 20px; display: flex; align-items: center; gap: 8px;"><i data-lucide="save" style="width: 16px; height: 16px;"></i> Simpan Seting</button>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -1137,7 +1180,7 @@
   <!-- BREATHING OVERLAY: AYAH OFFLINE MODE      -->
   <!-- ----------------------------------------- -->
   <div class="breathing-overlay" id="focus-overlay">
-    <img src="assets/offline_breathing.png" alt="Offline Mode Calming Leaf" style="max-width: 140px; border-radius: 50%; border: 2px solid rgba(255,244,227,0.15); margin-bottom: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.35);">
+    <img src="assets/offline_breathing.webp" alt="Offline Mode Calming Leaf" width="140" height="140" style="max-width: 140px; width: 100%; height: auto; aspect-ratio: 1 / 1; border-radius: 50%; border: 2px solid rgba(255,244,227,0.15); margin-bottom: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.35);">
     <div class="timer-display" id="focus-timer">20:00</div>
     
     <div class="breathing-container">
@@ -1170,14 +1213,14 @@
 
   <!-- Animation and Logic Scripts -->
   <!-- GSAP Core + ScrollTrigger -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <!-- Motion vanilla JS -->
-  <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.min.js" defer></script>
   
   <!-- App scripts -->
-  <script src="content.js"></script>
-  <script src="app.js"></script>
+  <script src="content.js" defer></script>
+  <script src="app.js" defer></script>
   <!-- Celebration Confetti Canvas overlay -->
   <canvas id="celebration-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999;"></canvas>
 
