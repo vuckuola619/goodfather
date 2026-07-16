@@ -3390,29 +3390,22 @@ document.addEventListener("DOMContentLoaded", () => {
   // Google SSO Auth & Configuration
   // -----------------------------------------
   
+  const GOOGLE_CLIENT_ID = "384071937048-b7g294vth5mli2thrrg6a507et9pfjev.apps.googleusercontent.com";
+
   // Load configuration and init Google SSO
   initGoogleSSO();
-  setupGoogleSettingsListeners();
 
   function initGoogleSSO() {
-    const savedClientId = localStorage.getItem("goodfather_google_client_id");
-    const clientInput = document.getElementById("input-google-client-id");
-    
-    // Pre-populate setting input if it exists
-    if (clientInput && savedClientId) {
-      clientInput.value = savedClientId;
-    }
-
     // Render profile card if user is logged in
     const savedUserProfile = localStorage.getItem("goodfather_user_profile");
     if (savedUserProfile) {
       showSSOProfile(JSON.parse(savedUserProfile));
-    } else if (savedClientId) {
+    } else {
       // Initialize Google GIS SDK and render Login button
       try {
         if (typeof google !== "undefined" && google.accounts && google.accounts.id) {
           google.accounts.id.initialize({
-            client_id: savedClientId,
+            client_id: GOOGLE_CLIENT_ID,
             callback: handleCredentialResponse
           });
           
@@ -3423,23 +3416,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       } catch (err) {
         console.error("Failed to initialize Google SSO SDK:", err);
-      }
-    } else {
-      // If no client ID set, show placeholder button/indicator
-      const wrapper = document.getElementById("google-login-btn-wrapper");
-      if (wrapper) {
-        wrapper.innerHTML = `
-          <button class="btn btn-outline btn-sm" id="btn-prompt-sso" title="Setup Google SSO di tab Referensi" style="padding: 6px 12px; font-size: 0.75rem;">
-            <i data-lucide="key" style="width: 12px; height: 12px; margin-right: 4px;"></i> Login
-          </button>
-        `;
-        document.getElementById("btn-prompt-sso").addEventListener("click", (e) => {
-          e.preventDefault();
-          // Switch to Referensi tab
-          const refLink = document.getElementById("link-references");
-          if (refLink) refLink.click();
-          alert("Silakan masukkan Google OAuth Client ID Anda di bagian bawah halaman Referensi & Pengaturan.");
-        });
       }
     }
   }
@@ -3507,25 +3483,6 @@ document.addEventListener("DOMContentLoaded", () => {
         initGoogleSSO();
       });
       logoutBtn.dataset.listenerAdded = "true";
-    }
-  }
-
-  function setupGoogleSettingsListeners() {
-    const saveBtn = document.getElementById("btn-save-google-client-id");
-    const clientInput = document.getElementById("input-google-client-id");
-    
-    if (saveBtn && clientInput) {
-      saveBtn.addEventListener("click", () => {
-        const val = clientInput.value.trim();
-        if (!val) {
-          alert("Silakan masukkan Google Client ID yang valid.");
-          return;
-        }
-        
-        localStorage.setItem("goodfather_google_client_id", val);
-        alert("Google Client ID berhasil disimpan. Halaman akan dimuat ulang untuk menerapkan seting.");
-        window.location.reload();
-      });
     }
   }
 
