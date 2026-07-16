@@ -1,4 +1,4 @@
-Status: claimed
+Status: resolved
 
 ## Parent
 
@@ -13,6 +13,6 @@ Implement fixes identified in the code review:
 
 ## Acceptance criteria
 
-- [ ] Completion modal functions correctly using the ID `#modal-mission-complete`.
-- [ ] History log renders the child's name next to the mission title (e.g. "Hadir Tanpa HP untuk Yusuf").
-- [ ] Streaks decay to 0 if a full day has been missed since the last completion.
+- [x] Completion modal functions correctly using the ID `#modal-mission-complete`.
+- [x] History log renders the child's name next to the mission title (e.g. "Hadir Tanpa HP untuk Yusuf").
+- [x] Streaks decay to 0 if a full day has been missed since the last completion.
