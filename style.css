@@ -2009,6 +2009,9 @@ footer p {
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--border-color);
   background-color: color-mix(in oklab, var(--text-main) 2%, transparent);
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 12px;
 }
 
 .history-item-card:hover {
@@ -2514,4 +2517,211 @@ footer p {
 .dua-teaching-tip strong {
   color: var(--text-main);
 }
+
+/* ==========================================================================
+   IQRA ACADEMY & HURUF SAMBUNG STYLES
+   ========================================================================== */
+
+.iqra-level-nav-container::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+}
+.iqra-level-nav-container {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Active panel switching rules */
+.iqra-content-panel {
+  display: none;
+}
+
+.iqra-content-panel.active {
+  display: block;
+  animation: iqraPanelFadeIn 0.3s ease-out;
+}
+
+@keyframes iqraPanelFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Connected Letters Table */
+.connected-forms-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.connected-forms-table th {
+  padding: 14px 12px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--text-main);
+  border-bottom: 2px solid var(--border-color);
+  background: var(--bg-accent);
+}
+
+.connected-forms-table td {
+  padding: 16px 12px;
+  border-bottom: 1px solid var(--border-color);
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 1.7rem;
+  font-weight: 500;
+  vertical-align: middle;
+}
+
+.connected-forms-table tr:hover {
+  background: rgba(98, 25, 38, 0.02);
+}
+
+.connected-forms-table td:first-child {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-olive);
+}
+
+/* Word Cards for Levels 1 - 6 */
+.iqra-word-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px 16px;
+  cursor: pointer;
+  box-shadow: var(--shadow-soft);
+  transition: var(--transition-normal);
+  position: relative;
+  user-select: none;
+}
+
+.iqra-word-card .arabic-word {
+  font-size: 2.3rem;
+  font-weight: 700;
+  color: var(--text-main);
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.2;
+  direction: rtl;
+  transition: transform 0.2s ease;
+}
+
+.iqra-word-card .word-translation {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+.iqra-word-card:hover {
+  transform: translateY(-4px) rotate(1deg);
+  border-color: var(--color-olive);
+  box-shadow: 0 8px 24px var(--shadow-color);
+}
+
+.iqra-word-card:active {
+  transform: scale(0.96);
+}
+
+.iqra-word-card.active {
+  background: var(--bg-accent);
+  border-color: var(--color-olive);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.iqra-word-card.active .arabic-word {
+  color: var(--color-olive);
+  transform: scale(1.08);
+}
+
+.iqra-word-card.active .word-translation {
+  color: var(--text-main);
+}
+
+/* Completion status mark */
+.iqra-word-card.completed {
+  border-color: var(--color-mint);
+}
+
+.iqra-word-card.completed::after {
+  content: '✓';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 0.72rem;
+  font-weight: 900;
+  color: var(--color-mint);
+  background: rgba(98, 25, 38, 0.03);
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--color-mint);
+}
+
+/* Syllable Speller box */
+.iqra-speller-box {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.speller-pill {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  min-width: 54px;
+  user-select: none;
+}
+
+.speller-pill:hover {
+  border-color: var(--color-olive);
+  background: var(--bg-accent);
+  transform: translateY(-2px);
+}
+
+.speller-pill:active {
+  transform: scale(0.95);
+}
+
+.speller-pill .speller-char {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-main);
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.1;
+}
+
+.speller-pill .speller-latin {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  font-weight: 700;
+}
+
+/* Tajweed label badges */
+.tajweed-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: var(--bg-accent);
+  color: var(--color-olive);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
 

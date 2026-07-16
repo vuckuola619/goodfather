@@ -483,33 +483,99 @@
           </div>
         </div>
 
-        <!-- SECTION B: Hijaiyah Board -->
+        <!-- SECTION B: Iqra & Hijaiyah Dashboard -->
         <div id="madrasah-subview-hijaiyah" class="madrasah-subview">
-          <div class="hijaiyah-layout-grid">
-            <div class="hijaiyah-grid-wrapper">
-              <h3 style="margin-bottom: 8px; font-family: var(--font-hand);">Papan Huruf Hijaiyah</h3>
-              <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px;">Klik salah satu huruf untuk mulai mengeja dan mempelajari cara membacanya.</p>
-              <div class="hijaiyah-grid" id="hijaiyah-grid-container">
-                <!-- 28 letters injected dynamically via JS -->
-              </div>
+          
+          <!-- Iqra Levels & Chart Navigation -->
+          <div class="iqra-level-nav-container" style="display: flex; gap: 8px; margin-bottom: 24px; overflow-x: auto; padding-bottom: 8px; border-bottom: 1.5px solid var(--border-color);">
+            <button class="filter-btn active" data-iqra-view="hijaiyah">Huruf Satuan</button>
+            <button class="filter-btn" data-iqra-view="connected-table">Tabel Sambung</button>
+            <button class="filter-btn" data-iqra-view="level-1">Level 1</button>
+            <button class="filter-btn" data-iqra-view="level-2">Level 2</button>
+            <button class="filter-btn" data-iqra-view="level-3">Level 3</button>
+            <button class="filter-btn" data-iqra-view="level-4">Level 4</button>
+            <button class="filter-btn" data-iqra-view="level-5">Level 5</button>
+            <button class="filter-btn" data-iqra-view="level-6">Level 6</button>
+          </div>
+
+          <!-- LEVEL DESCRIPTION CARD (Visible for Levels 1-6) -->
+          <div class="mockup-card" id="iqra-level-header-card" style="padding: 20px; margin-bottom: 24px; display: none; background: var(--bg-card); border: 1.5px solid var(--border-color); border-radius: var(--radius-lg);">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+              <div class="float-icon-large" style="background: var(--color-gold); color: white; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%;"><i data-lucide="book-open" style="width: 20px; height: 20px;"></i></div>
+              <h3 id="iqra-level-title" style="font-family: var(--font-hand); color: var(--text-main); margin: 0;">Iqra 1: Fathah & Huruf Tunggal</h3>
             </div>
+            <p id="iqra-level-target" style="font-size: 0.95rem; line-height: 1.5; color: var(--text-main); margin-bottom: 12px;"></p>
+            <div style="background: var(--bg-accent); padding: 12px 16px; border-radius: var(--radius-md); border-left: 4px solid var(--color-olive);">
+              <p style="font-size: 0.85rem; margin: 0; line-height: 1.5; color: var(--text-muted);"><strong style="color: var(--text-main);">Aturan Tajwid:</strong> <span id="iqra-level-tajweed-rules"></span></p>
+            </div>
+          </div>
+
+          <!-- MAIN LAYOUT GRID -->
+          <div class="hijaiyah-layout-grid">
             
+            <!-- LEFT PANEL: GRID / TABLE CONTENT -->
+            <div class="hijaiyah-grid-wrapper">
+              
+              <!-- 1. Hijaiyah Grid (Huruf Satuan) -->
+              <div id="iqra-grid-hijaiyah" class="iqra-content-panel active">
+                <div class="hijaiyah-grid" id="hijaiyah-grid-container">
+                  <!-- 28 letters injected dynamically -->
+                </div>
+              </div>
+
+              <!-- 2. Connected Table View -->
+              <div id="iqra-grid-connected-table" class="iqra-content-panel" style="display: none;">
+                <h3 style="margin-bottom: 8px; font-family: var(--font-hand);">Tabel Bentuk Huruf Sambung</h3>
+                <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;">Tabel visual perubahan bentuk huruf berdasarkan posisi penulisan awal, tengah, dan akhir.</p>
+                <div class="connected-table-wrapper" style="overflow-x: auto; background: var(--bg-card); border: 1.5px solid var(--border-color); border-radius: var(--radius-lg); box-shadow: var(--shadow-soft);">
+                  <table class="connected-forms-table" id="connected-forms-table-body" style="width: 100%; border-collapse: collapse; text-align: center; font-size: 1.1rem; color: var(--text-main);">
+                    <thead>
+                      <tr style="background: var(--bg-accent); border-bottom: 1.5px solid var(--border-color);">
+                        <th style="padding: 12px; font-size: 0.9rem; font-weight: 700;">Huruf</th>
+                        <th style="padding: 12px; font-size: 0.9rem; font-weight: 700;">Tunggal (Isolated)</th>
+                        <th style="padding: 12px; font-size: 0.9rem; font-weight: 700;">Awal (Beginning)</th>
+                        <th style="padding: 12px; font-size: 0.9rem; font-weight: 700;">Tengah (Middle)</th>
+                        <th style="padding: 12px; font-size: 0.9rem; font-weight: 700;">Akhir (End)</th>
+                      </tr>
+                    </thead>
+                    <tbody id="connected-table-rows">
+                      <!-- Connected forms injected dynamically -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- 3. Level Words Practice Grid -->
+              <div id="iqra-grid-level-words" class="iqra-content-panel" style="display: none;">
+                <h3 style="margin-bottom: 8px; font-family: var(--font-hand);">Papan Latihan Perkata</h3>
+                <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;">Klik kata di bawah untuk melihat ejaan suku kata dan panduan hukum tajwid pelafalan.</p>
+                <div class="hijaiyah-grid" id="iqra-words-grid-container" style="grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));">
+                  <!-- Word cards injected dynamically -->
+                </div>
+              </div>
+
+            </div>
+
+            <!-- RIGHT PANEL: SIDEBAR DETAILS -->
             <div class="hijaiyah-detail-sidebar">
-              <div class="mockup-card" id="hijaiyah-detail-panel" style="padding: 24px; position: sticky; top: 88px; background: var(--bg-card); border: 1.5px solid var(--border-color); border-radius: var(--radius-lg);">
+              <div class="mockup-card" id="hijaiyah-detail-panel" style="padding: 24px; position: sticky; top: 88px; background: var(--bg-card); border: 1.5px solid var(--border-color); border-radius: var(--radius-lg); box-shadow: var(--shadow-soft);">
+                
+                <!-- 1. EMPTY STATE -->
                 <div class="hijaiyah-empty-state" id="hijaiyah-empty-state">
                   <div style="text-align: center; color: var(--text-muted); padding: 40px 0;">
                     <i data-lucide="book-open" style="width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.5; color: var(--color-olive); margin: 0 auto 12px;"></i>
-                    <p style="font-family: var(--font-hand); font-weight: 600; font-size: 1.15rem; color: var(--text-main);">Eja & Pelajari Huruf</p>
-                    <p style="font-size: 0.85rem; margin-top: 8px; line-height: 1.45;">Pilih huruf Hijaiyah di samping untuk melihat harakat, makhraj, dan tips mengajarkannya.</p>
+                    <p style="font-family: var(--font-hand); font-weight: 600; font-size: 1.15rem; color: var(--text-main);">Eja & Pelajari</p>
+                    <p style="font-size: 0.85rem; margin-top: 8px; line-height: 1.45;">Pilih salah satu huruf atau kata latihan di samping untuk mengeja harakat, makhraj, dan tips tajwid.</p>
                   </div>
                 </div>
-                
+
+                <!-- 2. HIJAIYAH (SINGLE CHAR) DETAIL PANEL -->
                 <div class="hijaiyah-detail-content" id="hijaiyah-detail-content" style="display: none;">
                   <div class="hijaiyah-large-char-card" style="display: flex; align-items: center; gap: 20px; border-bottom: 1px dashed var(--border-color); padding-bottom: 16px; margin-bottom: 20px;">
                     <div class="hijaiyah-giant-display" id="hijaiyah-giant-char" style="font-size: 3.5rem; font-weight: bold; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; background: var(--bg-accent); border-radius: var(--radius-md); border: 1.5px solid var(--border-color); color: var(--text-main); font-family: system-ui, sans-serif;">ب</div>
                     <div class="hijaiyah-char-meta">
-                      <h4 id="hijaiyah-char-name" style="font-family: var(--font-hand); font-size: 1.5rem; color: var(--text-main); margin-bottom: 4px;">Ba</h4>
-                      <p id="hijaiyah-char-pronunciation" style="font-size: 1rem; font-weight: 700; color: var(--color-olive);">Dibaca: Ba</p>
+                      <h4 id="hijaiyah-char-name" style="font-family: var(--font-hand); font-size: 1.5rem; color: var(--text-main); margin-bottom: 4px; margin-top: 0;">Ba</h4>
+                      <p id="hijaiyah-char-pronunciation" style="font-size: 1rem; font-weight: 700; color: var(--color-olive); margin: 0;">Dibaca: Ba</p>
                     </div>
                   </div>
                   
@@ -523,14 +589,14 @@
                   </div>
                   
                   <div class="makhraj-box" style="margin-bottom: 16px; background: var(--bg-accent); padding: 12px; border-radius: var(--radius-md); border: 1px dashed var(--border-color);">
-                    <h5 style="display: flex; align-items: center; gap: 6px; font-weight: 700; margin-bottom: 6px; font-size: 0.9rem; color: var(--text-main);">
+                    <h5 style="display: flex; align-items: center; gap: 6px; font-weight: 700; margin-bottom: 6px; font-size: 0.9rem; color: var(--text-main); margin-top: 0;">
                       <i data-lucide="compass" style="width: 16px; height: 16px; color: var(--color-gold);"></i> Makhraj (Tempat Keluar)
                     </h5>
                     <p id="hijaiyah-char-makhraj" style="font-size: 0.85rem; line-height: 1.45; color: var(--text-main); margin: 0;"></p>
                   </div>
                   
                   <div class="tip-box" style="margin-bottom: 20px; background: rgba(98, 25, 38, 0.03); border-left: 3px solid var(--color-olive); padding: 12px; border-radius: 0 var(--radius-md) var(--radius-md) 0;">
-                    <h5 style="display: flex; align-items: center; gap: 6px; font-weight: 700; margin-bottom: 6px; font-size: 0.9rem; color: var(--color-olive);">
+                    <h5 style="display: flex; align-items: center; gap: 6px; font-weight: 700; margin-bottom: 6px; font-size: 0.9rem; color: var(--color-olive); margin-top: 0;">
                       <i data-lucide="help-circle" style="width: 16px; height: 16px;"></i> Cara Mengajar Anak
                     </h5>
                     <p id="hijaiyah-char-tip" style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin: 0;"></p>
@@ -540,8 +606,47 @@
                     <i data-lucide="check-circle" style="width: 16px; height: 16px;"></i> Kenalkan ke Anak
                   </button>
                 </div>
+
+                <!-- 3. IQRA WORD DETAIL PANEL -->
+                <div class="iqra-word-detail-content" id="iqra-word-detail-content" style="display: none;">
+                  <div class="hijaiyah-large-char-card" style="display: flex; align-items: center; gap: 20px; border-bottom: 1px dashed var(--border-color); padding-bottom: 16px; margin-bottom: 20px;">
+                    <div class="hijaiyah-giant-display" id="iqra-giant-word" style="font-size: 3rem; font-weight: bold; width: auto; min-width: 90px; padding: 0 12px; height: 80px; display: flex; align-items: center; justify-content: center; background: var(--bg-accent); border-radius: var(--radius-md); border: 1.5px solid var(--border-color); color: var(--text-main); font-family: system-ui, sans-serif; direction: rtl;">كَتَبَ</div>
+                    <div class="hijaiyah-char-meta" style="flex-grow: 1;">
+                      <h4 id="iqra-word-latin" style="font-family: var(--font-hand); font-size: 1.3rem; color: var(--text-main); margin-bottom: 4px; margin-top: 0;">Ka-Ta-Ba</h4>
+                      <span class="tajweed-badge" id="iqra-word-tajweed-badge" style="display: inline-block; background: var(--bg-accent); color: var(--color-olive); padding: 2px 8px; font-size: 0.72rem; font-weight: 700; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">Mad Asli</span>
+                    </div>
+                  </div>
+
+                  <!-- Interactive Spelling Block -->
+                  <div style="margin-bottom: 20px;">
+                    <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 8px;">Pengeja Suku Kata (Klik untuk lafal):</span>
+                    <div class="iqra-speller-box" id="iqra-word-speller-container" style="display: flex; gap: 8px; align-items: center; background: var(--bg-accent); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border-color); flex-wrap: wrap; justify-content: center; font-family: system-ui, sans-serif;">
+                      <!-- Spell syllable pills injected dynamically -->
+                    </div>
+                  </div>
+
+                  <div class="makhraj-box" style="margin-bottom: 16px; background: var(--bg-accent); padding: 12px; border-radius: var(--radius-md); border: 1px dashed var(--border-color);">
+                    <h5 style="display: flex; align-items: center; gap: 6px; font-weight: 700; margin-bottom: 6px; font-size: 0.9rem; color: var(--text-main); margin-top: 0;">
+                      <i data-lucide="compass" style="width: 16px; height: 16px; color: var(--color-gold);"></i> Hukum Tajwid / Lafal
+                    </h5>
+                    <p id="iqra-word-tajweed-desc" style="font-size: 0.85rem; line-height: 1.45; color: var(--text-main); margin: 0;"></p>
+                  </div>
+                  
+                  <div class="tip-box" style="margin-bottom: 20px; background: rgba(98, 25, 38, 0.03); border-left: 3px solid var(--color-olive); padding: 12px; border-radius: 0 var(--radius-md) var(--radius-md) 0;">
+                    <h5 style="display: flex; align-items: center; gap: 6px; font-weight: 700; margin-bottom: 6px; font-size: 0.9rem; color: var(--color-olive); margin-top: 0;">
+                      <i data-lucide="help-circle" style="width: 16px; height: 16px;"></i> Tips Bimbingan
+                    </h5>
+                    <p id="iqra-word-guidance-tip" style="font-size: 0.82rem; line-height: 1.45; color: var(--text-muted); margin: 0;">Fokus pada ketukan pendek yang konsisten, tidak memanjangkan suara.</p>
+                  </div>
+
+                  <button class="btn btn-primary" id="btn-master-iqra-word" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px;">
+                    <i data-lucide="check-circle" style="width: 16px; height: 16px;"></i> Tandai Sudah Lancar
+                  </button>
+                </div>
+
               </div>
             </div>
+            
           </div>
         </div>
 

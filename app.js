@@ -2723,7 +2723,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Madrasah Ayah Logic & Rendering
   // -----------------------------------------
   let selectedHijaiyahLetter = null;
+  let selectedIqraWord = null;
   let activeHarakat = "fathah";
+  let activeIqraView = "hijaiyah";
 
   function renderMadrasahView() {
     // 1. Setup Sub-Tab Filter Listeners
@@ -2750,7 +2752,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 2. Render sub-sections
     renderDailyDuas();
-    renderHijaiyahBoard();
+    renderIqraDashboard();
     renderMadrasahParentingArticle();
   }
 
@@ -2841,32 +2843,75 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function renderIqraDashboard() {
+    const activeProfile = childProfiles.find(p => p.id === activeChildId);
+    
+    // 1. Setup Iqra Level / Tab Navigation Listeners
+    const navContainer = document.querySelector(".iqra-level-nav-container");
+    if (navContainer) {
+      const navBtns = navContainer.querySelectorAll(".filter-btn");
+      navBtns.forEach(btn => {
+        if (!btn.dataset.listenerAdded) {
+          btn.addEventListener("click", () => {
+            navBtns.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            
+            activeIqraView = btn.getAttribute("data-iqra-view");
+            
+            // Clear details selection when changing views
+            selectedHijaiyahLetter = null;
+            selectedIqraWord = null;
+            
+            renderIqraDashboard();
+          });
+          btn.dataset.listenerAdded = "true";
+        }
+      });
+    }
+
+    // Hide all content panels
+    document.querySelectorAll(".iqra-content-panel").forEach(panel => panel.style.display = "none");
+    
+    // Header level info card handling
+    const levelHeaderCard = document.getElementById("iqra-level-header-card");
+    
+    if (activeIqraView === "hijaiyah") {
+      levelHeaderCard.style.display = "none";
+      document.getElementById("iqra-grid-hijaiyah").style.display = "block";
+      renderHijaiyahBoard();
+    } else if (activeIqraView === "connected-table") {
+      levelHeaderCard.style.display = "none";
+      document.getElementById("iqra-grid-connected-table").style.display = "block";
+      renderConnectedTable();
+    } else if (activeIqraView.startsWith("level-")) {
+      levelHeaderCard.style.display = "block";
+      document.getElementById("iqra-grid-level-words").style.display = "block";
+      
+      const lvlNum = parseInt(activeIqraView.replace("level-", ""));
+      const levelData = GOODFATHER_CONTENT.madrasah.iqraLevels.find(l => l.level === lvlNum);
+      
+      if (levelData) {
+        document.getElementById("iqra-level-title").textContent = levelData.title;
+        document.getElementById("iqra-level-target").textContent = levelData.target;
+        document.getElementById("iqra-level-tajweed-rules").textContent = levelData.tajweedRules;
+        renderIqraLevelWords(levelData);
+      }
+    }
+  }
+
   function renderHijaiyahBoard() {
     const activeProfile = childProfiles.find(p => p.id === activeChildId);
-    const gridContainer = document.getElementById("hijaiyah-grid-container");
-    if (!gridContainer) return;
+    const container = document.getElementById("hijaiyah-grid-container");
+    if (!container) return;
+    container.innerHTML = "";
 
-    gridContainer.innerHTML = "";
-
-    if (!activeProfile) {
-      gridContainer.innerHTML = `
-        <div style="text-align: center; padding: 48px; border: 1px dashed var(--border-color); border-radius: var(--radius-lg); grid-column: 1 / -1;">
-          <p>Silakan buat profil anak terlebih dahulu di Peta Ayah.</p>
-        </div>
-      `;
-      return;
-    }
-
-    if (!activeProfile.completedLetters) {
-      activeProfile.completedLetters = [];
-    }
+    if (!activeProfile) return;
+    if (!activeProfile.completedLetters) activeProfile.completedLetters = [];
 
     const letters = GOODFATHER_CONTENT.madrasah.hijaiyah;
-
     letters.forEach(letObj => {
       const card = document.createElement("div");
       const isIntroduced = activeProfile.completedLetters.includes(letObj.name);
-      
       card.className = `hijaiyah-letter-card ${selectedHijaiyahLetter && selectedHijaiyahLetter.name === letObj.name ? 'active' : ''}`;
       card.innerHTML = `
         <span class="arabic-letter">${letObj.letter}</span>
@@ -2875,16 +2920,14 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="introduced-dot" style="position: absolute; top: 6px; right: 6px; width: 6px; height: 6px; background: var(--color-mint); border-radius: 50%;" title="Sudah dikenalkan"></div>
         ` : ''}
       `;
-
       card.addEventListener("click", () => {
         selectedHijaiyahLetter = letObj;
+        selectedIqraWord = null;
         activeHarakat = "fathah";
-        
         renderHijaiyahBoard();
         renderHijaiyahDetailPanel(letObj);
       });
-
-      gridContainer.appendChild(card);
+      container.appendChild(card);
     });
 
     if (selectedHijaiyahLetter) {
@@ -2892,6 +2935,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       document.getElementById("hijaiyah-empty-state").style.display = "block";
       document.getElementById("hijaiyah-detail-content").style.display = "none";
+      document.getElementById("iqra-word-detail-content").style.display = "none";
     }
   }
 
@@ -2900,6 +2944,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!activeProfile) return;
 
     document.getElementById("hijaiyah-empty-state").style.display = "none";
+    document.getElementById("iqra-word-detail-content").style.display = "none";
     const detailContent = document.getElementById("hijaiyah-detail-content");
     detailContent.style.display = "block";
 
@@ -2966,10 +3011,12 @@ document.addEventListener("DOMContentLoaded", () => {
           activeProfile.completedLetters.push(selectedHijaiyahLetter.name);
         }
 
-        // Update badge progress
+        // Update badge progress (sum of completed letters + completed words)
         const badge = activeProfile.badges.find(b => b.id === "muallim_hijaiyah");
         if (badge) {
-          badge.progress = activeProfile.completedLetters.length;
+          const completedLettersCount = activeProfile.completedLetters ? activeProfile.completedLetters.length : 0;
+          const completedWordsCount = activeProfile.completedIqraWords ? activeProfile.completedIqraWords.length : 0;
+          badge.progress = completedLettersCount + completedWordsCount;
           if (badge.progress >= badge.target) {
             if (!badge.unlocked) {
               badge.unlocked = true;
@@ -2985,6 +3032,178 @@ document.addEventListener("DOMContentLoaded", () => {
         renderHijaiyahDetailPanel(selectedHijaiyahLetter);
       });
       learnBtn.dataset.listenerAdded = "true";
+    }
+
+    lucide.createIcons();
+  }
+
+  function renderConnectedTable() {
+    const tableBody = document.getElementById("connected-table-rows");
+    if (!tableBody) return;
+    tableBody.innerHTML = "";
+
+    const forms = GOODFATHER_CONTENT.madrasah.connectedForms;
+    forms.forEach(form => {
+      const row = document.createElement("tr");
+      row.style.borderBottom = "1px solid var(--border-color)";
+      row.innerHTML = `
+        <td style="padding: 12px; font-weight: 700; color: var(--color-olive); font-family: var(--font-sans); font-size: 0.95rem;">${form.name}</td>
+        <td style="padding: 12px; font-size: 1.75rem; font-family: system-ui, sans-serif;">${form.isolated}</td>
+        <td style="padding: 12px; font-size: 1.75rem; font-family: system-ui, sans-serif;">${form.beginning}</td>
+        <td style="padding: 12px; font-size: 1.75rem; font-family: system-ui, sans-serif;">${form.middle}</td>
+        <td style="padding: 12px; font-size: 1.75rem; font-family: system-ui, sans-serif;">${form.end}</td>
+      `;
+      tableBody.appendChild(row);
+    });
+
+    // Make sure empty state is shown and detail content is hidden in Connected Table view
+    document.getElementById("hijaiyah-empty-state").style.display = "block";
+    document.getElementById("hijaiyah-detail-content").style.display = "none";
+    document.getElementById("iqra-word-detail-content").style.display = "none";
+  }
+
+  function renderIqraLevelWords(levelData) {
+    const activeProfile = childProfiles.find(p => p.id === activeChildId);
+    const container = document.getElementById("iqra-words-grid-container");
+    if (!container) return;
+    container.innerHTML = "";
+
+    if (!activeProfile) return;
+    if (!activeProfile.completedIqraWords) activeProfile.completedIqraWords = [];
+
+    levelData.words.forEach(wordObj => {
+      const card = document.createElement("div");
+      const isCompleted = activeProfile.completedIqraWords.includes(wordObj.id);
+      
+      card.className = `iqra-word-card ${selectedIqraWord && selectedIqraWord.id === wordObj.id ? 'active' : ''} ${isCompleted ? 'completed' : ''}`;
+      card.innerHTML = `
+        <span class="arabic-word">${wordObj.arabic}</span>
+        <span class="word-translation">${wordObj.latin}</span>
+      `;
+      
+      card.addEventListener("click", () => {
+        selectedIqraWord = wordObj;
+        selectedHijaiyahLetter = null;
+        
+        renderIqraLevelWords(levelData);
+        renderIqraWordDetail(wordObj);
+      });
+      
+      container.appendChild(card);
+    });
+
+    if (selectedIqraWord) {
+      renderIqraWordDetail(selectedIqraWord);
+    } else {
+      document.getElementById("hijaiyah-empty-state").style.display = "block";
+      document.getElementById("hijaiyah-detail-content").style.display = "none";
+      document.getElementById("iqra-word-detail-content").style.display = "none";
+    }
+  }
+
+  function renderIqraWordDetail(wordObj) {
+    const activeProfile = childProfiles.find(p => p.id === activeChildId);
+    if (!activeProfile) return;
+
+    document.getElementById("hijaiyah-empty-state").style.display = "none";
+    document.getElementById("hijaiyah-detail-content").style.display = "none";
+    const wordDetailContent = document.getElementById("iqra-word-detail-content");
+    wordDetailContent.style.display = "block";
+
+    const giantWord = document.getElementById("iqra-giant-word");
+    const latinWord = document.getElementById("iqra-word-latin");
+    const tajweedBadge = document.getElementById("iqra-word-tajweed-badge");
+    const spellerContainer = document.getElementById("iqra-word-speller-container");
+    const tajweedDesc = document.getElementById("iqra-word-tajweed-desc");
+    const guidanceTip = document.getElementById("iqra-word-guidance-tip");
+    const masterBtn = document.getElementById("btn-master-iqra-word");
+
+    giantWord.textContent = wordObj.arabic;
+    latinWord.textContent = wordObj.latin;
+    tajweedDesc.textContent = wordObj.tajweedTip;
+
+    let levelNum = 1;
+    const currentView = activeIqraView;
+    if (currentView.startsWith("level-")) {
+      levelNum = parseInt(currentView.replace("level-", ""));
+    }
+    const levelData = GOODFATHER_CONTENT.madrasah.iqraLevels.find(l => l.level === levelNum);
+    
+    let ruleName = "Fathah";
+    if (levelNum === 2) ruleName = "Mad Asli";
+    else if (levelNum === 3) ruleName = "Kasrah & Dammah";
+    else if (levelNum === 4) ruleName = "Tanwin & Qalqalah";
+    else if (levelNum === 5) ruleName = "Tasydid & Alif Lam";
+    else if (levelNum === 6) ruleName = "Tajwid & Waqaf";
+    tajweedBadge.textContent = ruleName;
+
+    spellerContainer.innerHTML = "";
+    // Loop backward for Arabic right-to-left visual alignment
+    for (let i = wordObj.speller.length - 1; i >= 0; i--) {
+      const char = wordObj.speller[i];
+      const lat = wordObj.spellerLatin[i];
+      
+      const pill = document.createElement("div");
+      pill.className = "speller-pill";
+      pill.innerHTML = `
+        <span class="speller-char">${char}</span>
+        <span class="speller-latin">${lat}</span>
+      `;
+      
+      pill.addEventListener("click", () => {
+        gsap.fromTo(pill, { scale: 0.9 }, { scale: 1, duration: 0.2, ease: "bounce.out" });
+      });
+      
+      spellerContainer.appendChild(pill);
+    }
+
+    if (!activeProfile.completedIqraWords) activeProfile.completedIqraWords = [];
+    const isCompleted = activeProfile.completedIqraWords.includes(wordObj.id);
+    
+    if (isCompleted) {
+      masterBtn.innerHTML = `<i data-lucide="check-circle"></i> Sudah Lancar (Ulangi)`;
+      masterBtn.classList.remove("btn-primary");
+      masterBtn.classList.add("btn-outline");
+    } else {
+      masterBtn.innerHTML = `<i data-lucide="check-circle"></i> Tandai Sudah Lancar`;
+      masterBtn.classList.add("btn-primary");
+      masterBtn.classList.remove("btn-outline");
+    }
+
+    if (!masterBtn.dataset.listenerAdded) {
+      masterBtn.addEventListener("click", () => {
+        if (!selectedIqraWord) return;
+        
+        const index = activeProfile.completedIqraWords.indexOf(selectedIqraWord.id);
+        if (index === -1) {
+          activeProfile.completedIqraWords.push(selectedIqraWord.id);
+        } else {
+          activeProfile.completedIqraWords.splice(index, 1);
+        }
+
+        // Update badge progress
+        const badge = activeProfile.badges.find(b => b.id === "muallim_hijaiyah");
+        if (badge) {
+          const completedLettersCount = activeProfile.completedLetters ? activeProfile.completedLetters.length : 0;
+          const completedWordsCount = activeProfile.completedIqraWords ? activeProfile.completedIqraWords.length : 0;
+          badge.progress = completedLettersCount + completedWordsCount;
+          if (badge.progress >= badge.target) {
+            if (!badge.unlocked) {
+              badge.unlocked = true;
+              badge.unlockedAt = new Date().toISOString();
+            }
+          } else {
+            badge.unlocked = false;
+          }
+        }
+
+        saveLocalProfiles();
+        
+        if (levelData) {
+          renderIqraLevelWords(levelData);
+        }
+      });
+      masterBtn.dataset.listenerAdded = "true";
     }
 
     lucide.createIcons();
