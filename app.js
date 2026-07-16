@@ -572,6 +572,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (!profile.streakStats) {
       profile.streakStats = { currentStreak: 0, lastCompletionDate: "", longestStreak: 0 };
+    } else {
+      const today = new Date().toLocaleDateString('en-CA');
+      const yesterdayDateObj = new Date();
+      yesterdayDateObj.setDate(yesterdayDateObj.getDate() - 1);
+      const yesterday = yesterdayDateObj.toLocaleDateString('en-CA');
+      if (profile.streakStats.lastCompletionDate && 
+          profile.streakStats.lastCompletionDate !== today && 
+          profile.streakStats.lastCompletionDate !== yesterday) {
+        profile.streakStats.currentStreak = 0;
+        if (profile.badges) {
+          const istiqamahBadge = profile.badges.find(b => b.id === "istiqamah");
+          if (istiqamahBadge) {
+            istiqamahBadge.progress = 0;
+          }
+        }
+      }
     }
     if (!profile.completedDuas) {
       profile.completedDuas = [];
@@ -2290,12 +2306,13 @@ document.addEventListener("DOMContentLoaded", () => {
           const histItem = document.createElement("div");
           histItem.className = "history-item-card";
 
+          const childNameDisplay = item.childName ? ` <span style="font-weight: 500; font-size: 0.8rem; color: var(--text-muted);">untuk ${item.childName}</span>` : '';
           histItem.innerHTML = `
             <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 6px;">
               <span class="history-item-badge ${item.type}">${item.type === 'quest' ? 'Quest Harian' : 'Misi Artikel'}</span>
               <span class="history-item-date">${dateStr}</span>
             </div>
-            <h4 class="history-item-title">${item.title}</h4>
+            <h4 class="history-item-title">${item.title}${childNameDisplay}</h4>
             
             ${item.reflection ? `
               <div class="history-item-reflection">
@@ -2549,7 +2566,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Mission Completion Modal & Calculation Engine
   // -----------------------------------------
   function triggerMissionCompletion(missionId, missionTitle, missionDesc, references, category, type, onCompleteCallback) {
-    const mcModal = document.getElementById("mission-complete-modal");
+    const mcModal = document.getElementById("modal-mission-complete");
     const nameNode = document.getElementById("mc-mission-name");
     const descNode = document.getElementById("mc-mc-mission-desc") || document.getElementById("mc-mission-desc");
     const refIslamicNode = document.getElementById("mc-ref-islamic");
@@ -2630,7 +2647,8 @@ document.addEventListener("DOMContentLoaded", () => {
       timestamp: new Date().toISOString(),
       reflection: reflectionText,
       reference: references,
-      category: category
+      category: category,
+      childName: activeProfile.name
     };
 
     activeProfile.completedMissionsHistory.unshift(newEntry); // Newest first
