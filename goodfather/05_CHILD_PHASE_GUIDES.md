@@ -4,7 +4,7 @@
 
 Usia anak menentukan pendekatan ayah. Anak bukan mini adult. GoodFather harus menghindari nasihat generik yang sama untuk semua usia.
 
-## 0–2 Tahun — Fase Aman & Bonding
+## 0–2 Tahun — Golden Age & Bonding
 
 ### Fokus Ayah
 
@@ -28,7 +28,7 @@ Usia anak menentukan pendekatan ayah. Anak bukan mini adult. GoodFather harus me
 - membiarkan bayi/toddler lama dengan layar,
 - marah karena anak belum bisa mengatur diri.
 
-## 3–5 Tahun — Golden Age & Language-Emotion
+## 3–5 Tahun — Golden Age: Bahasa & Emosi
 
 ### Fokus Ayah
 

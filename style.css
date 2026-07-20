@@ -2208,31 +2208,27 @@ footer p {
   z-index: 1;
 }
 
-/* Background Ornament: Soft Father & Child Watermark */
-.bg-ornament {
+/* Full-Page Background Wallpaper Pattern Styling */
+.bg-wallpaper-pattern {
   position: fixed;
-  bottom: 24px;
-  left: 24px;
-  width: 160px;
-  height: 160px;
-  background-image: url('assets/father_child_ornament.webp');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: bottom left;
-  opacity: 0.08;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
-  z-index: 1; /* Render above body background to show on all themes */
-  transition: opacity 0.3s ease;
+  z-index: 0;
+  opacity: 0.075; /* Lebih tebal & berani (kereng) sesuai request */
+  color: var(--color-olive);
+  transition: opacity 0.3s ease, color 0.3s ease;
 }
 
-@media (max-width: 768px) {
-  .bg-ornament {
-    width: 100px;
-    height: 100px;
-    bottom: 12px;
-    left: 12px;
-    opacity: 0.05;
-  }
+[data-theme="dark"] .bg-wallpaper-pattern {
+  opacity: 0.045; /* Dipertebal di mode gelap untuk visibilitas yang pas */
+}
+
+/* Hilangkan background pattern bawaan (radial dot-grid) agar tidak bertumpuk */
+html, body {
+  background-image: none !important; /* Gunakan pattern SVG kita sepenuhnya */
 }
 
 /* 3. Accessibility support: respect system preferences */
@@ -2896,6 +2892,248 @@ footer p {
 .bottom-sheet-header {
   display: none;
 }
+
+/* --------------------------------- */
+/* GoodFather Auth & Demo Simulator Styles */
+/* --------------------------------- */
+
+/* Auth Lock Card Styling */
+.auth-lock-card {
+  display: none;
+  max-width: 520px;
+  margin: 64px auto;
+  padding: 48px 32px;
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  text-align: center;
+  box-shadow: var(--shadow-soft);
+  flex-direction: column;
+  align-items: center;
+  animation: lock-card-entrance 0.5s ease-out;
+}
+
+@keyframes lock-card-entrance {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-view.auth-locked .auth-lock-card {
+  display: flex;
+}
+
+.page-view.auth-locked > *:not(.auth-lock-card) {
+  display: none !important;
+}
+
+.lock-icon-wrapper {
+  background-color: rgba(216, 168, 78, 0.08);
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  color: var(--color-gold);
+  border: 1.5px dashed rgba(216, 168, 78, 0.4);
+}
+
+.lock-icon-wrapper i, .lock-icon-wrapper svg {
+  width: 32px;
+  height: 32px;
+}
+
+.auth-lock-card h3 {
+  font-family: var(--font-headings);
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: var(--text-main);
+}
+
+.lock-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 32px;
+  max-width: 42ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.auth-lock-btn-container {
+  display: flex;
+  justify-content: center;
+  min-height: 40px;
+  width: 100%;
+}
+
+/* Interactive Pillar Card Styling */
+.interactive-pillar-card {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s ease;
+  position: relative;
+}
+
+.interactive-pillar-card:hover {
+  transform: scale(1.03) rotate(-1.5deg);
+  box-shadow: var(--shadow-medium);
+  border-color: var(--color-gold);
+}
+
+.interactive-pillar-card:active {
+  transform: scale(0.97);
+}
+
+/* Simulator Peta Ayah Styling */
+.simulator-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 32px;
+  margin-top: 24px;
+}
+
+.simulator-controls {
+  padding: 24px;
+  border-radius: var(--radius-xl);
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-color);
+}
+
+.sim-slider-row input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border-color);
+  outline: none;
+  margin: 8px 0;
+}
+
+.sim-slider-row input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-olive);
+  cursor: pointer;
+  border: 2px solid var(--bg-app);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: transform 0.1s ease;
+}
+
+.sim-slider-row input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.sim-preset-btn {
+  transition: all 0.2s ease;
+}
+
+.sim-preset-btn.active {
+  background-color: var(--color-olive) !important;
+  color: white !important;
+  border-color: var(--color-olive) !important;
+}
+
+/* Crisis Rescue Section Styling */
+.crisis-rescue-grid {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 32px;
+  margin-top: 24px;
+}
+
+.crisis-rescue-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.crisis-rescue-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-main);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 52px;
+}
+
+.crisis-rescue-btn:hover {
+  border-color: var(--color-gold);
+  transform: translateX(4px);
+}
+
+.crisis-rescue-btn.active {
+  background-color: var(--color-olive) !important;
+  color: white !important;
+  border-color: var(--color-olive) !important;
+}
+
+.crisis-rescue-btn:active {
+  transform: scale(0.96);
+}
+
+.crisis-rescue-detail {
+  padding: 32px;
+  border-radius: var(--radius-xl);
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-color);
+  min-height: 320px;
+}
+
+/* Active UI States Feedback */
+.btn:active, .filter-btn:active, .harakat-btn:active, .crisis-rescue-btn:active, .sim-preset-btn:active {
+  transform: scale(0.96) !important;
+}
+
+/* Responsive Overrides */
+@media (max-width: 900px) {
+  .simulator-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .crisis-rescue-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .crisis-rescue-menu {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .crisis-rescue-btn {
+    flex: 1 1 calc(50% - 12px);
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .crisis-rescue-btn {
+    flex: 1 1 100%;
+  }
+}
+
+/* Auth state navigation protection */
+body:not(.is-logged-in) .nav-protected {
+  display: none !important;
+}
+
 
 
 

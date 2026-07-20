@@ -365,6 +365,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let activeChildId = null;
   let childProfiles = [];
   let editingProfileId = null;
+  let startAssessmentPendingAfterLogin = false;
   
   // Assessment Stepper State
   let currentStep = 1;
@@ -472,11 +473,21 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
+    const isLoggedIn = !!localStorage.getItem("goodfather_user_profile");
+    const protectedViews = ["dashboard", "madrasah", "journal", "progress"];
+
     // Toggle pages visibility
     pageViews.forEach(view => {
       if (view.id === `view-${viewName}`) {
         view.classList.add("active");
         
+        if (protectedViews.includes(viewName) && !isLoggedIn) {
+          view.classList.add("auth-locked");
+          renderPageLoginButton(viewName);
+        } else {
+          view.classList.remove("auth-locked");
+        }
+
         // GSAP transition for entering view
         gsap.fromTo(view, { opacity: 0, y: 15 }, { 
           opacity: 1, 
@@ -494,17 +505,35 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Special view triggers
-    if (viewName === "dashboard") {
-      renderDashboard();
-    } else if (viewName === "guides") {
-      renderGuides();
-    } else if (viewName === "madrasah") {
-      renderMadrasahView();
-    } else if (viewName === "journal") {
-      renderJournalLogs();
-    } else if (viewName === "progress") {
-      renderProgressView();
+    // Special view triggers (only execute if logged in, or if it is public viewName)
+    if (!protectedViews.includes(viewName) || isLoggedIn) {
+      if (viewName === "dashboard") {
+        renderDashboard();
+      } else if (viewName === "guides") {
+        renderGuides();
+      } else if (viewName === "madrasah") {
+        renderMadrasahView();
+      } else if (viewName === "journal") {
+        renderJournalLogs();
+      } else if (viewName === "progress") {
+        renderProgressView();
+      }
+    }
+  }
+
+  function renderPageLoginButton(viewName) {
+    const btnId = `google-login-btn-page-${viewName}`;
+    const btnWrapper = document.getElementById(btnId);
+    if (btnWrapper && !btnWrapper.dataset.rendered) {
+      btnWrapper.innerHTML = `
+        <button class="btn btn-outline" style="width: 100%; max-width: 250px;">
+          Login
+        </button>
+      `;
+      btnWrapper.querySelector("button").addEventListener("click", () => {
+        triggerGoogleLogin();
+      });
+      btnWrapper.dataset.rendered = "true";
     }
   }
 
@@ -726,12 +755,50 @@ document.addEventListener("DOMContentLoaded", () => {
   const assessmentTriggers = [startAssessmentBtn, emptyAddProfileBtn, addProfileBtn];
   assessmentTriggers.forEach(btn => {
     if (btn) {
-      btn.addEventListener("click", () => {
-        resetAssessment();
-        openModal(assessmentModal);
+      btn.addEventListener("click", (e) => {
+        const isLoggedIn = !!localStorage.getItem("goodfather_user_profile");
+        if (!isLoggedIn) {
+          e.preventDefault();
+          startAssessmentPendingAfterLogin = true;
+          openAuthModal();
+        } else {
+          resetAssessment();
+          openModal(assessmentModal);
+        }
       });
     }
   });
+
+  // Auth Modal Close Listeners
+  const authModal = document.getElementById("auth-modal");
+  const closeAuthModalBtn = document.getElementById("close-auth-modal");
+  const closeAuthModalFooterBtn = document.getElementById("btn-close-auth-modal-footer");
+
+  if (closeAuthModalBtn) {
+    closeAuthModalBtn.addEventListener("click", () => closeModal(authModal));
+  }
+  if (closeAuthModalFooterBtn) {
+    closeAuthModalFooterBtn.addEventListener("click", () => closeModal(authModal));
+  }
+
+  function openAuthModal() {
+    if (!authModal) return;
+    openModal(authModal);
+    
+    // Render Google button inside modal
+    const modalBtnWrapper = document.getElementById("google-login-btn-modal");
+    if (modalBtnWrapper && !modalBtnWrapper.dataset.rendered) {
+      modalBtnWrapper.innerHTML = `
+        <button class="btn btn-primary" style="width: 100%; max-width: 280px; justify-content: center;">
+          Login
+        </button>
+      `;
+      modalBtnWrapper.querySelector("button").addEventListener("click", () => {
+        triggerGoogleLogin();
+      });
+      modalBtnWrapper.dataset.rendered = "true";
+    }
+  }
 
   closeAssessmentBtn.addEventListener("click", () => {
     closeModal(assessmentModal);
@@ -3401,21 +3468,19 @@ document.addEventListener("DOMContentLoaded", () => {
     if (savedUserProfile) {
       showSSOProfile(JSON.parse(savedUserProfile));
     } else {
-      // Initialize Google GIS SDK and render Login button
-      try {
-        if (typeof google !== "undefined" && google.accounts && google.accounts.id) {
-          google.accounts.id.initialize({
-            client_id: GOOGLE_CLIENT_ID,
-            callback: handleCredentialResponse
-          });
-          
-          google.accounts.id.renderButton(
-            document.getElementById("google-login-btn-wrapper"),
-            { theme: "outline", size: "medium", shape: "pill", text: "signin_with" }
-          );
-        }
-      } catch (err) {
-        console.error("Failed to initialize Google SSO SDK:", err);
+      document.body.classList.remove("is-logged-in");
+      
+      const headerBtnWrapper = document.getElementById("google-login-btn-wrapper");
+      if (headerBtnWrapper && !headerBtnWrapper.dataset.rendered) {
+        headerBtnWrapper.innerHTML = `
+          <button class="btn btn-outline" id="btn-custom-google-login">
+            Login
+          </button>
+        `;
+        headerBtnWrapper.querySelector("button").addEventListener("click", () => {
+          triggerGoogleLogin();
+        });
+        headerBtnWrapper.dataset.rendered = "true";
       }
     }
   }
@@ -3437,6 +3502,29 @@ document.addEventListener("DOMContentLoaded", () => {
       
       // Attempt to sync from server since user is now logged in
       syncBackupFromServer();
+      
+      // Close auth modal if open
+      const authModal = document.getElementById("auth-modal");
+      if (authModal && authModal.classList.contains("active")) {
+        closeModal(authModal);
+      }
+
+      // Remove auth-locked class from all views
+      document.querySelectorAll(".page-view").forEach(v => {
+        v.classList.remove("auth-locked");
+      });
+
+      // Refresh active view
+      switchView(activeView);
+
+      // Trigger assessment if it was pending
+      if (startAssessmentPendingAfterLogin) {
+        startAssessmentPendingAfterLogin = false;
+        setTimeout(() => {
+          resetAssessment();
+          openModal(assessmentModal);
+        }, 500);
+      }
       
       // Confetti celebration
       if (typeof confettiEngine !== "undefined") {
@@ -3477,10 +3565,491 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         localStorage.removeItem("goodfather_user_profile");
         
+        // Reset profiles in memory
+        childProfiles = [];
+        activeChildId = null;
+        
+        // Clear rendered Google buttons to re-render them next time
+        document.querySelectorAll("[id^='google-login-btn-page-']").forEach(wrapper => {
+          wrapper.innerHTML = "";
+          delete wrapper.dataset.rendered;
+        });
+        const modalBtnWrapper = document.getElementById("google-login-btn-modal");
+        if (modalBtnWrapper) {
+          modalBtnWrapper.innerHTML = "";
+          delete modalBtnWrapper.dataset.rendered;
+        }
+
         if (loginWrapper) loginWrapper.style.display = "flex";
         if (profileWidget) profileWidget.style.display = "none";
         
+        // Relock all views
+        document.querySelectorAll(".page-view").forEach(v => {
+          const vName = v.id.replace("view-", "");
+          if (["dashboard", "madrasah", "journal", "progress"].includes(vName)) {
+            v.classList.add("auth-locked");
+          }
+        });
+
         initGoogleSSO();
+        
+        // Redirect to home
+        switchView("home");
+      });
+      logoutBtn.dataset.listenerAdded = "true";
+    }
+  }
+
+  // -------------------------------------------------------------
+  // Landing Page Interactive Features (8 Pillars, Simulator, Crisis)
+  // -------------------------------------------------------------
+  
+  const PILLAR_DETAILS = {
+    tauhid: {
+      title: "Tauhid & Akhirat",
+      icon: "heart",
+      description: "Mengenalkan Allah lewat rasa cinta dan menciptakan suasana ibadah rumah yang hangat.",
+      sunnah: "Rasulullah ﷺ membisikkan kalimat tauhid pertama pada cucu beliau, dan mengajarkan kalimat 'Laa ilaha illallah' sebagai ucapan pertama lisan anak.",
+      sains: "Riset kognitif menunjukkan bahwa pembentukan keyakinan dasar (core belief) anak di usia dini sangat memengaruhi rasa aman emosional dan ketahanan mentalnya di masa dewasa.",
+      missions: [
+        "Tuntun anak melafalkan kalimat thayyibah (Alhamdulillah/Subhanallah) saat melihat fenomena alam indah.",
+        "Bacakan kisah Nabi Ibrahim mencari kebenaran tentang pencipta semesta sebelum tidur."
+      ]
+    },
+    rahmah: {
+      title: "Rahmah & Safety",
+      icon: "shield-check",
+      description: "Membangun rasa aman emosional dan melatih regulasi amarah ayah.",
+      sunnah: "Ketika seorang Arab badui heran melihat Rasulullah ﷺ mencium cucunya, beliau bersabda: 'Siapa yang tidak menyayangi tidak akan disayangi.' (HR. Bukhari).",
+      sains: "Stres toksik (toxic stress) akibat bentakan keras mengaktifkan amigdala anak, menghambat pertumbuhan korteks prefrontal yang bertanggung jawab atas logika dan regulasi diri.",
+      missions: [
+        "Tarik napas sedalam 5 detik sebelum menjawab anak ketika Anda sedang merasa lelah.",
+        "Berikan pelukan hangat selama 20 detik tanpa gawai saat menyambut anak pulang sekolah/bermain."
+      ]
+    },
+    golden: {
+      title: "Golden Age",
+      icon: "sparkles",
+      description: "Memahami fase tumbuh kembang anak agar tidak membebani anak di luar usianya.",
+      sunnah: "Ali bin Abi Thalib ra. menasihati: 'Ajaklah anak bermain pada 7 tahun pertama, didiklah dengan disiplin pada 7 tahun kedua, dan jadikan teman diskusi pada 7 tahun ketiga.'",
+      sains: "90% volume otak berkembang sebelum usia 5 tahun. Stimulasi sensorik dan motorik halus pada fase keemasan ini meletakkan fondasi kecerdasan masa depan anak.",
+      missions: [
+        "Bermain balok susun atau menggambar bersama anak di lantai selama 10 menit tanpa HP.",
+        "Hindari menyalahkan balita ketika ia menumpahkan susu secara tidak sengaja."
+      ]
+    },
+    digital: {
+      title: "Digital & AI Safety",
+      icon: "smartphone",
+      description: "Membuat aturan layar, membatasi AI, serta mendampingi anak secara kritis.",
+      sunnah: "Menjaga titipan fitrah suci anak dari paparan yang merusak moral dan akidah (QS. At-Tahrim: 6: Peliharalah dirimu dan keluargamu dari api neraka).",
+      sains: "Studi menunjukkan paparan layar berlebih tanpa interaksi aktif (serve-and-return) dapat memicu speech delay dan adiksi dopamin yang merusak fokus belajar.",
+      missions: [
+        "Buat kesepakatan tertulis 'Screen-Free Dinner' di mana seluruh HP ditaruh di keranjang khusus saat makan.",
+        "Periksa pengaturan filter pencarian anak di Google/YouTube dan aktifkan Restricted Mode."
+      ]
+    },
+    adab: {
+      title: "Adab & Karakter",
+      icon: "book-open",
+      description: "Membangun karakter mulia anak melalui keteladanan harian dan kisah inspiratif.",
+      sunnah: "Rasulullah ﷺ bersabda: 'Tiada suatu pemberian yang diberikan oleh seorang ayah kepada anaknya yang lebih utama daripada adab yang baik.' (HR. at-Tirmidzi).",
+      sains: "Teori Sosial-Kognitif Bandura membuktikan anak belajar perilaku sosial melalui pengamatan (observational learning) terhadap tindakan figur otoritas utamanya, yaitu ayah.",
+      missions: [
+        "Praktekkan kata 'Tolong', 'Maaf', dan 'Terima Kasih' secara sadar kepada istri dan anak hari ini.",
+        "Ceritakan kisah kejujuran atau kepahlawanan Sahabat Nabi sebagai dongeng sebelum tidur."
+      ]
+    },
+    discipline: {
+      title: "Disiplin Positif",
+      icon: "scale",
+      description: "Menerapkan konsekuensi logis dan batasan tegas tanpa kekerasan verbal maupun fisik.",
+      sunnah: "Rasulullah ﷺ menuntun Umar bin Abi Salamah saat makan dengan lembut: 'Wahai anakku, sebutlah nama Allah, makanlah dengan tangan kananmu...' (HR. Bukhari).",
+      sains: "Disiplin positif membangun tanggung jawab internal (internal locus of control), sedangkan hukuman fisik/intimidasi hanya melatih kepatuhan berdasar rasa takut sementara.",
+      missions: [
+        "Sepakati bersama anak konsekuensi logis yang disetujui jika ia terlambat membereskan mainannya.",
+        "Gunakan intonasi rendah dan posisi mata sejajar saat menasihati anak yang menolak aturan."
+      ]
+    },
+    skills: {
+      title: "Future-Ready Skills",
+      icon: "globe",
+      description: "Menyiapkan anak menghadapi era global dengan daya pikir kritis dan pemecahan masalah.",
+      sunnah: "Umar bin Khattab ra. mengimbau: 'Didiklah anak-anakmu karena mereka diciptakan untuk suatu zaman yang berbeda dengan zamanmu.'",
+      sains: "Keterampilan abad ke-21 (Critical Thinking, Collaboration, Creativity, Communication) adalah bekal utama anak agar tidak digantikan oleh otomatisasi kecerdasan buatan (AI).",
+      missions: [
+        "Ajak anak mendiskusikan suatu masalah kecil di rumah dan minta ide kreatifnya untuk solusi.",
+        "Latih anak menggunakan prompt AI secara bijak dan kritis jika ia sudah berusia di atas 10 tahun."
+      ]
+    },
+    reflection: {
+      title: "Refleksi Diri Ayah",
+      icon: "user",
+      description: "Mengenali emosi diri sendiri, menyembuhkan luka pengasuhan lama, dan berani meminta maaf.",
+      sunnah: "'Setiap anak Adam pasti berbuat salah, dan sebaik-baik orang yang berbuat salah adalah mereka yang bertaubat (memperbaiki dirinya).' (Sunan at-Tirmidzi).",
+      sains: "Refleksi diri yang teratur (mindfulness) menstimulasi regulasi emosi parasimpatik ayah, menurunkan kecenderungan reaksi impulsif marah akibat stres pekerjaan.",
+      missions: [
+        "Minta maaf secara tulus kepada anak jika Anda sempat kehilangan kesabaran atau membentak hari ini.",
+        "Tuliskan minimal satu rasa syukur atas perilaku anak di jurnal harian Anda malam ini."
+      ]
+    }
+  };
+
+  const pillarCards = document.querySelectorAll(".interactive-pillar-card");
+  const pillarModal = document.getElementById("pillar-modal");
+  const closePillarBtn = document.getElementById("close-pillar-modal");
+  const closePillarFooterBtn = document.getElementById("btn-close-pillar-modal-footer");
+
+  if (closePillarBtn) closePillarBtn.addEventListener("click", () => closeModal(pillarModal));
+  if (closePillarFooterBtn) closePillarFooterBtn.addEventListener("click", () => closeModal(pillarModal));
+
+  pillarCards.forEach(card => {
+    card.addEventListener("click", () => {
+      const pKey = card.getAttribute("data-pillar");
+      const pData = PILLAR_DETAILS[pKey];
+      if (pData) {
+        document.getElementById("pillar-modal-title").innerHTML = `<i data-lucide="${pData.icon}"></i> ${pData.title}`;
+        document.getElementById("pillar-modal-body").innerHTML = `
+          <p style="font-size: 1.05rem; font-weight: 500; color: var(--text-main); margin-bottom: 20px; line-height: 1.5;">${pData.description}</p>
+          
+          <div style="background-color: rgba(216, 168, 78, 0.04); border-left: 4px solid var(--color-gold); padding: 12px 16px; border-radius: 4px 8px 8px 4px; margin-bottom: 16px;">
+            <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-gold); display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em;"><i data-lucide="book" style="width: 12px; height: 12px; vertical-align: middle;"></i> Tuntunan Syariat & Sunnah</span>
+            <p style="font-size: 0.85rem; color: var(--text-main); margin: 0; line-height: 1.5; font-style: italic;">"${pData.sunnah}"</p>
+          </div>
+          
+          <div style="background-color: rgba(104, 172, 210, 0.04); border-left: 4px solid var(--color-sky); padding: 12px 16px; border-radius: 4px 8px 8px 4px; margin-bottom: 16px;">
+            <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-sky); display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em;"><i data-lucide="graduation-cap" style="width: 12px; height: 12px; vertical-align: middle;"></i> Tinjauan Riset & Sains</span>
+            <p style="font-size: 0.85rem; color: var(--text-main); margin: 0; line-height: 1.5;">${pData.sains}</p>
+          </div>
+          
+          <div>
+            <span style="font-size: 0.8rem; font-weight: 700; color: var(--color-olive); display: block; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em;"><i data-lucide="check-square" style="width: 12px; height: 12px; vertical-align: middle;"></i> Contoh Misi Harian</span>
+            <ul style="padding-left: 20px; font-size: 0.85rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 6px;">
+              ${pData.missions.map(m => `<li>${m}</li>`).join("")}
+            </ul>
+          </div>
+        `;
+        
+        if (typeof lucide !== "undefined") {
+          lucide.createIcons();
+        }
+        
+        openModal(pillarModal);
+      }
+    });
+  });
+
+  // Simulator Logic
+  const presetValues = {
+    sibuk: { conn: 1.8, self: 4.2, faith: 3.5, dig: 2.2, badge: "Ayah Perlu Reconnect", color: "var(--color-sky)", focus: "Fokus membangun waktu berkualitas 10 menit bebas gawai untuk memulihkan kedekatan emosional anak." },
+    pemarah: { conn: 3.5, self: 1.5, faith: 3.2, dig: 3.0, badge: "Anak Butuh Routine & Boundaries", color: "var(--color-coral)", focus: "Latih regulasi amarah ayah, gunakan nada suara lebih rendah, dan hindari bentakan keras." },
+    gadget: { conn: 2.2, self: 3.8, faith: 3.0, dig: 1.6, badge: "Digital Safety Priority", color: "var(--color-mint)", focus: "Sepakati aturan screen-time keluarga, matikan autoplay, dan buat area bebas HP di rumah." },
+    hadir: { conn: 4.8, self: 4.5, faith: 4.2, dig: 4.0, badge: "Faith & Adab Foundation", color: "var(--color-gold)", focus: "Maa syaa Allah! Teruskan keteladanan ibadah hangat dan ajak anak bercerita kisah keteladanan adab." }
+  };
+
+  function updateSimulatorUI(conn, self, faith, dig) {
+    const connLabel = document.getElementById("sim-val-connection");
+    if (connLabel) connLabel.textContent = conn.toFixed(1);
+    const selfLabel = document.getElementById("sim-val-selfreg");
+    if (selfLabel) selfLabel.textContent = self.toFixed(1);
+    const faithLabel = document.getElementById("sim-val-faith");
+    if (faithLabel) faithLabel.textContent = faith.toFixed(1);
+    const digLabel = document.getElementById("sim-val-digital");
+    if (digLabel) digLabel.textContent = dig.toFixed(1);
+
+    const connBarVal = document.getElementById("sim-bar-val-connection");
+    if (connBarVal) connBarVal.textContent = `${conn.toFixed(1)} / 5.0`;
+    const selfBarVal = document.getElementById("sim-bar-val-selfreg");
+    if (selfBarVal) selfBarVal.textContent = `${self.toFixed(1)} / 5.0`;
+    const faithBarVal = document.getElementById("sim-bar-val-faith");
+    if (faithBarVal) faithBarVal.textContent = `${faith.toFixed(1)} / 5.0`;
+    const digBarVal = document.getElementById("sim-bar-val-digital");
+    if (digBarVal) digBarVal.textContent = `${dig.toFixed(1)} / 5.0`;
+
+    gsap.to("#sim-bar-fill-connection", { width: `${(conn / 5) * 100}%`, duration: 0.3 });
+    gsap.to("#sim-bar-fill-selfreg", { width: `${(self / 5) * 100}%`, duration: 0.3 });
+    gsap.to("#sim-bar-fill-faith", { width: `${(faith / 5) * 100}%`, duration: 0.3 });
+    gsap.to("#sim-bar-fill-digital", { width: `${(dig / 5) * 100}%`, duration: 0.3 });
+
+    const lowestVal = Math.min(conn, self, faith, dig);
+    let badgeText = "Ayah Perlu Reconnect";
+    let badgeColor = "var(--color-sky)";
+    let focusText = presetValues.sibuk.focus;
+
+    if (lowestVal === conn) {
+      badgeText = "Ayah Perlu Reconnect";
+      badgeColor = "var(--color-sky)";
+      focusText = "Fokus membangun waktu berkualitas 10 menit bebas gawai untuk memulihkan kedekatan emosional anak.";
+    } else if (lowestVal === self) {
+      badgeText = "Anak Butuh Routine & Boundaries";
+      badgeColor = "var(--color-coral)";
+      focusText = "Latih regulasi amarah ayah, gunakan nada suara lebih rendah, dan hindari bentakan keras.";
+    } else if (lowestVal === dig) {
+      badgeText = "Digital Safety Priority";
+      badgeColor = "var(--color-mint)";
+      focusText = "Sepakati aturan screen-time keluarga, matikan autoplay, dan buat area bebas HP di rumah.";
+    } else {
+      badgeText = "Faith & Adab Foundation";
+      badgeColor = "var(--color-gold)";
+      focusText = "Maa syaa Allah! Teruskan keteladanan ibadah hangat dan ajak anak bercerita kisah keteladanan adab.";
+    }
+
+    if (conn >= 4.0 && self >= 4.0 && faith >= 4.0 && dig >= 4.0) {
+      badgeText = "Ayah Hadir & Sabar";
+      badgeColor = "var(--color-gold)";
+      focusText = "Luar biasa! Terus rawat kedekatan hati, regulasi emosi, dan bentengi fitrah anak secara aktif.";
+    }
+
+    const badge = document.getElementById("sim-result-badge");
+    if (badge) {
+      badge.textContent = badgeText;
+      badge.style.backgroundColor = badgeColor;
+    }
+    const focusTextEl = document.getElementById("sim-focus-text");
+    if (focusTextEl) {
+      focusTextEl.textContent = focusText;
+    }
+  }
+
+  document.querySelectorAll(".sim-preset-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".sim-preset-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      const pKey = btn.getAttribute("data-preset");
+      const vals = presetValues[pKey];
+      if (vals) {
+        const sliderConn = document.getElementById("sim-range-connection");
+        if (sliderConn) sliderConn.value = vals.conn;
+        const sliderSelf = document.getElementById("sim-range-selfreg");
+        if (sliderSelf) sliderSelf.value = vals.self;
+        const sliderFaith = document.getElementById("sim-range-faith");
+        if (sliderFaith) sliderFaith.value = vals.faith;
+        const sliderDig = document.getElementById("sim-range-digital");
+        if (sliderDig) sliderDig.value = vals.dig;
+
+        updateSimulatorUI(vals.conn, vals.self, vals.faith, vals.dig);
+      }
+    });
+  });
+
+  ["connection", "selfreg", "faith", "digital"].forEach(key => {
+    const input = document.getElementById(`sim-range-${key === "selfreg" ? "selfreg" : key === "digital" ? "digital" : key}`);
+    if (input) {
+      input.addEventListener("input", () => {
+        document.querySelectorAll(".sim-preset-btn").forEach(b => b.classList.remove("active"));
+
+        const connInput = document.getElementById("sim-range-connection");
+        const selfInput = document.getElementById("sim-range-selfreg");
+        const faithInput = document.getElementById("sim-range-faith");
+        const digInput = document.getElementById("sim-range-digital");
+
+        const conn = connInput ? parseFloat(connInput.value) : 2.0;
+        const self = selfInput ? parseFloat(selfInput.value) : 4.0;
+        const faith = faithInput ? parseFloat(faithInput.value) : 3.5;
+        const dig = digInput ? parseFloat(digInput.value) : 2.5;
+
+        updateSimulatorUI(conn, self, faith, dig);
+      });
+    }
+  });
+
+  // Initialize Simulator default view
+  updateSimulatorUI(1.8, 4.2, 3.5, 2.2);
+
+  // Crisis Rescue Inline Panel Logic
+  function renderLandingCrisisRescue() {
+    const menuContainer = document.getElementById("landing-crisis-menu");
+    const contentContainer = document.getElementById("landing-crisis-content");
+    if (!menuContainer || !contentContainer) return;
+
+    menuContainer.innerHTML = "";
+    
+    if (typeof GOODFATHER_CONTENT !== "undefined" && GOODFATHER_CONTENT.crisisGuides) {
+      GOODFATHER_CONTENT.crisisGuides.forEach((g, idx) => {
+        const btn = document.createElement("button");
+        btn.className = `crisis-rescue-btn ${idx === 0 ? 'active' : ''}`;
+        
+        let icon = "wind";
+        if (g.id === "tantrum") icon = "angry";
+        else if (g.id === "ayah-marah") icon = "flame";
+        else if (g.id === "gadget") icon = "smartphone";
+        else if (g.id === "susah-shalat") icon = "heart-handshake";
+        else if (g.id === "bohong") icon = "shield-alert";
+        else if (g.id === "membangkang") icon = "help-circle";
+        else if (g.id === "bertengkar") icon = "split";
+        else if (g.id === "konten-negatif") icon = "eye-off";
+        else if (g.id === "kecewa-gagal") icon = "thumbs-down";
+
+        btn.innerHTML = `<i data-lucide="${icon}" style="width: 18px; height: 18px;"></i> <span>${g.title}</span>`;
+        btn.addEventListener("click", () => {
+          menuContainer.querySelectorAll(".crisis-rescue-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          displayLandingCrisisDetail(g);
+        });
+        menuContainer.appendChild(btn);
+      });
+
+      displayLandingCrisisDetail(GOODFATHER_CONTENT.crisisGuides[0]);
+    }
+  }
+
+  function displayLandingCrisisDetail(g) {
+    const contentContainer = document.getElementById("landing-crisis-content");
+    if (!contentContainer) return;
+
+    contentContainer.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; border-bottom: 1.5px solid var(--border-color); padding-bottom: 16px;">
+        <div>
+          <h3 style="margin: 0 0 4px; font-family: var(--font-headings); font-weight: 800; font-size: 1.35rem; color: var(--text-main);">${g.title}</h3>
+          <span style="font-size: 0.85rem; font-weight: 700; color: var(--color-olive);"><i data-lucide="clock" style="width: 12px; height: 12px; vertical-align: middle;"></i> ${g.duration}</span>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--color-gold); margin-bottom: 8px;"><i data-lucide="check" style="width: 14px; height: 14px; vertical-align: middle;"></i> 3-Langkah Sunnah & Psikologi</h4>
+        <ol style="padding-left: 20px; font-size: 0.9rem; line-height: 1.6; color: var(--text-main); display: flex; flex-direction: column; gap: 6px;">
+          ${g.steps.slice(0, 3).map(s => `<li>${s}</li>`).join("")}
+        </ol>
+      </div>
+
+      <div style="background-color: rgba(216, 168, 78, 0.03); border: 1px dashed var(--color-gold); border-radius: 8px; padding: 16px; margin-bottom: 20px;">
+        <span style="font-size: 0.75rem; font-weight: 700; color: var(--color-gold); display: block; margin-bottom: 6px; text-transform: uppercase;"><i data-lucide="message-circle" style="width: 12px; height: 12px; vertical-align: middle;"></i> Kalimat Ayah (Contoh Nyata):</span>
+        <p style="font-size: 0.95rem; font-style: italic; color: var(--text-main); margin: 0; line-height: 1.5;">"${g.fatherPhrase}"</p>
+      </div>
+
+      <div>
+        <span style="font-size: 0.85rem; font-weight: 700; color: var(--color-coral); display: block; margin-bottom: 8px; text-transform: uppercase;"><i data-lucide="x-circle" style="width: 12px; height: 12px; vertical-align: middle;"></i> Hal yang Harus Dihindari:</span>
+        <ul style="padding-left: 20px; font-size: 0.85rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 4px;">
+          ${g.donts.slice(0, 2).map(d => `<li>${d}</li>`).join("")}
+        </ul>
+      </div>
+    `;
+
+    if (typeof lucide !== "undefined") {
+      lucide.createIcons();
+    }
+    
+    gsap.fromTo(contentContainer, { opacity: 0, x: 10 }, { opacity: 1, x: 0, duration: 0.25 });
+  }
+
+  // Initialize Crisis rescue list
+  renderLandingCrisisRescue();
+
+  function triggerGoogleLogin() {
+    try {
+      if (typeof google !== "undefined" && google.accounts && google.accounts.oauth2) {
+        const client = google.accounts.oauth2.initTokenClient({
+          client_id: GOOGLE_CLIENT_ID,
+          scope: 'email profile openid',
+          callback: async (tokenResponse) => {
+            if (tokenResponse && tokenResponse.access_token) {
+              try {
+                const res = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${tokenResponse.access_token}`);
+                if (res.ok) {
+                  const userData = await res.json();
+                  localStorage.setItem("goodfather_user_profile", JSON.stringify({
+                    name: userData.name,
+                    email: userData.email,
+                    picture: userData.picture
+                  }));
+                  
+                  showSSOProfile(userData);
+                  syncBackupFromServer();
+                  
+                  const authModal = document.getElementById("auth-modal");
+                  if (authModal && authModal.classList.contains("active")) {
+                    closeModal(authModal);
+                  }
+
+                  document.querySelectorAll(".page-view").forEach(v => {
+                    v.classList.remove("auth-locked");
+                  });
+
+                  switchView(activeView);
+
+                  if (startAssessmentPendingAfterLogin) {
+                    startAssessmentPendingAfterLogin = false;
+                    setTimeout(() => {
+                      resetAssessment();
+                      openModal(assessmentModal);
+                    }, 500);
+                  }
+                  
+                  if (typeof confetti !== "undefined") {
+                    confetti.spawn();
+                  } else if (typeof confettiEngine !== "undefined") {
+                    confettiEngine.spawn();
+                  }
+                }
+              } catch (err) {
+                console.error("Failed to fetch user info from Google:", err);
+              }
+            }
+          }
+        });
+        client.requestAccessToken();
+      } else {
+        alert("Google SSO SDK belum siap. Silakan refresh halaman.");
+      }
+    } catch (err) {
+      console.error("Failed to trigger Google SSO popup:", err);
+    }
+  }
+
+  function showSSOProfile(userData) {
+    document.body.classList.add("is-logged-in");
+    const loginWrapper = document.getElementById("google-login-btn-wrapper");
+    const profileWidget = document.getElementById("user-sso-profile");
+    const avatarImg = document.getElementById("user-sso-avatar");
+    const nameSpan = document.getElementById("user-sso-name");
+    
+    if (loginWrapper) loginWrapper.style.display = "none";
+    if (profileWidget) profileWidget.style.display = "flex";
+    if (avatarImg && userData.picture) avatarImg.src = userData.picture;
+    if (nameSpan && userData.name) nameSpan.textContent = userData.name.split(" ")[0];
+    
+    // Add logout listener
+    const logoutBtn = document.getElementById("btn-sso-logout");
+    if (logoutBtn && !logoutBtn.dataset.listenerAdded) {
+      logoutBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        localStorage.removeItem("goodfather_user_profile");
+        document.body.classList.remove("is-logged-in");
+        
+        // Reset profiles in memory
+        childProfiles = [];
+        activeChildId = null;
+        
+        // Clear rendered Google buttons to re-render them next time
+        document.querySelectorAll("[id^='google-login-btn-page-']").forEach(wrapper => {
+          wrapper.innerHTML = "";
+          delete wrapper.dataset.rendered;
+        });
+        const modalBtnWrapper = document.getElementById("google-login-btn-modal");
+        if (modalBtnWrapper) {
+          modalBtnWrapper.innerHTML = "";
+          delete modalBtnWrapper.dataset.rendered;
+        }
+        if (loginWrapper) {
+          loginWrapper.innerHTML = "";
+          delete loginWrapper.dataset.rendered;
+          loginWrapper.style.display = "flex";
+        }
+        if (profileWidget) profileWidget.style.display = "none";
+        
+        // Relock all views
+        document.querySelectorAll(".page-view").forEach(v => {
+          const vName = v.id.replace("view-", "");
+          if (["dashboard", "madrasah", "journal", "progress"].includes(vName)) {
+            v.classList.add("auth-locked");
+          }
+        });
+
+        initGoogleSSO();
+        
+        // Redirect to home
+        switchView("home");
       });
       logoutBtn.dataset.listenerAdded = "true";
     }
